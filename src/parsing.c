@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/19 16:42:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:13:00 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_strrchr_(const char *s, char c)
 	return (0);
 }
 
-int	search_char(char *s)
+int	search_char(char *s) // chercher ';' et '\'
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	search_char(char *s)
 	return (0);
 }
 
-int	search_quote(char *s)
+int	search_quote(char *s) // chercher si les quote sont fermees (si elles sont par 2)
 {
 	int	i;
 	int	simple_flag;
