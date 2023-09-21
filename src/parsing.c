@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/19 17:13:00 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:37:33 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,29 @@ int	search_char(char *s) // chercher ';' et '\'
 	return (0);
 }
 
-int	search_quote(char *s) // chercher si les quote sont fermees (si elles sont par 2)
+int	search_quote(char *s) // check des guillements
 {
 	int	i;
-	int	simple_flag;
-	int	double_flag;
+	int	flag;
 
 	i = 0;
-	simple_flag = 0;
-	double_flag = 0;
+	flag = 0;
 	while (s[i])
 	{
-		printf("%c\n", s[i]);
-		if (s[i] ==  '\'')
-			simple_flag++;
-		else if (s[i] =='\"')
-			double_flag++;
+		// Si c'est une SQUOTE
+		if (flag == 0 && s[i] == '\'')// C'est l'ouvrante
+			flag = 1;
+		else if (flag == 1 && s[i] == '\'')// c'est la fermante
+			flag = 0;
+		// Si c'est une DQUOTE
+		else if (flag == 0 && s[i] == '\"')// C'est l'ouvrante
+			flag = 2;
+		else if (flag == 2 && s[i] == '\"')// c'est la fermante
+			flag = 0;
 		i++;
 	}
-	if (simple_flag % 2 == 0 && double_flag % 2 == 0)
+	//printf("%d = flag\n", flag);
+	if (flag != 0)
 		return (1);
-	else
-		return (0);
+	return (0);
 }

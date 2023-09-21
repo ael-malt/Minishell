@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/19 17:13:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:10:36 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int ac, char **av, char **envp)
 			if (line)
 			{
 				add_history(line);
-				if (search_char(line) == 1)
-					printf("Error : argument invalid \n");
+				if (search_char(line) == 1 || search_quote(line) == 1)
+					printf("Error : line invalid \n");
 			}
 			//free line
 		}
@@ -55,3 +55,6 @@ char	**get_tab_env(char **envp) // recup l'environnement
 	}
 	return (tab);
 }
+
+
+
