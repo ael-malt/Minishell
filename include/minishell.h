@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/21 16:49:22 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:36:29 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 typedef struct s_tree
 {
-	int				content;
+	char			*content;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
@@ -33,9 +33,15 @@ typedef struct s_tree
 //int	ft_strrchr_(const char *s, char c);
 int	search_char(char *s);
 int	search_quote(char *s);
-int	limiteur(char *s);
-
+int	limiteur(char c);
 //---------------------------------------------------------------------//
-char	**get_tab_env(char **envp);
 
+//----------------------------MAIN.C-----------------------------------//
+char	**get_tab_env(char **envp);
+//---------------------------------------------------------------------//
+
+//------------------------------TREE.C------------------------------//
+t_tree	create(char *content);
+t_tree *insert(t_tree *tree, char *content);
+//---------------------------------------------------------------------//
 #endif
