@@ -6,27 +6,11 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/22 15:22:09 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/26 08:53:06 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-// int	ft_strrchr_(const char *s, char c)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (s[i] != '\0')
-// 		i++;
-// 	while (i >= 0)
-// 	{
-// 		if (s[i] == c)
-// 			return (1);
-// 		i--;
-// 	}
-// 	return (0);
-// }
 
 int	search_char(char *s) // chercher ';' et '\'
 {
@@ -35,7 +19,7 @@ int	search_char(char *s) // chercher ';' et '\'
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\\'1 || s[i], ';')
+		if (s[i] == '\\' || s[i] == ';')
 			return (1);
 		i++;
 	}
