@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/21 14:37:33 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:30:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	ft_strrchr_(const char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	while (i >= 0)
-	{
-		if (s[i] == c)
-			return (1);
-		i--;
-	}
-	return (0);
-}
 
 int	search_char(char *s) // chercher ';' et '\'
 {
@@ -35,7 +19,7 @@ int	search_char(char *s) // chercher ';' et '\'
 	i = 0;
 	while (s[i])
 	{
-		if (ft_strrchr_(&s[i], '\\') == 1 || ft_strrchr_(&s[i], ';') == 1)
+		if (s[i] == '\\' || s[i] == ';')
 			return (1);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/19 16:45:42 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:19:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,49 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+enum operator
+{
+	PIPE, // |
+	DREDIRIN, //heredoc
+	DREDIROUT, // ajout a la fin d'un file
+	REDIRIN, // <
+	REDIROUT, // >
+};
+// https://learn.microsoft.com/fr-fr/cpp/c-language/union-declarations?view=msvc-170
+typedef struct s_type
+{
+	s_type	operator;
+	s_type	command;
+}	t_type
+
+typedef struct s_tree
+{
+	char			*content;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}	t_tree;
+
 //------------------------------PARSING.C------------------------------//
-int	ft_strrchr_(const char *s, char c);
 int	search_char(char *s);
 int	search_quote(char *s);
+//---------------------------------------------------------------------//
+
+//----------------------------MAIN.C-----------------------------------//
+char	**get_tab_env(char **envp);
+//---------------------------------------------------------------------//
+
+//------------------------------TREE.C------------------------------//
+// t_tree	*create_symbol(char *content);
+// t_tree *insert(t_tree *tree, char *content);
+//---------------------------------------------------------------------//
+
+//---------------------TAB_COMMANDE--------------------------------------//
+int	limiteur(char c);
+char	**get_str(char *s);
+int	len_word_count(char *s);
+int	word_count(char *s);
 
 
 //---------------------------------------------------------------------//
-char	**get_tab_env(char **envp);
 
 #endif
