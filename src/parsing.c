@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/25 10:30:09 by marvin           ###   ########.fr       */
-=======
-/*   Updated: 2023/09/26 08:53:06 by lazanett         ###   ########.fr       */
->>>>>>> refs/remotes/origin/lara_dev
+/*   Updated: 2023/09/27 17:27:42 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
