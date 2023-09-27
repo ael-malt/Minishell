@@ -12,6 +12,7 @@
 
 #include "../include/minishell.h"
 
+<<<<<<< HEAD
 // int	limiteur(char c)
 // {
 // 	if (c == '|' || c == '<' ||
@@ -75,6 +76,71 @@
 //     }  
 //     return (count);
 // }
+=======
+int	limiteur(char c)
+{
+	if (c == '|' || c == '<' ||
+		c == '>')
+		return (1);
+	return (0);
+}
+
+int len_since_limiteur(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (limiteur(s[i]) == 1)
+        {
+            break;
+            return (i);
+        }
+        i++;
+    }
+    return (i);
+}
+
+t_tree    *get_tree(char *s)
+{
+    int i;
+    int j;
+    int operator;
+    char *temp;
+    t_tree	*node;
+
+    i = 0;
+    j = 0;
+    operator = len_since_limiteur(s);
+    temp = malloc(sizeof (char) * len_since_limiteur(s));
+    while (i < operator || s[i])
+        temp[j++] = s[i++];
+    strdup(temp); //parser la commande
+    node = malloc(sizeof(node));
+	if (!node)
+		return (NULL);
+    //if (operator == ft_strlen(s))
+    node->content = &s[operator];
+    node->left = strdup(temp); //parser la commande 
+    node->right = get_tree(&s[operator + count]);
+}
+
+int len_operator(char *s, int start)
+{
+    int i;
+    int count;
+
+    i = 0;
+    count = 0;
+    while (s[start] != '\0' || limiteur(s[start]) != 0)
+    {
+        start++;
+        count++;
+    }  
+    return (count);
+}
+>>>>>>> refs/remotes/origin/lara_dev
 
 // char	**get_str(char *s) //commande a mettre dans un maillon; si nv commande aller vers la droite
 // {
@@ -120,6 +186,7 @@
 // 	return (tab);
 // }
 
+<<<<<<< HEAD
 // int word_count(char *s)
 // {
 // 	int	i;
@@ -162,3 +229,47 @@
 // 	}
 // 	return (0);
 // }
+=======
+int word_count(char *s)
+{
+	int	i;
+	int	word;
+
+	i = 0;
+	word = 0;
+	while(s[i] || limiteur(s[i]))
+	{
+		if (s[i] == ' ')
+			i++;
+		if (s[i] != ' ' )
+			word++;
+		while (s[i] && s[i] != ' ')
+			i++;
+	}
+	return (word);
+}
+
+int	len_word_count(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != ' ')
+		i++;
+	return (i);
+}
+
+int	is_command_simple(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (limiteur(s[i]) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+>>>>>>> refs/remotes/origin/lara_dev
