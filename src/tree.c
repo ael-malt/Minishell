@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:46:48 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/29 16:53:15 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:42:52 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ t_tree	*create_node()
 
 void	split_command(t_tree *tree)
 {
-	// int i = 0;
 	len_split_command(tree);
-	//printf("%d = len command // %d lenstr1\n", tree->len_command, tree->len_str1);
 	if (tree->len_command == tree->len_str1 || res_is_operator(tree, tree->content) == 1)
 		return;
 	if (is_operator(tree->content[0]) == 1)
@@ -46,28 +44,24 @@ void	split_command(t_tree *tree)
 		tree->str2 = ft_strndup(tree->content, tree->len_str1, (tree->len_command)); // - 1
 	}
 	if (tree->str1 && tree->str2)
-	{
-		tree->left = create_node();
-		tree->left->content = tree->str1;
-		printf("tree->left = %s\n", tree->left->content);
-		tree->right = create_node();
-		tree->right->content = tree->str2;
-		printf("tree->right = %s\n", tree->right->content);
-		// while (tree->right->content[i])
-		// {
-		// 	printf("%d ", tree->right->content[i]);
-		// 	i++;
-		// }
-		// printf("%d \n", tree->right->content[i]);
-		split_command(tree->right);
-	}
+		tree_branch(tree);
 	return;
+}
+
+void	tree_branch(t_tree *tree)
+{
+	tree->left = create_node();
+	tree->left->content = tree->str1;
+	printf("tree->left = %s\n", tree->left->content);
+	tree->right = create_node();
+	tree->right->content = tree->str2;
+	printf("tree->right = %s\n", tree->right->content);
+	split_command(tree->right);
 }
 
 void	len_split_command(t_tree *tree)
 {
 	int	i;
-	//int temp;
 
 	i = 0;
 	while (tree->content[i] != '\0')
@@ -81,8 +75,8 @@ void	len_split_command(t_tree *tree)
 
 char	*ft_strndup(char *s, int start, int end)
 {
-	int i;
-	char *copy;
+	int		i;
+	char	*copy;
 
 	i = 0;
 	if (!s)
