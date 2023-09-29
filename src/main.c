@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/27 17:26:48 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/28 12:43:38 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@
 // 		printf("Error : nb argc invalid\n");
 // }
 
+int	main(int ac, char **av)
+{
+	t_tree	*tree;
+	
+	if (ac == 2)
+	{
+		tree = create_node();
+		tree->content = ft_strdup(av[1]);
+		printf("%s\n", tree->content);
+		split_command(tree);
+	}
+}
 
 char	**get_tab_env(char **envp) // recup l'environnement
 {
@@ -66,119 +78,46 @@ char	**get_tab_env(char **envp) // recup l'environnement
 	return (tab);
 }
 
-void	split_command(t_tree *tree) // simple ppinteur car renvoie une string
-{
-	len_split_command(tree);
-	if (tree->len_command == tree->len_str1)// si le len = \0 quitte fonction
-		return;
-	if (tree->content[0] == '|')
-		is_operator_split(tree);
-	else
-	{
-		tree->str1 = ft_strndup(tree->content, 0, (tree->len_str1 - 1));
-		tree->str2 = ft_strndup(tree->content, tree->len_str1, (tree->len_command - 1));
-	}
-	if (tree->str1)
-	{
-		tree->left = create_node();
-		tree->left->content = tree->str1;
-		printf("tree->left = %s\n", tree->left->content);
-		tree->right = create_node();
-		tree->right->content = tree->str2;
-		printf("tree->right = %s\n", tree->right->content);
-		split_command(tree->right);
-	}
-	//flag = 1;
-	return;
-}
-// faire fonction pour detecter les operator
+// char	**get_str(char *s) //commande a mettre dans un maillon; si nv commande aller vers la droite
+// {
+// 	int	i;
+// 	int j;
+// 	int k;
+// 	char **tab;
+// 	char *temp;
 
-void	is_operator_split(t_tree *tree)
-{
-	int	i;
-
-	i = 0; 
-	tree->str1 = malloc(sizeof (char) * (len_operator(tree) + 1));
-	while (tree->content[i] && tree->content[i] == '|')
-	{
-		tree->str1[i] = tree->content[i];
-		i++;
-	}
-	tree->str1[i] = '\0';
-	while (tree->content[i] == ' ')
-		i++;
-	tree->str2 = ft_strndup(tree->content, i, (tree->len_command - 1));
-}
-
-int	len_operator(t_tree *tree)
-{
-	int	i;
-
-	i = 0;
-	while (tree->content[i] && tree->content[i] == '|')
-		i++;
-	return (i);
-}
-
-void	len_split_command(t_tree *tree)
-{
-	int	i;
-
-	i = 0;
-	//printf("%s\n", tree->content);
-	while (tree->content[i] != '\0')
-		i++;
-	tree->len_command = i;
-	i = 0;
-	while (tree->content[i] != '\0' && tree->content[i] != '|')
-		i++;
-	tree->len_str1 = i;
-	//printf("len str1 = %d\n", tree->len_str1);
-	//printf("len command = %d\n", tree->len_command);
-}
-
-int	main(int ac, char **av)
-{
-	t_tree	*tree;
-	
-	if (ac == 2)
-	{
-		tree = create_node();
-		tree->content = av[1];
-		split_command(tree);
-	}
-}
-
-char	*ft_strndup(char *s, int start, int end)
-{
-	int i;
-	char *copy;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if ((end - start) < 0)
-		return (NULL);
-	copy = malloc(sizeof (char) * (end - start) + 1);
-	if (!copy)
-		return (NULL);
-	while (s[start] && start <= end)
-	{
-		copy[i] = s[start];
-		start++;
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
-}
-
-t_tree	*create_node()
-{
-	t_tree	*node;
-
-	node = malloc(sizeof(t_tree)); 
-	if (!node)
-		return (NULL);
-	ft_memset(node, 0, sizeof(t_tree));
-	return (node);
-}
+// 	i = 0;
+// 	j = 0;
+// 	k = 0;
+// 	tab = malloc(sizeof(char *) * word_count(s));
+// 	while (limiteur(s[i]) != 1 || s[i])
+// 	{
+// 		if (s[i] && s[i] == ' ')
+// 			i++;
+// 		if (limiteur(s[i]) != 1 && s[i] && s[i] != ' ')
+// 		{
+// 			temp = malloc(sizeof (char) * len_word_count(&s[i]));
+// 			while (s[i] && s[i] != ' ')
+// 			{
+// 				temp[k] = s[i];
+// 				i++;
+// 				k++;
+// 			}
+// 			tab[j] = strdup(temp);
+// 			printf("%s\n", tab[j]);
+// 			//printf("%c\n", s[i]);
+// 			j++;
+// 			k = 0;
+// 			free(temp);
+// 			//temp = NULL;
+// 		}
+// 		if (limiteur(s[i]) == 1)
+// 		{
+// 			break;
+// 			return (tab);
+// 		}	
+// 		if (s[i] == '\0')
+// 			return (tab);
+// 	}
+// 	return (tab);
+// }

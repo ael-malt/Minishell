@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/09/25 10:29:26 by marvin           ###   ########.fr        #
+#    Updated: 2023/09/29 17:12:06 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,9 @@ CFLAGS = -Wall -Werror -Wextra -g3
 PATH_LIB = libft
 
 SRC = src/main.c\
-	  src/parsing.c\
+	  src/first_check.c\
 	  src/tree.c\
-	  src/tab_command.c\
+	  src/operator.c\
 
 LIB = $(PATH_LIB)/libft.a
 
