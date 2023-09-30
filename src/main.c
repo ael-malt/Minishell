@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/21 14:10:36 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:28:34 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av, char **envp)
 			line = readline("Minishell: ");
 			if (line)
 			{
+				mini_pwd();
 				add_history(line);
 				if (search_char(line) == 1 || search_quote(line) == 1)
 					printf("Error : line invalid \n");

@@ -3,27 +3,29 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/09/19 16:47:50 by lazanett         ###   ########.fr        #
+#    Updated: 2023/09/28 15:14:58 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME		= minishell
 
-cc = cc
+cc			= cc
 
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS		= -Wall -Werror -Wextra -g3
 
-PATH_LIB = libft
+PATH_LIB	= libft
 
-SRC = src/main.c\
-	  src/parsing.c\
+SRC			= src/main.c \
+				src/parsing.c \
+				src/builtins.c \
+				src/util.c \
 
-LIB = $(PATH_LIB)/libft.a
+LIB			= $(PATH_LIB)/libft.a
 
-OBJ = $(SRC:.c=.o)
+OBJ			= $(SRC:.c=.o)
 
 all : $(LIB) $(NAME)
 

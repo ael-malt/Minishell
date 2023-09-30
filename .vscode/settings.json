@@ -1,0 +1,12 @@
+{
+	"files.associations": {
+		"types.h": "c",
+		"libft.h": "c",
+		"history.h": "c",
+		"readline.h": "c",
+		"wait.h": "c",
+		"limits.h": "c",
+		"stdint.h": "c",
+		"minishell.h": "c"
+	}
+}
