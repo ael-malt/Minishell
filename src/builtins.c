@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/09/28 15:12:50 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/09/30 09:55:35 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	mini_echo(t_list *cmd)
 	argv = node->full_cmd;
 	while (argv && argv[++i[0]])
 	{
-		if(!i[1] && !ft_strncmp(argv[i[0]], "-n", 2)
-			&& (ft_countchar(argv[i[0]], 'n') == \
+		if (!i[1] && !ft_strncmp(argv[i[0]], "-n", 2) && \
+			(ft_countchar(argv[i[0]], 'n') == \
 			(int)(ft_strlen(argv[i[0]]) - 1)))
 			newline = 0;
 		else
@@ -51,5 +51,4 @@ int	mini_echo(t_list *cmd)
 		}
 	}
 	return (write(1, "\n", newline) == 2);
-	
 }
