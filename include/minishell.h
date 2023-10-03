@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/29 17:41:25 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:46:03 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,28 @@ typedef struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
+typedef struct s_expand
+{
+	char	var; // veriable d'env dans commande
+	int		len_var; // len d'env dans commande
+	int		start_index; // index ouyu commence la variable dans la commande
+	char	**tab; // tableau d'environnement
+	char	*expand;
+	char	*replace;
+	int		len_replace;
+	char	*title;
+	int		len_title;
+	char	*new_command;
+	
+}	t_expand;
+
 //------------------------------FIRST_CHECK.C------------------------------//
 int	search_char(char *s);
 int	search_quote(char *s);
 //-------------------------------------------------------------------------//
 
 //-------------------------MAIN.C------------------------------------------//
-char	**get_tab_env(char **envp);
+void	get_tab_env(t_expand *ex, char **envp);
 
 //--------------------------TREE.C-----------------------------------------//
 t_tree	*create_node();
@@ -55,6 +70,11 @@ void	is_operator_split(t_tree *tree);
 int	len_operator(t_tree *tree);
 int	is_operator(char c);
 
-//------------------------REDIR.C-----------------------------------------//
-//void	len_redir(t_tree *tree);
+//------------------------EXPAND.C-----------------------------------------//
+void	search_expand_in_line(t_expand *ex, char *line);
+int		len_expand(t_expand *ex, char *line);
+int		ft_strcmp(char *s1, char *s2);
+int		len_var_in_tab(t_expand *ex);
+void	get_replace(t_expand * ex);
+char	*get_title(t_expand *ex, char *tab_str);
 #endif

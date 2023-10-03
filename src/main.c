@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/28 12:43:38 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:08:30 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,42 @@
 // 		printf("Error : nb argc invalid\n");
 // }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
-	t_tree	*tree;
-	
+	//t_tree	*tree;
+	t_expand	ex;
+	 (void) av;
 	if (ac == 2)
 	{
-		tree = create_node();
-		tree->content = ft_strdup(av[1]);
-		printf("%s\n", tree->content);
-		split_command(tree);
+		get_tab_env(&ex, envp);
+		//len_expand(&ex, av[1]);
+		search_expand_in_line(&ex, av[1]);
+		get_replace(&ex);
+		// tree = create_node();
+		// tree->content = ft_strdup(av[1]);
+		// printf("%s\n", tree->content);
+		// split_command(tree);
 	}
 }
 
-char	**get_tab_env(char **envp) // recup l'environnement
+void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
 {
-	int		i;
-	char	**tab;
+	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
 		i++;
-	tab = malloc (sizeof(char *) * i);
-	if (!tab)
-		return (NULL);
+	ex->tab = malloc (sizeof(char *) * i);
+	if (!ex->tab)
+		return ;
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		tab[i] = ft_strdup(envp[i]);
-		//printf("%s\n", tab[i]);
+		ex->tab[i] = ft_strdup(envp[i]);
+		//printf("%s\n", ex->tab[i]);
 		i++;
 	}
-	return (tab);
+	return;
 }
 
 // char	**get_str(char *s) //commande a mettre dans un maillon; si nv commande aller vers la droite
