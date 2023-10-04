@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/03 17:46:03 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:53:38 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_tree
 
 typedef struct s_expand
 {
-	char	var; // veriable d'env dans commande
+	char	*var; // veriable d'env dans commande
 	int		len_var; // len d'env dans commande
 	int		start_index; // index ouyu commence la variable dans la commande
 	char	**tab; // tableau d'environnement
@@ -45,6 +45,8 @@ typedef struct s_expand
 	char	*title;
 	int		len_title;
 	char	*new_command;
+	char	*str1;
+	char	*str2;
 	
 }	t_expand;
 
@@ -77,4 +79,11 @@ int		ft_strcmp(char *s1, char *s2);
 int		len_var_in_tab(t_expand *ex);
 void	get_replace(t_expand * ex);
 char	*get_title(t_expand *ex, char *tab_str);
+
+//------------------------SWITCH.C----------------------------------------//
+void	get_str1(t_expand *ex, char *line);
+void	get_str2(t_expand *ex, char *line);
+char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
+void	ft_free_expand(t_expand *ex);
+void	line_expand(t_expand *ex, char *line, char **envp);
 #endif

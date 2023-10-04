@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/03 17:29:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:01:33 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	search_expand_in_line(t_expand *ex, char *line)
 	i = 0;
 	j = 0;
 	ex->expand = malloc(sizeof (char) * (len_expand(ex, line))); //+ 1
+	if (!ex->expand)
+		return ;
 	while (line[i])
 	{
 		if (line[i] == '$')
@@ -52,21 +54,17 @@ int	len_expand(t_expand *ex, char *line)
 		{
 			//printf("%c\n", line[i + 1]);
 			//ex->len_var++;
-			if (line[i + 1] == '\0' || line[i + 1] == ' ' || line[i + 1] == '\t' || line[i + 1] == '$')
-			{
-				printf("Error : invalid variable env 1\n");
-				exit(0);
-				return (-1);
-			}
 			i++;
-			while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$')
+			if (line[i + 1] != '\0' || line[i + 1] != ' ' || line[i + 1] != '\t' || line[i + 1] != '$')
 			{
-				ex->len_var++;
-				//printf("%c\n", line[i]);
-				//printf("%d\n", ex->len_var);
-				i++;
+				while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$')
+				{
+					ex->len_var++;
+					//printf("%c\n", line[i]);
+					//printf("%d\n", ex->len_var);
+					i++;
+				}
 			}
-			
 		}
 		i++;
 	}
@@ -94,8 +92,9 @@ int	len_var_in_tab(t_expand *ex)
 	ex->len_replace = 0;
 	while (ex->tab[i])
 	{
-		// printf("%s\n", ex->tab[i]);
-		// get_title(ex, ex->tab[i]);
+		// printf("TAB================%s\n", ex->tab[i]);
+		// printf("TITLE================%s\n", get_title(ex, ex->tab[i]));
+		//printf("EX================%s\n", ex->expand);
 		if (!ft_strcmp(get_title(ex, ex->tab[i]), ex->expand))
 		{
 			//printf("corres\n");
@@ -129,9 +128,10 @@ void	get_replace(t_expand * ex)
 	j = 0;
 	temp = NULL;
 	ex->replace = malloc (sizeof (char) * len_var_in_tab(ex)); // + 1 for \0 ?
+	if (!ex->replace)
+		return ;
 	while (ex->tab[i])
 	{
-
 		if (!ft_strcmp(get_title(ex, ex->tab[i]), ex->expand))
 		{
 			j += ex->len_var + 1; // =
@@ -145,6 +145,7 @@ void	get_replace(t_expand * ex)
 		}
 		i++;
 	}
+	
 }
 
 char	*get_title(t_expand *ex, char *tab_str)
@@ -159,6 +160,8 @@ char	*get_title(t_expand *ex, char *tab_str)
 		j++;
 	}
 	ex->title = malloc (sizeof (char) * ex->len_title);
+	if (!ex->title)
+		return (NULL);
 	j = 0;
 	while (tab_str[j] != '=')
 	{

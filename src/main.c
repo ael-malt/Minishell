@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/03 17:08:30 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:39:25 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ int	main(int ac, char **av, char **envp)
 	 (void) av;
 	if (ac == 2)
 	{
-		get_tab_env(&ex, envp);
-		//len_expand(&ex, av[1]);
-		search_expand_in_line(&ex, av[1]);
-		get_replace(&ex);
+		line_expand(&ex, av[1], envp);
 		// tree = create_node();
 		// tree->content = ft_strdup(av[1]);
 		// printf("%s\n", tree->content);
