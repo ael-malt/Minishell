@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/05 11:50:35 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:21:34 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
 	while (envp[i] != NULL)
 	{
 		ex->tab[i] = ft_strdup(envp[i]);
-		//printf("%s\n", ex->tab[i]);
+		// printf("%s\n", ex->tab[i]);
 		i++;
 	}
 	return;

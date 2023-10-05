@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/05 11:59:15 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:03:25 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	str2 = NULL;
 	while (line[i])
 	{
-		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$')) // si cas precedent alors sup ici '$
+		//if is on quote == 1 else faaire le truc classique
+		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') ) // si cas precedent alors sup ici '$
 		{
 			str1 = ft_strndup(line, 0, (i - 1));
 			//printf ("%s = str1 \n", str1);
@@ -37,6 +38,7 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 		// printf("I :%d\n", i);
 		i++;
 	}
+	//free new command et expand ?
 	return (line);
 }
 

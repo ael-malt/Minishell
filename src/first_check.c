@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/29 17:27:58 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:48:22 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,23 @@ int	search_quote(char *s) // check des guillements
 		return (1);
 	return (0);
 }
+
+// int	quote_dd(char *s)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (s[i])
+// 	{
+// 		if (s[i] == '\"')
+// 		{
+// 			i++;
+// 			while (s[i] != '\"')
+// 			{
+// 				if (s[i] == '$')
+// 				i++;
+// 			}
+// 		}
+// 		i++;
+// 	}
+// }
