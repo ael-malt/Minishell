@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/05 11:51:12 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:01:50 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_replace(t_expand *ex)
 				j++;
 			}
 			j -= count;
-			ex->replace = malloc(sizeof (char) * count);
+			ex->replace = malloc(sizeof (char) * count + 1);
 			if (!ex->replace)
 				return ;
 			count = 0;
@@ -48,15 +48,16 @@ void	get_replace(t_expand *ex)
 				count++;
 				j++;
 			}
-			//printf("%s = replace\n", ex->replace);
+			ex->replace[count] = '\0';
+			break ;
 		}
 		i++;
 	}
-	if (!ex->replace)
-	{
-		printf("pas de correspondance\n");
-		exit(0);
-	}
+	// if (!ex->replace)
+	// {
+	// 	printf("pas de correspondance\n");
+	// 	exit(0);
+	// }
 	//printf("%s = replace\n", ex->replace);
 }
 
@@ -64,10 +65,20 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 {
 	size_t	i;
 	size_t	j;
+	size_t	k;
+	size_t	l;
 
 	i = 0;
 	j = 0;
-	ex->new_command = malloc(sizeof(char) * (ft_strlen(start) + ft_strlen(ex->replace) + ft_strlen(end)) + 1); // + 1
+	k = 0;
+	l = 0;
+	if (start != NULL)
+		k = ft_strlen(start);
+	if (end != NULL) 
+		l = ft_strlen(end);
+	printf("BUG ?\n");
+	printf("%s\n", ex->replace);
+	ex->new_command = malloc(sizeof(char) * (k + ft_strlen(ex->replace) + l) + 1); // + 1
 	if (!ex->new_command)
 		return (NULL);
 	if (start)
@@ -96,10 +107,10 @@ void	ft_free_expand(t_expand *ex, char *str1, char *str2)
 {
 	if (ex->expand)
 		free(ex->expand);
-	if (ex->replace)
-		free (ex->replace);
-	if (ex->title)
-		free(ex->title);
+	// if (ex->replace)
+	// 	free (ex->replace); //TODO FAUT FIX CE TRUC
+	// if (ex->title)
+	// 	free(ex->title);
 	if (str1)
 		free(str1);
 	if (str2)
