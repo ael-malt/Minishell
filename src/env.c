@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/06 14:29:15 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:03:12 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,28 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	flag = 0;
 	str1 = NULL;
 	str2 = NULL;
-	printf("LINE : %s\n", line);
+	// printf("LINE : %s\n", line);
 	while (line[i])
 	{
-		
+		if (line[i] == '\'')
+		{
+			i++;
+			while (line[i] && line[i] != '\'')
+				i++;
+		}
 		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
 		{
 			//printf("%s\n", &line[i]);
-			str1 = ft_strndup(line, 0, (i - 1));
+			//printf("I : %d\n", i);
+			str1 = ft_strndup(line, 0, (i - 1)); //TODO //A voir
+			// str1 = ft_strndup(line, 0, i); //TODO A voir
 			//printf ("%s = str1 \n", str1);
 			str2 = get_str2(ex, line, i);
 			//printf ("%s = str2\n", str2);
 			get_replace(ex);
-			line = ft_strjoin_connect(ex, str1, str2);
-			ft_free_expand(ex, str1, str2);
+			if (ex->replace != NULL)
+				line = ft_strjoin_connect(ex, str1, str2);
+			// ft_free_expand(ex, str1, str2);
 			// i = -1;
 		}
 		// printf("I :%d\n", i);
@@ -57,12 +65,15 @@ char	*get_str2(t_expand *ex, char *line, int i)
 	i++;// aller apres $
 	len = len_expand(line, i); // len de expand
 	ex->expand = malloc(sizeof(char) * len + 1);
+	if (ex->expand == NULL)
+		return (NULL);
 	len += i;
 	str = ft_strndup(line, len, ft_strlen(line));
+	// printf("%s\n", str);
 	while (i < len)
 	{
 		ex->expand[j] = line[i];
-		//printf("%c\n", ex->expand[j]);
+		// printf("%c\n", ex->expand[j]);
 		j++;
 		i++;
 	}
@@ -74,7 +85,7 @@ int len_expand(char *line, int i)
 {
 	int j = 0;
 	
-	while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$')
+	while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$' && line[i] != '"' && line[i] != '\'')
 	{
 		i++;
 		j++;

@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/06 13:44:16 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:20:46 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **envp)
 		while (1)
 		{
 			line = readline("Minishell: ");
-			printf("LINE : %s\n", line);		
+			//printf("LINE : %s\n", line);
 			if (line)
 			{
 				add_history(line);
@@ -36,9 +36,6 @@ int	main(int ac, char **av, char **envp)
 				printf("%s\n", coucou);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
-
-
-				
 			}
 			// free line
 		}
@@ -65,29 +62,30 @@ int	main(int ac, char **av, char **envp)
 void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
 {
 	int	size;
+	int	i;
 
 	size = 0;
 	while (envp[size])
 		size++;
-	ex->tab = malloc (sizeof(char *) * size);
+	ex->tab = malloc(sizeof(char *) * size);
 	if (!ex->tab)
 		return ;
-	int i = 0;
+	i = 0;
 	while (i < size)
 	{
 		ex->tab[i] = NULL;
 		i++;
+		// printf("I :%d\n", i);
 	}
 	i = 0;
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		ex->tab[i] = ft_strdup(envp[i]);
-		if (ex->tab[i] == 0)
-		{
-			free(ex->tab[i]);
-			exit(1);
-		}
-		// printf("%s\n", ex->tab[i]);
+		// if (ex->tab[i] == NULL)
+		// {
+		// 	free(ex->tab[i]);
+		// 	exit(1);
+		// }
 		i++;
 	}
 	return;

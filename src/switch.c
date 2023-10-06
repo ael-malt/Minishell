@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/06 14:01:50 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:01:01 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	get_replace(t_expand *ex)
 	i = 0;
 	j = 0;
 	count = 0;
-	while (ex->tab[i])
+	while (ex->tab[i] != NULL)
 	{
-		// printf("TAB = %s\n", ex->tab[i]);
+		// printf("TAB = %s\n", ex->tab[i]); //USER=LAZANETT
+		// printf("I = %d\n", i	); //USER=LAZANETT
 		// printf("title = %s\n", ex->title);
-		// printf("%s = expand\n", ex->expand);
+		// printf("Expand : %s\n", ex->expand);
 		if (!ft_strcmp(get_title(ex, ex->tab[i]), ex->expand))
 		{
 			// printf("TAB = %s\n", ex->tab[i]);
 			// printf("title = %s\n", ex->title);
-			// printf("%s = expand\n", ex->expand);
 			j += ft_strlen(ex->expand) + 1;
 			while (ex->tab[i][j] != '\0')
 			{
@@ -53,10 +53,12 @@ void	get_replace(t_expand *ex)
 		}
 		i++;
 	}
+	if (count == 0)
+		ex->replace = NULL;
 	// if (!ex->replace)
 	// {
 	// 	printf("pas de correspondance\n");
-	// 	exit(0);
+	// 	//exit(0);
 	// }
 	//printf("%s = replace\n", ex->replace);
 }
@@ -72,12 +74,15 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 	j = 0;
 	k = 0;
 	l = 0;
+	if (ex->replace == NULL)
+		return (NULL);
 	if (start != NULL)
 		k = ft_strlen(start);
+
 	if (end != NULL) 
 		l = ft_strlen(end);
-	printf("BUG ?\n");
-	printf("%s\n", ex->replace);
+	// printf("BUG ?\n");
+	// printf("%s\n", ex->replace);
 	ex->new_command = malloc(sizeof(char) * (k + ft_strlen(ex->replace) + l) + 1); // + 1
 	if (!ex->new_command)
 		return (NULL);
@@ -108,9 +113,9 @@ void	ft_free_expand(t_expand *ex, char *str1, char *str2)
 	if (ex->expand)
 		free(ex->expand);
 	// if (ex->replace)
-	// 	free (ex->replace); //TODO FAUT FIX CE TRUC
-	// if (ex->title)
-	// 	free(ex->title);
+	// 	free (ex->replace);
+	if (ex->title)
+		free(ex->title);
 	if (str1)
 		free(str1);
 	if (str2)

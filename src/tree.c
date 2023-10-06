@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:46:48 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/29 17:42:52 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:22:12 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ char	*ft_strndup(char *s, int start, int end)
 		return (NULL);
 	if ((end - start) < 0)
 		return (NULL);
-	copy = malloc(sizeof (char) * (end - start) + 1);
+	//printf("Start : %d, end: %d\n", start, end);
+	if ((end - start) == 0)
+		copy = malloc(sizeof (char) * (end - start) + 2); //scotch solide
+	else
+		copy = malloc(sizeof (char) * (end - start) + 1);
 	if (!copy)
 		return (NULL);
 	while (s[start] && start <= end)
@@ -93,5 +97,6 @@ char	*ft_strndup(char *s, int start, int end)
 		i++;
 	}
 	copy[i] = '\0';
+	//printf("copy[%d] : %c\n", i, copy[i]);
 	return (copy);
 }
