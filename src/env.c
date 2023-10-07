@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:08:29 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:24:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 char	*search_expand_in_line(t_expand *ex, char *line)
 {
 	int	i;
-	int flag;
+	//int flag;
 	char *str1;
 	char *str2;
 
 	i = 0;
-	flag = 0;
+	//flag = 0;
 	str1 = NULL;
 	str2 = NULL;
-	printf("LINE : %s\n", line);
 	while (line[i])
 	{
 		
@@ -35,8 +34,9 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 			str2 = get_str2(ex, line, i);
 			//printf ("%s = str2\n", str2);
 			get_replace(ex);
-			line = ft_strjoin_connect(ex, str1, str2);
-			ft_free_expand(ex, str1, str2);
+			if (ex->replace != NULL)
+				line = ft_strjoin_connect(ex, str1, str2);
+			//ft_free_expand(ex, str1, str2);
 			// i = -1;
 		}
 		// printf("I :%d\n", i);

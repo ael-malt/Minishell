@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:08:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:29:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	get_replace(t_expand *ex)
 		}
 		i++;
 	}
-	// if (!ex->replace)
+	if (count == 0)
+		ex->replace = NULL;
 	// {
 	// 	printf("pas de correspondance\n");
 	// 	exit(0);
@@ -72,12 +73,14 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 	j = 0;
 	k = 0;
 	l = 0;
+	if (ex->replace == NULL)
+		return (NULL);
 	if (start != NULL)
 		k = ft_strlen(start);
 	if (end != NULL) 
 		l = ft_strlen(end);
-	printf("BUG ?\n");
-	printf("%s\n", ex->replace);
+	//printf("BUG ?\n");
+	//printf("%s\n", ex->replace);
 	ex->new_command = malloc(sizeof(char) * (k + ft_strlen(ex->replace) + l) + 1); // + 1
 	if (!ex->new_command)
 		return (NULL);
