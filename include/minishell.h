@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/30 09:42:37 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/09 10:30:49 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,33 @@ typedef struct s_mini
 	int		outfile;
 }			t_mini;
 
-//------------------------------PARSING.C------------------------------//
-int		ft_strrchr_(const char *s, char c);
-int		search_char(char *s);
-int		search_quote(char *s);
+typedef struct s_tree
+{
+	char			*content;
+	char	*str1;
+	char	*str2;
+	int		len_command;
+	int		len_str1;
+	struct s_tree	*left;
+	struct s_tree	*right;
+}	t_tree;
 
+typedef struct s_expand
+{
+	char	**tab; // tableau d'environnement
+	char	*expand;
+	char	*replace;
+	char	*title;
+	char	*new_command;
+	// char	*str1;
+	// char	*str2;
+	
+}	t_expand;
+
+//------------------------------FIRST_CHECK.C------------------------------//
+int	search_char(char *s);
+int	search_quote(char *s);
+//-------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------//
 char	**get_tab_env(char **envp);
