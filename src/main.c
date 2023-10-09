@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:09:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:35:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **envp)
 		while (1)
 		{
 			line = readline("Minishell: ");
-			printf("LINE : %s\n", line);		
+			//printf("LINE : %s\n", line);		
 			if (line)
 			{
 				add_history(line);

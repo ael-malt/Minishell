@@ -6,12 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:24:08 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/08 15:10:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+// si pas entre ' ' && ca existe pas alors rien renvoyer
+// si c'est entre ' ' alors ne pas imprimer les ' ' qui entour varibale d'env
+// si c'est entre '" "' alors et pas imprimer les ' ' mais imprimer les " " qui entour varibale d'env
 char	*search_expand_in_line(t_expand *ex, char *line)
 {
 	int	i;
@@ -25,7 +27,33 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	str2 = NULL;
 	while (line[i])
 	{
-		
+		if (line[i] == '\'')
+		{
+			i++;
+			while (line[i] != '\'')
+				i++;
+		}
+		if (line[i] == '\"')
+		{
+			i++;
+			while (line[i] != '\"')
+			{
+				if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
+				{
+					//printf("%s\n", &line[i]);
+					str1 = ft_strndup(line, 0, (i - 1));
+					//printf ("%s = str1 \n", str1);
+					str2 = get_str2(ex, line, i);
+					//printf ("%s = str2\n", str2);
+					get_replace(ex);
+					if (ex->replace != NULL)
+						line = ft_strjoin_connect(ex, str1, str2);
+					//ft_free_expand(ex, str1, str2);
+					// i = -1;
+				}
+				i++;
+			}
+		}
 		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
 		{
 			//printf("%s\n", &line[i]);
@@ -74,7 +102,7 @@ int len_expand(char *line, int i)
 {
 	int j = 0;
 	
-	while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$')
+	while (line[i] != '\0' && line[i] != ' ' && line[i] != '\t' && line[i] != '$' && line[i] != '\'' && line[i] != '\"')
 	{
 		i++;
 		j++;
