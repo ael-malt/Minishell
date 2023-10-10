@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:35:00 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 14:19:26 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,25 @@
 int	main(int ac, char **av, char **envp)
 {
 	(void) av;
-	//t_tree	*tree;
+	t_tree	*tree;
 	t_expand	ex;
 	char	*line;
 	char	*coucou;
 	if (ac == 1)
 	{
-		//get_tab_env(envp);
-		// while (envp[bleu])
-		// 	printf("%s\n", envp[bleu++]);
 		get_tab_env(&ex, envp);
 		while (1)
 		{
 			line = readline("Minishell: ");
-			//printf("LINE : %s\n", line);		
 			if (line)
 			{
 				add_history(line);
 				coucou = search_expand_in_line(&ex, line);
 				printf("%s\n", coucou);
-				// if (search_char(line) == 1 || search_quote(line) == 1)
-				// 	printf("Error : line invalid \n");
-
-
-				
+				tree = create_node();
+				tree->content = ft_strdup(coucou);
+				//printf("%s\n", tree->content);
+				split_command(tree);
 			}
 			// free line
 		}
@@ -46,21 +41,6 @@ int	main(int ac, char **av, char **envp)
 	else
 		printf("Error : nb argc invalid\n");
 }
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	//t_tree	*tree;
-// 	t_expand	ex;
-// 	if (ac == 2)
-// 	{
-// 		get_tab_env(&ex, envp);
-// 		printf("%s\n", search_expand_in_line(&ex, av[1]));
-// 		// tree = create_node();
-// 		// tree->content = ft_strdup(av[1]);
-// 		// printf("%s\n", tree->content);
-// 		// split_command(tree);
-// 	}
-// }
 
 void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:46:48 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:23:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 12:32:22 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_tree	*create_node()
 
 void	split_command(t_tree *tree)
 {
+	//int i = 0;
 	len_split_command(tree);
 	if (tree->len_command == tree->len_str1 || res_is_operator(tree, tree->content) == 1)
 		return;
@@ -53,6 +54,7 @@ void	tree_branch(t_tree *tree)
 	tree->left = create_node();
 	tree->left->content = tree->str1;
 	printf("tree->left = %s\n", tree->left->content);
+	//printf("tree->left = %d\n", tree->left->content);
 	tree->right = create_node();
 	tree->right->content = tree->str2;
 	printf("tree->right = %s\n", tree->right->content);

@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/05 17:18:14 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:12:48 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_expand
 	char	*replace;
 	char	*title;
 	char	*new_command;
+	char	**new_tab;
 	// char	*str1;
 	// char	*str2;
 	
