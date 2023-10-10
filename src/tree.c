@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 16:46:48 by lazanett          #+#    #+#             */
-/*   Updated: 2023/09/29 17:42:52 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/07 16:23:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*ft_strndup(char *s, int start, int end)
 		return (NULL);
 	if ((end - start) < 0)
 		return (NULL);
-	copy = malloc(sizeof (char) * (end - start) + 1);
+	copy = malloc(sizeof (char) * ((end - start) + 2));
 	if (!copy)
 		return (NULL);
 	while (s[start] && start <= end)
