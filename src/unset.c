@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 15:36:25 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:54:58 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	cmp_unset(char **av, t_expand *ex)
 	int	i;
 
 	i = 0;
-	if (!ft_strcmp(av[0],"unset"));
+	if (!ft_strcmp(av[0],"unset"))
 	{
 		i = 1;
 		while (av[i])
@@ -67,7 +67,6 @@ void	search_arg_unset(char *av, t_expand *ex)
 		}
 		i++;
 	}
-	
 }
 
 char	**new_tab(t_expand *ex, int index)
@@ -90,7 +89,7 @@ char	**new_tab(t_expand *ex, int index)
 	{
 		if (i == index)
 		{
-			ex->tab[i];
+			free(ex->tab[i]);
 			i++;
 		}
 		ex->new_tab[j] = ft_strdup(ex->tab[i]);

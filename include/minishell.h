@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 14:12:48 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:53:44 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ typedef struct s_expand
 	char	*title;
 	char	*new_command;
 	char	**new_tab;
-	// char	*str1;
-	// char	*str2;
-	
 }	t_expand;
 
 //------------------------------FIRST_CHECK.C------------------------------//
@@ -81,5 +78,11 @@ void	get_replace(t_expand *ex);
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
+//--------------------------UNSET.C--------------------------------------//
+int		invalid_arg_unset(char *s);
+void	cmp_unset(char **av, t_expand *ex);
+void	search_arg_unset(char *av, t_expand *ex);
+char	**new_tab(t_expand *ex, int index);
+int		len_tab(char **tab);
 
 #endif
