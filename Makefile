@@ -6,7 +6,7 @@
 #    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/06 14:05:54 by lazanett         ###   ########.fr        #
+#    Updated: 2023/10/10 12:54:47 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = src/main.c\
 	  src/operator.c\
 	  src/env.c\
 	  src/switch.c\
+	  src/unset.c\
 
 LIB = $(PATH_LIB)/libft.a
 
