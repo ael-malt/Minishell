@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 15:25:56 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:53:39 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	main(int ac, char **av, char **envp)
 {
 	(void) av;
-	t_tree	*tree;
+	t_lst	*lst;
+	t_lst *tmp;
 	t_expand	ex;
 	char	*line;
 	char	*coucou;
@@ -30,10 +31,16 @@ int	main(int ac, char **av, char **envp)
 				add_history(line);
 				coucou = search_expand_in_line(&ex, line);
 				printf("%s\n", coucou);
-				tree = create_node();
-				tree->content = ft_strdup(coucou);
-				//printf("%s\n", tree->content);
-				split_command(tree);
+				lst = create_node();
+				lst->content = ft_strdup(coucou);
+				//printf("%s\n", lst->content);
+				split_command(lst);
+				tmp = lst;
+				while (tmp)
+				{
+					printf("command : %s\n ", tmp->command);
+					tmp = tmp->next;
+				}
 			}
 			// free line
 		}

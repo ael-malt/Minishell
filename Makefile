@@ -6,7 +6,7 @@
 #    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/10 12:54:47 by lazanett         ###   ########.fr        #
+#    Updated: 2023/10/10 17:58:07 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PATH_LIB = libft
 
 SRC = src/main.c\
 	  src/first_check.c\
-	  src/tree.c\
+	  src/lst.c\
 	  src/operator.c\
 	  src/env.c\
 	  src/switch.c\
