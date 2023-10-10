@@ -6,29 +6,29 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 15:13:24 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:36:25 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	invalid_arg_unset(char *line)
+int	invalid_arg_unset(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (line[i] == '\0')
+	while (s[i])
 	{
-		if (line[i] == '-')
+		if (s[i] == '-') // ou verif si s[0] == '-'
 		{
-			printf("tiret dans arg de unset\n");
+			//printf("tiret dans arg de unset\n");
 			return (1);
 		}
 		i++;
 	}
 	return (0);
 }
-/*verifie que av[0] == unset */
+
 void	cmp_unset(char **av, t_expand *ex)
 {
 	int	i;
@@ -39,7 +39,8 @@ void	cmp_unset(char **av, t_expand *ex)
 		i = 1;
 		while (av[i])
 		{
-			search_arg_unset(av[i], ex);
+			if (!invalid_arg_unset(av[i]))
+				search_arg_unset(av[i], ex);
 			i++;
 		}
 	}
@@ -62,6 +63,7 @@ void	search_arg_unset(char *av, t_expand *ex)
 		if (ft_strncmp(get_title(ex, ex->tab[i]), av, len))
 		{
 			ex->tab = new_tab(ex, i);
+			break ;
 		}
 		i++;
 	}
@@ -95,10 +97,9 @@ char	**new_tab(t_expand *ex, int index)
 		i++;
 		j++;
 	}
-	ft_free(ex->tab); // car reasigner avant apres
+	ft_free(ex->tab);
 	return (ex->new_tab);
 }
-//renvoyer new a copie d'env
 
 int	len_tab(char **tab)
 {
