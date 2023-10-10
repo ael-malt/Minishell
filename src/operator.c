@@ -1,29 +1,29 @@
 #include "../include/minishell.h"
 
-void	is_operator_split(t_tree *tree)
+void	is_operator_split(t_lst *lst)
 {
 	int	i;
 
 	i = 0;
-	tree->str1 = malloc(sizeof (char) * (len_operator(tree) + 1));
-	while (tree->content[i] && is_operator(tree->content[i]) == 1)
+	lst->command = malloc(sizeof (char) * (len_operator(lst) + 1));
+	while (lst->content[i] && is_operator(lst->content[i]) == 1)
 	{
-		tree->str1[i] = tree->content[i];
+		lst->command[i] = lst->content[i];
 		i++;
 	}
-	tree->str1[i] = '\0';
-	while (tree->content[i] == ' ' || tree->content[i] == '\t')
+	lst->command[i] = '\0';
+	while (lst->content[i] == ' ' || lst->content[i] == '\t')
 		i++;
-	tree->str2 = ft_strndup(tree->content, i, (tree->len_command - 1));
+	lst->rest = ft_strndup(lst->content, i, (lst->len_command_total - 1));
 }
 
-int	len_redirection(t_tree *tree, char *s)
+int	len_redirection(t_lst *lst, char *s)
 {
 	int	i;
 
 	i = 0;
-	if (is_operator(tree->content[0]) == 1)
-		i = len_operator(tree);
+	if (is_operator(lst->content[0]) == 1)
+		i = len_operator(lst);
 	while (s[i] != '\0' && (s[i] == ' ' || s[i] == '\t'))
 		i++;
 	while (s[i] != '\0' && (s[i] != ' ' && s[i] != '\t' && is_operator(s[i]) == 0))
@@ -31,21 +31,21 @@ int	len_redirection(t_tree *tree, char *s)
 	return (i);
 }
 
-int	len_operator(t_tree *tree)
+int	len_operator(t_lst *lst)
 {
 	int	i;
 
 	i = 0;
-	while (tree->content[i] && is_operator(tree->content[i]) == 1)
+	while (lst->content[i] && is_operator(lst->content[i]) == 1)
 	{
-		if (i > 0 && (tree->content[i - 1] != tree->content[i]))
+		if (i > 0 && (lst->content[i - 1] != lst->content[i]))
 		{
 			printf("Error : operator diff\n");
 			exit(0);
 		}
 		i++;
 	}
-	if (tree->content[0] == '|' && i > 1)
+	if (lst->content[0] == '|' && i > 1)
 	{
 		printf("Error : multi pipe\n");
 		exit(0);
@@ -66,7 +66,7 @@ int	is_operator(char c)
 	return (0);
 }
 
-int	res_is_operator(t_tree *tree, char *s)
+int	res_is_operator(t_lst *lst, char *s)
 {
 	int	i;
 	int	count;
@@ -79,7 +79,7 @@ int	res_is_operator(t_tree *tree, char *s)
 			count++;
 		i++;
 	}
-	if (tree->len_command == count)
+	if (lst->len_command_total == count)
 	{
 		printf("Error : rest just operator\n"); // exit ??
 		return (1);
