@@ -6,7 +6,11 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/10 14:37:31 by ael-malt         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/10 14:12:48 by lazanett         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +46,11 @@ typedef struct s_expand
 	char	*replace;
 	char	*title;
 	char	*new_command;
+<<<<<<< HEAD
 	pid_t	pid;
+=======
+	char	**new_tab;
+>>>>>>> main
 	// char	*str1;
 	// char	*str2;
 	
