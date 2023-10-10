@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:51:25 by lazanett          #+#    #+#             */
-/*   Updated: 2023/07/20 14:49:33 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:48:15 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 # include <errno.h>
+#include <stddef.h>
 
 typedef struct s_list
 {
@@ -94,8 +95,8 @@ int			ft_strlen_gnl(char *str);
 char		*ft_unsigned_itoa(unsigned int i);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 void		ft_putchar_fd(char c, int fd);
-void		ft_putstr_fd(char *s, int fd);
-void		ft_putendl_fd(char *s, int fd);
+int			ft_putstr_fd(char *s, int fd);
+int			ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_strlcpymod(char *dst, char *src, size_t size);
 void		ft_perror(char *error);
@@ -107,5 +108,12 @@ void		ft_lstdelone(t_list *lst, void (*del)(void*));
 void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
+// Matrix
+char		**ft_dup_matrix(char **m);
+void		ft_free_matrix(char ***m);
+char		**ft_extend_matrix(char **in, char *newstr);
+int	ft_matrixlen(char **m);
+t_list	*ft_matrixtolst(char **matrix);
+char	**ft_lsttomatrix(t_list *lst);
+int	ft_putmatrix_fd(char **m, int nl, int fd);
 #endif

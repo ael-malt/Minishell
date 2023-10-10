@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_matrixtolst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 15:44:32 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 14:46:22 by ael-malt         ###   ########.fr       */
+/*   Created: 2023/10/10 14:40:57 by ael-malt          #+#    #+#             */
+/*   Updated: 2023/10/10 14:41:10 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	ft_putendl_fd(char *s, int fd)
+t_list	*ft_matrixtolst(char **matrix)
 {
-	if (s != NULL)
-	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
-		return ((int)ft_strlen(s) + 1);
-	}
-	return (0);
-}
+	t_list	*lst;
+	int		i;
 
-/*int	main(void)
-{
-	char	s[] = "coucou";
-	ft_putendl_fd(s, 1);
-	return (0);
-}*/
+	lst = NULL;
+	i = -1;
+	while (matrix[++i])
+		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(matrix[i])));
+	return (lst);
+}

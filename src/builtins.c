@@ -6,18 +6,33 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/09/30 09:55:35 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:57:22 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h" 
 
-extern int	g_status;
+extern int	g_exit_status;
+
+int	builtin(char *cmd)
+{
+	while (cmd[0] == ' ' || (cmd[0] >= '\a' && cmd[0] <= '\r'))
+		cmd++;
+	if (!ft_strncmp(cmd, "pwd", 3))
+		mini_pwd();
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	return (g_exit_status);
+	}
 
 int	mini_pwd(void)
 {
 	char	*buf;
 
+	
 	buf = getcwd(NULL, 0);
 	ft_putendl_fd(buf, 1);
 	free(buf);

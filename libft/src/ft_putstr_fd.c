@@ -3,28 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:28:10 by lazanett          #+#    #+#             */
-/*   Updated: 2022/11/29 16:04:29 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:47:52 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
-	int	i;
-
-	i = 0;
-	if (s)
-	{
-		while (s[i])
-		{
-			write (fd, &s[i], 1);
-			i++;
-		}
-	}
+	if (s != NULL)
+		return ((int)write(fd, s, ft_strlen(s)));
+	return (0);
 }
 
 /*int	main(void)

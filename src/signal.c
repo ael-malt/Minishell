@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 15:44:32 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 14:46:22 by ael-malt         ###   ########.fr       */
+/*   Created: 2023/10/10 13:44:19 by ael-malt          #+#    #+#             */
+/*   Updated: 2023/10/10 15:49:39 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "../include/minishell.h"
 
-int	ft_putendl_fd(char *s, int fd)
+int	g_exit_status;
+
+void	handle_sigint(int signal)
 {
-	if (s != NULL)
+	if (signal == SIGINT)
 	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
-		return ((int)ft_strlen(s) + 1);
+		g_exit_status = 130;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
 	}
-	return (0);
 }
-
-/*int	main(void)
-{
-	char	s[] = "coucou";
-	ft_putendl_fd(s, 1);
-	return (0);
-}*/

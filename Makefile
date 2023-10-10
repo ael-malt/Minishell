@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/10 12:33:17 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/10 14:07:31 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ SRC			= src/main.c \
 				src/switch.c \
 				src/builtins.c \
 				src/util.c \
-
+				src/signal.c \
+				src/error.c \
+				
 LIB			= $(PATH_LIB)/libft.a
 
 OBJ			= $(SRC:.c=.o)

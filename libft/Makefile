@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 12:03:41 by lazanett          #+#    #+#              #
-#    Updated: 2023/06/28 16:50:44 by lazanett         ###   ########.fr        #
+#    Updated: 2023/10/10 14:44:11 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS = src/ft_isalnum.c \
        src/ft_strlcpy.c \
        src/ft_strlen.c \
        src/ft_calloc.c \
-       src/ft_memset.c\
+       src/ft_memset.c \
        src/ft_bzero.c \
        src/ft_memcpy.c \
        src/ft_memmove.c \
@@ -55,28 +55,34 @@ SRCS = src/ft_isalnum.c \
        src/ft_putstr_fd.c \
        src/ft_putendl_fd.c \
        src/ft_putnbr_fd.c \
-       src/ft_lstnew.c\
-       src/ft_lstadd_front.c\
-       src/ft_lstsize.c\
-       src/ft_lstlast.c\
-       src/ft_lstadd_back.c\
-       src/ft_lstdelone.c\
-       src/ft_lstclear.c\
-       src/ft_lstiter.c\
-       src/ft_lstmap.c\
+       src/ft_lstnew.c \
+       src/ft_lstadd_front.c \
+       src/ft_lstsize.c \
+       src/ft_lstlast.c \
+       src/ft_lstadd_back.c \
+       src/ft_lstdelone.c \
+       src/ft_lstclear.c \
+       src/ft_lstiter.c \
+       src/ft_lstmap.c \
        src/ft_print_nbr.c \
-       src/ft_hexa_size.c\
-       src/ft_put_hexa.c\
-       src/ft_print_hexa.c\
-       src/ft_printf.c\
-       src/ft_put_u.c\
-       src/ft_putchar.c\
-       src/ft_putstr.c\
-       src/ft_void_hexa.c\
-       src/get_next_line.c\
+       src/ft_hexa_size.c \
+       src/ft_put_hexa.c \
+       src/ft_print_hexa.c \
+       src/ft_printf.c \
+       src/ft_put_u.c \
+       src/ft_putchar.c \
+       src/ft_putstr.c \
+       src/ft_void_hexa.c \
+       src/get_next_line.c \
        src/get_next_line_utils.c \
-       src/ft_free.c\
-       src/ft_perror.c\
+       src/ft_free.c \
+       src/ft_perror.c \
+       src/ft_dup_matrix.c \
+       src/ft_free_matrix.c \
+       src/ft_extend_matrix.c \
+       src/ft_matrixlen.c \
+       src/ft_matrixtolst.c \
+       src/ft_putmatrix_fd.c \
 
 OBJS	= ${SRCS:.c=.o}
 

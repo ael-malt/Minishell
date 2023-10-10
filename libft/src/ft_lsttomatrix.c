@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_lsttomatrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 15:44:32 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 14:46:22 by ael-malt         ###   ########.fr       */
+/*   Created: 2023/10/10 14:42:07 by ael-malt          #+#    #+#             */
+/*   Updated: 2023/10/10 14:42:09 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	ft_putendl_fd(char *s, int fd)
+char	**ft_lsttomatrix(t_list *lst)
 {
-	if (s != NULL)
-	{
-		ft_putstr_fd(s, fd);
-		ft_putchar_fd('\n', fd);
-		return ((int)ft_strlen(s) + 1);
-	}
-	return (0);
-}
+	char	**matrix;
+	t_list	*aux;
+	char	*temp;
 
-/*int	main(void)
-{
-	char	s[] = "coucou";
-	ft_putendl_fd(s, 1);
-	return (0);
-}*/
+	aux = lst;
+	matrix = NULL;
+	while (aux)
+	{
+		temp = ft_strdup(aux->content);
+		matrix = ft_extend_matrix(matrix, temp);
+		aux = aux->next;
+		free(temp);
+	}
+	return (matrix);
+}
