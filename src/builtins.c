@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/10 14:57:22 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:36:30 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 extern int	g_exit_status;
 
-int	builtin(char *cmd)
+int	builtin(char *cmd, t_expand	ex)
 {
 	while (cmd[0] == ' ' || (cmd[0] >= '\a' && cmd[0] <= '\r'))
 		cmd++;
 	if (!ft_strncmp(cmd, "pwd", 3))
 		mini_pwd();
+	else if(!ft_strncmp(cmd, "env", 4))
+		ft_putmatrix_fd(ex.tab, 1, 1);
+	else if(!ft_strncmp(cmd, "expand", 6))
+		ft_extend_matrix(ex.tab, cmd);
 	else
 	{
 		signal(SIGINT, SIG_IGN);

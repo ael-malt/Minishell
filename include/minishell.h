@@ -6,11 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/10/10 14:37:31 by ael-malt         ###   ########.fr       */
-=======
-/*   Updated: 2023/10/10 14:12:48 by lazanett         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2023/10/11 18:33:04 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +20,7 @@
 # include <errno.h>
 # include <string.h>
 # include <signal.h>
+# include <stddef.h>
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -46,11 +43,7 @@ typedef struct s_expand
 	char	*replace;
 	char	*title;
 	char	*new_command;
-<<<<<<< HEAD
 	pid_t	pid;
-=======
-	char	**new_tab;
->>>>>>> main
 	// char	*str1;
 	// char	*str2;
 	
@@ -115,13 +108,13 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
 //---------------------------------BUILTINS.C-----------------------------//
-int	builtin(char *cmd);
+int		builtin(char *cmd, t_expand	ex);
 int		mini_pwd(void);
-int	mini_echo(t_list *cmd);
+int		mini_echo(t_list *cmd);
 
 //-----------------------------------UTIL.C-------------------------------//
 
-int	ft_countchar(char *s, char c);
+int		ft_countchar(char *s, char c);
 
 //-----------------------------------SIGNAL.C-----------------------------//
 void	handle_sigint(int signal);
