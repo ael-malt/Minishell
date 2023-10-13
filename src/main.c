@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 17:43:00 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 18:00:51 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ int	main(int ac, char **av, char **envp)
 			line = readline("Minishell: ");
 			if (line)
 			{
-				add_history(line);
+				// if ()
+				if (ft_strlen(line) > 0)
+					add_history(line);
 				coucou = search_expand_in_line(&ex, line);
-				printf("%s\n", coucou);
+				// printf("%s\n", coucou);
 				lst = create_node();
 				lst->content = ft_strdup(coucou);
 				//printf("%s\n", lst->content);
@@ -67,7 +69,7 @@ int	main(int ac, char **av, char **envp)
 				tmp = lst;
 				while (tmp)
 				{
-					printf("command : %s\n ", tmp->command);
+					// printf("command : %s\n ", tmp->command);
 					tmp = tmp->next;
 				}
 				builtin(line, &ex);
