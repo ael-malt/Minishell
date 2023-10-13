@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 17:07:54 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:42:10 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_tree
+typedef struct s_lst
 {
-	char			*content;
-	char	*str1;
-	char	*str2;
-	int		len_command;
-	int		len_str1;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}	t_tree;
+	char	*content;
+	char	*command;
+	char	*rest;
+	int		len_command_total;
+	int		len_com;
+	struct s_lst	*next;
+	struct s_lst	*prev;
+}	t_lst;
 
 typedef struct s_expand
 {
@@ -43,6 +43,7 @@ typedef struct s_expand
 	char	*replace;
 	char	*title;
 	char	*new_command;
+	char	**new_tab;
 	pid_t	pid;
 	// char	*str1;
 	// char	*str2;
@@ -81,18 +82,18 @@ int	quote_expand(int end, char *s);
 //--------------------------------MAIN.C----------------------------------//
 // void	get_tab_env(t_expand *ex, char **envp);
 
-//--------------------------------TREE.C----------------------------------//
-t_tree	*create_node();
-void	split_command(t_tree *tree);
-void	tree_branch(t_tree *tree);
-void	len_split_command(t_tree *tree);
+//--------------------------TREE.C-----------------------------------------//
+t_lst	*create_node();
+void	split_command(t_lst *lst);
+void	tree_branch(t_lst *tlst);
+void	len_split_command(t_lst *lst);
 char	*ft_strndup(char *s, int start, int end);
 
-//-------------------------------OPERATOR.C-------------------------------//
-int	len_redirection(t_tree *tree, char *s);
-int	res_is_operator(t_tree *tree, char *s);
-void	is_operator_split(t_tree *tree);
-int	len_operator(t_tree *tree);
+//------------------------OPERATOR.C---------------------------------------//
+int	len_redirection(t_lst *tree, char *s);
+int	res_is_operator(t_lst *tree, char *s);
+void	is_operator_split(t_lst *lst);
+int	len_operator(t_lst *lst);
 int	is_operator(char c);
 
 //--------------------------------EXPAND.C--------------------------------//
@@ -122,5 +123,11 @@ void	handle_sigint(int signal);
 
 //-----------------------------------ERROR.C-----------------------------//
 void	*mini_perror(int err_type, char *param, int err);
+//--------------------------UNSET.C--------------------------------------//
+int		invalid_arg_unset(char *s);
+void	cmp_unset(char **av, t_expand *ex);
+void	search_arg_unset(char *av, t_expand *ex);
+char	**new_tab(t_expand *ex, int index);
+int		len_tab(char **tab);
 
 #endif

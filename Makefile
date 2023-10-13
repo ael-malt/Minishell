@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/11 18:26:01 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/13 17:39:55 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PATH_LIB	= libft
 
 SRC			= src/main.c \
 				src/first_check.c \
-				src/tree.c \
+				src/lst.c\
 				src/operator.c \
 				src/env.c \
 				src/switch.c \
@@ -28,6 +28,7 @@ SRC			= src/main.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
+				src/unset.c\
 				
 LIB			= $(PATH_LIB)/libft.a
 
