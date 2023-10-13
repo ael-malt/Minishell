@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/12 15:17:22 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:25:32 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_status;
 
-int	builtin(char *cmd, t_expand	ex)
+int	builtin(char *cmd, t_expand	*ex)
 {
 	while (cmd[0] == ' ' || (cmd[0] >= '\a' && cmd[0] <= '\r'))
 		cmd++;
@@ -22,11 +22,11 @@ int	builtin(char *cmd, t_expand	ex)
 		g_exit_status = mini_pwd();
 	else if(!ft_strncmp(cmd, "env", 4))
 	{
-		ft_putmatrix_fd(ex.tab, 1, 1);
+		ft_putmatrix_fd(ex->tab, 1, 1);
 		g_exit_status = 0;
 	}
 	else if(!ft_strncmp(cmd, "export", 6))
-		mini_export(ex, cmd);
+		g_exit_status = mini_export(ex, cmd);
 	else
 	{
 		signal(SIGINT, SIG_IGN);
@@ -46,73 +46,49 @@ int	mini_pwd(void)
 	return (0);
 }
 
-int ft_getkeyvalue(char *cmd, char *key, char *value)
+static int	var_in_envp(char *cmd, char **envp, int i)
 {
-	int		i;
-	int		j;
-	int		k;
+	int	pos;
 
-	i = 5;
-	j = 5;
-	while(cmd[i] != '=')
-		i++;
-	if(!cmd[i])
-		return (0);
-	key = malloc(sizeof(char *) * (i - 5));
-	if (!key)
-		return(0);
-	k = 0;
-	while (j <= i)
+	i = 0;
+	pos = ft_strchr_i(cmd, '=');
+	if (pos == -1)
+		return (-1);
+	while (envp[i])
 	{
-		key[k] = cmd[j];
-		j++;
-		k++;
-	}
-	k = 0;
-	value = malloc(sizeof(char *) * (strlen(cmd) - 6));
-	if (!cmd)
-		return(0);
-	while (cmd[i])
-	{
-		value[k] = cmd[i];
+		if (!ft_strncmp(envp[i], cmd, pos + 1))
+			return (1);
 		i++;
-		k++;
 	}
-	return (1);
-}
-
-
-int mini_export(t_expand ex, char *cmd)
-{
-	// int		ij[2];
-	// int		pos;
-	// char	**argv;
-	(void) ex;
-	char	*key;
-	char	*value;
-	
-	key = NULL;
-	value = NULL;
-	ft_getkeyvalue(cmd, key, value);
-	ft_printf("key: %s\nvalue: %s\n", key, value);
-	// if (ft_matrixlen(argv) >= 2)
-	// {
-	// 	ij[0] = 1;
-	// 	while (argv[ij[0]])
-	// 	{
-	// 		pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
-	// 		if (pos == 1)
-	// 		{
-	// 			free(prompt->envp[ij[1]]);
-	// 			prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
-	// 		}
-	// 		else if (!pos)
-	// 			prompt->envp = ft_extend_matrix(prompt->envp, argv[ij[0]]);
-	// 		ij[0]++;
-	// 	}
-	// }
 	return (0);
 }
+
+int mini_export(t_expand *ex, char *cmd)
+{
+	int		i;
+	int		pos;
+	
+	i = 0;
+	while (i < 6)
+	{
+		cmd++;
+		i++;
+	}
+	while ((cmd[0] >= '\a' && cmd[0] <= '\r') || cmd[0] == ' ')
+		cmd++;
+	i = 0;
+	pos = var_in_envp(cmd, ex->tab, i);
+	if (pos == 1)
+	{
+		free(ex->tab[i]);
+		ex->tab[i] = ft_strdup(cmd);
+	}
+	else if (!pos)
+	ex->tab = ft_extend_matrix(ex->tab, cmd);
+	i++;
+	return (0);
+}
+
 int	mini_echo(t_list *cmd)
 {
 	int		newline;

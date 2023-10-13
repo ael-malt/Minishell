@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:51:25 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/10 14:48:15 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:00:59 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		*ft_memchr(const void *s, int c, size_t n);
 void		ft_free(char **free_me);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 char		*ft_strchr(char *s, int c);
+int			ft_strchr_i(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_strdup(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);

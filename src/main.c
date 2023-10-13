@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/11 18:33:09 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:08:36 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **envp)
 		// get_tab_env(&ex, envp);
 		ex.tab = ft_dup_matrix(envp);
 		mini_getpid(&ex);
-
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);
@@ -59,8 +58,9 @@ int	main(int ac, char **av, char **envp)
 			{
 				add_history(line);
 				coucou = search_expand_in_line(&ex, line);
+				(void) coucou;
 				// printf("%s\n", coucou);
-				builtin(line, ex);
+				builtin(line, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
 

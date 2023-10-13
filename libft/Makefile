@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 12:03:41 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/10 14:44:11 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/13 17:02:15 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ SRCS = src/ft_isalnum.c \
        src/ft_matrixlen.c \
        src/ft_matrixtolst.c \
        src/ft_putmatrix_fd.c \
+       src/ft_strchr_i.c \
 
 OBJS	= ${SRCS:.c=.o}
 

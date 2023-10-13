@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/12 15:16:31 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:07:54 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
 //---------------------------------BUILTINS.C-----------------------------//
-int		builtin(char *cmd, t_expand	ex);
+int		builtin(char *cmd, t_expand	*ex);
 int		mini_pwd(void);
 int		mini_echo(t_list *cmd);
-int		mini_export(t_expand ex, char *cmd);
+int mini_export(t_expand *ex, char *cmd);
 
 //-----------------------------------UTIL.C-------------------------------//
 
