@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_void_hexa.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 10:37:19 by lazanett          #+#    #+#             */
-/*   Updated: 2023/01/28 17:36:04 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:01:19 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_print_voidtohexa(unsigned long long n)
 	if (n == 0)
 		count += write(1, "(nil)", 5);
 	else
-	{	
+	{
 		count = write(1, "0x", 2);
 		ft_put_hexavoid(n);
 		count += hexavoid_len(n);

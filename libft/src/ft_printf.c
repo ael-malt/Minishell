@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 17:24:34 by lazanett          #+#    #+#             */
-/*   Updated: 2023/01/28 17:24:55 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:59:54 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_printf(const char *s, ...)
 		{
 			compteur += ft_execut_flag(s[i + 1], a);
 			i++;
-		}	
+		}
 		else
 			compteur += ft_putchar(s[i]);
 		i++;

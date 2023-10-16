@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-t_lst	*create_node()
+t_lst	*create_node(void)
 {
 	t_lst	*node;
 

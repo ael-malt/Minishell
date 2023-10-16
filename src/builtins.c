@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/13 17:25:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:21:20 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 
 extern int	g_exit_status;
 
+/* 
+TO-DO
+	- echo
+	- cd
+	- exit
+	- check unset
+
+DONE
+	- pwd
+	- export
+	- env
+*/
 int	builtin(char *cmd, t_expand	*ex)
 {
 	while (cmd[0] == ' ' || (cmd[0] >= '\a' && cmd[0] <= '\r'))
@@ -27,13 +39,15 @@ int	builtin(char *cmd, t_expand	*ex)
 	}
 	else if(!ft_strncmp(cmd, "export", 6))
 		g_exit_status = mini_export(ex, cmd);
+	// else if(!ft_strncmp(cmd, "unset", 5))
+	// 	g_exit_status = mini_unset(ex, cmd);
 	else
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	return (g_exit_status);
-	}
+}
 
 int	mini_pwd(void)
 {
@@ -46,7 +60,7 @@ int	mini_pwd(void)
 	return (0);
 }
 
-static int	var_in_envp(char *cmd, char **envp, int i)
+static int	var_in_tab(char *cmd, char **tab, int i)
 {
 	int	pos;
 
@@ -54,10 +68,10 @@ static int	var_in_envp(char *cmd, char **envp, int i)
 	pos = ft_strchr_i(cmd, '=');
 	if (pos == -1)
 		return (-1);
-	while (envp[i])
+	while (tab[i])
 	{
-		if (!ft_strncmp(envp[i], cmd, pos + 1))
-			return (1);
+		if (!ft_strncmp(tab[i], cmd, pos + 1))
+			return (i);
 		i++;
 	}
 	return (0);
@@ -76,12 +90,18 @@ int mini_export(t_expand *ex, char *cmd)
 	}
 	while ((cmd[0] >= '\a' && cmd[0] <= '\r') || cmd[0] == ' ')
 		cmd++;
-	i = 0;
-	pos = var_in_envp(cmd, ex->tab, i);
-	if (pos == 1)
+	if (!ft_isalpha(cmd[0]))
 	{
-		free(ex->tab[i]);
-		ex->tab[i] = ft_strdup(cmd);
+		mini_export_error(cmd);
+		return (0);
+	}
+	i = 0;
+	pos = var_in_tab(cmd, ex->tab, i);
+	if (pos)
+	{
+		ft_printf("%d\n", pos);
+		free(ex->tab[pos]);
+		ex->tab[pos] = ft_strdup(cmd);
 	}
 	else if (!pos)
 	ex->tab = ft_extend_matrix(ex->tab, cmd);

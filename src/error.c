@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/10 14:50:56 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:51:16 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,25 @@ void	*mini_perror(int err_type, char *param, int err)
 		ft_putstr_fd("minishell: Not a directory: ", 2);
 	ft_putendl_fd(param, 2);
 	return (NULL);
+}
+
+int		mini_export_error(char *cmd)
+{
+	char	*value;
+	int		i;
+	int		j;
+
+	i = ft_strchr_i(cmd, '=');
+	value = malloc(sizeof(char) * (i + 1));
+	if (!value)
+		return(0);
+	j = 0;
+	while (j <= i)
+	{
+		value[j] = cmd [j];
+		j++;
+	}
+	value[j] = '\0';
+	ft_printf("minishell: export: not an identifier: %s\n", value);
+	return (1);
 }

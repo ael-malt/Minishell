@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 18:00:51 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:06:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ static void	mini_getpid(t_expand *p)
 
 int	main(int ac, char **av, char **envp)
 {
-	(void) av;
-	t_lst	*lst;
-	t_lst *tmp;
+	t_lst		*lst;
+	t_lst		*tmp;
 	t_expand	ex;
-	char	*line;
-	char	*coucou;
+	char		*line;
+	char		*coucou;
+	
+	(void) av;
 	if (ac == 1)
 	{
 		//get_tab_env(envp);
@@ -75,7 +76,6 @@ int	main(int ac, char **av, char **envp)
 				builtin(line, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
-
 
 			}
 			// free line

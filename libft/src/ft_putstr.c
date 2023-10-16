@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 15:25:02 by lazanett          #+#    #+#             */
-/*   Updated: 2023/01/28 17:34:41 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:00:50 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_putstr(char *s)
 	{
 		write (1, "(null)", 6);
 		return (6);
-	}	
+	}
 	while (s[i])
 	{
 		write (1, &s[i], 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 10:54:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/07/20 14:48:59 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:02:18 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ char	*ft_read_line(int fd, char *line, char *buf)
 			return (NULL);
 	}
 	if (ft_strchr_gnl(line, '\n'))
-	{	
+	{
 		buf = ft_getlast_line(line, buf);
 		line = ft_check_line(line);
-	}	
+	}
 	return (line);
 }
 

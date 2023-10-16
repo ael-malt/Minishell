@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:53:31 by lazanett          #+#    #+#             */
-/*   Updated: 2022/11/24 18:05:13 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:01:40 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	{
 		d[i] = s[i];
 		i++;
-	}	
+	}
 	return (dest);
 }
 
