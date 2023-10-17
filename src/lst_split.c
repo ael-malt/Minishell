@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 15:15:59 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:43:35 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	tab_command(t_lst *lst)
 {
-	int	i = 0;
+	//int	i = 0;
 	assign_token(lst);
 	if (!lst)
 		return ;
@@ -22,23 +22,20 @@ void	tab_command(t_lst *lst)
 	{
 		if (lst->token == 0)
 		{
-			i = 0;
-			printf("command %s\n", lst->command);
+			//i = 0;
+			//printf("command %s\n", lst->command);
 			//printf(" %d\n", lst->token);
 			lst->split_command = assign_tab_command(lst->command, lst);
-			while (lst->split_command[i])
-			{
-				printf ("%s | ", lst->split_command[i]);
-				i++;
-			}
-			//printf ("%s\n", lst->split_command[i]);
-			printf("\n");
+			//while (lst->split_command[i])
+			//{
+			//	printf ("%s | ", lst->split_command[i]);
+			//	i++;
+			//}
+			//printf("\n");
 		}
 		lst = lst->next;
 	}
 }
-
-/*compter le nb d'index qu'il va falloir pour le split /compte les argument de la commande*/
 int	len_tab_command(char *s)
 {
 	int	i;
@@ -53,7 +50,6 @@ int	len_tab_command(char *s)
 			i++;
 			while (s[i] && s[i] != '\'')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -62,7 +58,6 @@ int	len_tab_command(char *s)
 			i++;
 			while (s[i] && s[i] != '\"')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -70,7 +65,6 @@ int	len_tab_command(char *s)
 		{
 			while (s[i] && s[i] != ' ' && s[i] != '\t')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -86,12 +80,12 @@ char **malloc_command_in_lst(char *s, char **split)
 
 	i = 0;
 	size = len_tab_command(s);
-	split = malloc(sizeof(char *) * (len_tab_command(s) + 1)); // \0
+	split = malloc(sizeof(char *) * (len_tab_command(s) + 1));
 	if (!split)
 		return (NULL);
 	while (i < size + 1)
 	{
-		split[i] = NULL; // pas \0 car tt est mis a null
+		split[i] = NULL;
 		i++;
 	}
 	return (split);

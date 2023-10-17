@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   switch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 16:42:45 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/17 15:56:45 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern int	g_exit_status;
 
 char	*get_title(t_expand *ex, char *tab_str)
 {
@@ -66,6 +68,12 @@ void	get_replace(t_expand *ex)
 			ex->flag = 1;
 			ex->replace[count] = '\0';
 			break ;
+		}
+		if (!ft_strcmp(ex->expand, "?"))
+		{
+			ex->replace = ft_itoa(g_exit_status);
+			count = 1;
+			//printf(" replace %s\n", ex->replace);
 		}
 		i++;
 	}
