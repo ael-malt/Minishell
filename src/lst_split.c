@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/12 16:10:10 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:13:42 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ void	tab_command(t_lst *lst)
 		if (lst->token == 0)
 		{
 			i = 0;
-			// printf("%d\n", lst->token);
-			//printf("content %s\n", lst->content);
-			printf("command %s\n", lst->command);
+			//printf("command %s\n", lst->command);
 			// printf("== count %d\n", len_tab_command(lst->command));
 			lst->split_command = assign_tab_command(lst->command, lst);
-			while (lst->split_command[i])
-			{
-				printf ("%s\n", lst->split_command[i]);
-				i++;
-			}
-			//printf ("%s\n", lst->split_command[i]);
+			// while (lst->split_command[i])
+			// {
+			// 	printf ("%s | ", lst->split_command[i]);
+			// 	i++;
+			// }
+			// printf ("%s\n", lst->split_command[i]);
+			
 		}
 		lst = lst->next;
 	}
@@ -86,7 +85,6 @@ char **malloc_command_in_lst(char *s, char **split)
 	int	size;
 
 	i = 0;
-	printf("C est quoi S :%s\n", s);
 	size = len_tab_command(s);
 	split = malloc(sizeof(char *) * (len_tab_command(s) + 1)); // \0
 	if (!split)

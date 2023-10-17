@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 13:58:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:06:36 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int ac, char **av, char **envp)
 				lst->content = ft_strdup(new_line);
 				split_command(lst);
 				tab_command(lst);
+				search_quote_in_split(lst);
 				// new_line = get_line_since_quote(new_line);
 				// printf("%s\n", new_line);
 				//===>nouvelle fonction

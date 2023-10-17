@@ -43,12 +43,12 @@ void	split_command(t_lst *lst)
 	{
 		lst->command = ft_strndup(lst->content, 0, (lst->len_com - 1));
 		// printf("end = %d\n", (lst->len_com - 1));
-		while (lst->command[i] != '\0')
-		{
-			printf("%d | %c\n",lst->command[i], lst->command[i]);
-			i++;
-		}
-		printf("%d | %c\n",lst->command[i], lst->command[i]);
+		// while (lst->command[i] != '\0')
+		// {
+		// 	printf("%d | %c\n",lst->command[i], lst->command[i]);
+		// 	i++;
+		// }
+		// printf("%d | %c\n",lst->command[i], lst->command[i]);
 		lst->rest = ft_strndup(lst->content, lst->len_com, (lst->len_command_total)); // - 1
 		// printf("end = %d\n", (lst->len_com - 1));
 		// while (lst->rest[i] != '\0')

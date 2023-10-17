@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 13:56:33 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:06:18 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ enum	e_mini_error
 //-----------------------------FIRST_CHECK.C------------------------------//
 int	search_char(char *s);
 int	search_quote(char *s);
-char *get_line_since_quote(char *line);
-char *ft_new_line1(char *line, int start, int end);
-char *ft_new_line2(char *line, int start, int end);
+void	search_quote_in_split(t_lst *lst);
+char	*supp_quote(char *s);
+// char *get_line_since_quote(char *line);
+// char *ft_new_line1(char *line, int start, int end);
+// char *ft_new_line2(char *line, int start, int end);
 
 //-------------------------------------------------------------------------//
 
