@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 14:09:28 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:38:02 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+//si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
 typedef struct s_lst
 {
 	char	*content;
@@ -34,7 +34,7 @@ typedef struct s_lst
 	char	*rest;
 	int		len_command_total;
 	int		len_com;
-	int		token; //si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
+	int		token; 
 	char	**split_command;
 	struct s_lst	*next;
 	struct s_lst	*prev;
@@ -42,7 +42,7 @@ typedef struct s_lst
 
 typedef struct s_expand
 {
-	char	**tab; // tableau d'environnement
+	char	**tab;
 	char	*expand;
 	char	*replace;
 	char	*title;

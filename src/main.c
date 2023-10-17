@@ -3,18 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 14:09:09 by ael-malt         ###   ########.fr       */
-=======
-/*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 13:48:31 by ael-malt         ###   ########.fr       */
->>>>>>> 9ca6d05 (Merge branch 'main' into amine_dev)
+/*   Updated: 2023/10/17 14:58:05 by lazanett         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
-
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
@@ -51,10 +44,6 @@ int	main(int ac, char **av, char **envp)
 	char	*new_line;
 	if (ac == 1)
 	{
-		//get_tab_env(envp);
-		// while (envp[bleu])
-		// 	printf("%s\n", envp[bleu++]);
-		// get_tab_env(&ex, envp);
 		ex.tab = ft_dup_matrix(envp);
 		mini_getpid(&ex);
 		while (1)
@@ -72,7 +61,7 @@ int	main(int ac, char **av, char **envp)
 				split_command(lst);
 				tab_command(lst);
 				search_quote_in_split(lst);
-
+				
 				//dump(lst);
 				// new_line = get_line_since_quote(new_line);
 				// printf("%s\n", new_line);
@@ -98,35 +87,35 @@ int	main(int ac, char **av, char **envp)
 		printf("Error : nb argc invalid\n");
 }
 
-void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
-{
-	int	size;
-	int	i;
+// void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
+// {
+// 	int	size;
+// 	int	i;
 	
-	size = 0;
-	while (envp[size])
-		size++;
-	ex->tab = malloc (sizeof(char *) * (size + 1));
-	if (!ex->tab)
-		return ;
-	i = 0;
-	while (i < size + 1)
-	{
-		ex->tab[i] = NULL;
-		i++;
-	}
-	i = 0;
-	while (envp[i])
-	{
-		ex->tab[i] = ft_strdup(envp[i]);
-		if (ex->tab[i] == 0)
-		{
-			free(ex->tab[i]);
-			exit(1);
-		}
-		// printf("%s\n", ex->tab[i]);
-		i++;
-	}
-	return;
-}
+// 	size = 0;
+// 	while (envp[size])
+// 		size++;
+// 	ex->tab = malloc (sizeof(char *) * (size + 1));
+// 	if (!ex->tab)
+// 		return ;
+// 	i = 0;
+// 	while (i < size + 1)
+// 	{
+// 		ex->tab[i] = NULL;
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		ex->tab[i] = ft_strdup(envp[i]);
+// 		if (ex->tab[i] == 0)
+// 		{
+// 			free(ex->tab[i]);
+// 			exit(1);
+// 		}
+// 		// printf("%s\n", ex->tab[i]);
+// 		i++;
+// 	}
+// 	return;
+// }
 
