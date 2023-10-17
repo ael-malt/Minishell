@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 14:58:05 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:16:53 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,13 @@ int	main(int ac, char **av, char **envp)
 			{
 				add_history(line);
 				new_line = search_expand_in_line(&ex, line);
-				printf("%s\n", new_line);
+				//printf("%s\n", new_line);
 				lst = create_node();
 				lst->content = ft_strdup(new_line);
 				split_command(lst);
 				tab_command(lst);
 				search_quote_in_split(lst);
-				
 				//dump(lst);
-				// new_line = get_line_since_quote(new_line);
-				// printf("%s\n", new_line);
-				//===>nouvelle fonction
 				// tmp = lst;
 				// while (tmp)
 				// {

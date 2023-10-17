@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 14:59:27 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:37:10 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 void	search_quote_in_split(t_lst *lst)
 {
 	int	i;
+	int	len;
+	int	index;
 
 	i = 0;
+	len = 0;
+	index = 0;
 	if (!lst)
 		return ;
 	while(lst)
@@ -27,8 +31,8 @@ void	search_quote_in_split(t_lst *lst)
 			{
 				printf("av = %s  || ", lst->split_command[i]);
 				if (lst->split_command[i][0] == '\"' || lst->split_command[i][0] == '\'')
-					lst->split_command[i] = supp_quote(lst->split_command[i]);
-				printf("ap = %s %p\n", lst->split_command[i], lst->next);
+					lst->split_command[i] = supp_quote(lst->split_command[i], len, index);
+				printf("ap = %s\n", lst->split_command[i]);
 				i++;
 			}
 		}
@@ -37,22 +41,18 @@ void	search_quote_in_split(t_lst *lst)
 	}
 }
 
-char	*supp_quote(char *s)
+char	*supp_quote(char *s, int len, int index)
 {
-	int	i;
-	int	index;
-	int	len;
-	char *rep;
+	int		i;
+	char	*rep;
 
-	len = 0;
-	index = 0;
 	while (s[len])
 		len++;
 	rep = malloc(sizeof (char) * len + 1);
 	if (!rep)
 		return (NULL);
 	i = 0;
-	while (s[i]) // car len == " '"
+	while (s[i])
 	{
 		if ((i == (len - 1) && s[i] == '\'') || (i == (len - 1) && s[i] == '\"'))
 		{

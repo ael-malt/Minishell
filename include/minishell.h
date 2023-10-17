@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 14:38:02 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:35:58 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ enum	e_mini_error
 int	search_char(char *s);
 int	search_quote(char *s);
 void	search_quote_in_split(t_lst *lst);
-char	*supp_quote(char *s);
+char	*supp_quote(char *s, int len, int index);
 // char *get_line_since_quote(char *line);
 // char *ft_new_line1(char *line, int start, int end);
 // char *ft_new_line2(char *line, int start, int end);
