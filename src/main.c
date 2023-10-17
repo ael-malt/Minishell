@@ -5,9 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 14:06:36 by ael-malt         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/17 14:09:09 by ael-malt         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
@@ -54,7 +56,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			signal(SIGINT, handle_sigint);
 			// signal(SIGQUIT, SIG_IGN);
-			line = readline("Minishell: ");
+			line = readline("=======> Minishell: ");
 			if (line)
 			{
 				add_history(line);
@@ -65,6 +67,8 @@ int	main(int ac, char **av, char **envp)
 				split_command(lst);
 				tab_command(lst);
 				search_quote_in_split(lst);
+
+				//dump(lst);
 				// new_line = get_line_since_quote(new_line);
 				// printf("%s\n", new_line);
 				//===>nouvelle fonction
@@ -120,3 +124,4 @@ void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
 	}
 	return;
 }
+

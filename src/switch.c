@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/12 15:23:54 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:42:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	get_replace(t_expand *ex)
 	i = 0;
 	j = 0;
 	count = 0;
+	ex->flag = 0;
 	while (ex->tab[i])
 	{
 		if (!ft_strcmp(get_title(ex, ex->tab[i]), ex->expand))
@@ -62,13 +63,14 @@ void	get_replace(t_expand *ex)
 				count++;
 				j++;
 			}
+			ex->flag = 1;
 			ex->replace[count] = '\0';
 			break ;
 		}
 		i++;
 	}
 	if (count == 0)
-		ex->replace = NULL;
+		ex->replace = ft_strdup("");
 }
 
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
@@ -77,18 +79,24 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 	size_t	j;
 	size_t	k;
 	size_t	l;
+	size_t	m;
 
 	i = 0;
 	j = 0;
 	k = 0;
 	l = 0;
-	if (ex->replace == NULL)
+	m = 0;
+	if (ex->replace == NULL && start == NULL && end == NULL)
 		return (NULL);
+	if (ex->replace != NULL)
+		m = ft_strlen(ex->replace);
+	else
+		ex->replace = ft_strdup("");
 	if (start != NULL)
 		k = ft_strlen(start);
 	if (end != NULL)
 		l = ft_strlen(end);
-	ex->new_command = malloc(sizeof(char) * (k + ft_strlen(ex->replace) + l) + 1); // + 1
+	ex->new_command = malloc(sizeof(char) * (k + m + l) + 1); // + 1
 	if (!ex->new_command)
 		return (NULL);
 	if (start)

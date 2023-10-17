@@ -5,9 +5,11 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/17 13:56:56 by ael-malt         ###   ########.fr        #
+#    Created: Invalid date        by                   #+#    #+#              #
+#    Updated: 2023/10/17 14:10:24 by ael-malt         ###   ########.fr        #
 #                                                                              #
+# **************************************************************************** #
+
 # **************************************************************************** #
 
 NAME		= minishell
@@ -29,7 +31,8 @@ z				src/env.c \
 				src/signal.c \
 				src/error.c \
 				src/unset.c\
-				
+					  src/sup_env.c\
+
 LIB			= $(PATH_LIB)/libft.a
 
 OBJ			= $(SRC:.c=.o)

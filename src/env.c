@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/11 16:47:07 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:40:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	i = 0;
 	str1 = NULL;
 	str2 = NULL;
-	while (line[i])
+	while (line[i] || line == NULL)
 	{
 		if (line[i] == '\'')
 		{
 			i++;
-			while (line[i] != '\'')
+			while (line[i] && line[i] != '\'')
 				i++;
 		}
 		if (line[i] == '\"')
 		{
 			i++;
-			while (line[i] != '\"')
+			while (line[i] && line[i] != '\"')
 			{
 				if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
 					line = get_split_expand(str1, str2, ex, line, i);

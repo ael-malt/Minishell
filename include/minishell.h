@@ -5,9 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 14:06:18 by ael-malt         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/17 14:09:28 by ael-malt         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -46,6 +48,7 @@ typedef struct s_expand
 	char	*title;
 	char	*new_command;
 	char	**new_tab;
+	int		flag;
 	pid_t	pid;
 	// char	*str1;
 	// char	*str2;
@@ -145,5 +148,8 @@ int		len_tab_command(char *s);
 char	**malloc_command_in_lst(char *s, char **split);
 char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst);
+
+
+void dump(t_lst *node);
 
 #endif

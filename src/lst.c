@@ -25,9 +25,9 @@ t_lst	*create_node()
 
 void	split_command(t_lst *lst)
 {
-	int i;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	len_split_command(lst);
 	if (is_operator(lst->content[0]) == 1)
 	{
@@ -78,14 +78,21 @@ void	tree_branch(t_lst *lst)
 void	len_split_command(t_lst *lst)
 {
 	int	i;
+	char quote = 0;
 
 	i = 0;
 	while (lst->content[i] != '\0')
 		i++;
 	lst->len_command_total = i;
 	i = 0;
-	while (lst->content[i] != '\0' && is_operator(lst->content[i]) == 0)
+	while (lst->content[i] != '\0' && (is_operator(lst->content[i]) == 0 || (is_operator(lst->content[i]) == 1 && quote != 0))) {
+		if (!quote && (lst->content[i] == '\'' || lst->content[i] == '"' )) {
+			quote = lst->content[i];
+		} else if (quote && lst->content[i] == quote) {
+			quote = 0;
+		}
 		i++;
+	}
 	lst->len_com = i;
 }
 
