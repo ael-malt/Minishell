@@ -5,13 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 14:09:09 by ael-malt         ###   ########.fr       */
-=======
-/*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 13:48:31 by ael-malt         ###   ########.fr       */
->>>>>>> 9ca6d05 (Merge branch 'main' into amine_dev)
+/*   Updated: 2023/10/17 18:14:44 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +34,26 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
+void	print_big_minishell()
+{
+	ft_printf("\x1b[31mMMM      MMM   IIIIIIIIIIII  NNNNN    NNN  IIIIIIIIIIII \
+ SSSSSSSSSSSS  HHH      HHH  EEEEEEEEEEEE  LLL           LLL         \n");
+	ft_printf("\x1b[33mM|\\MM  MM/|M   IIII\\II/IIII  N|¯\\NN   N|N  IIII\\II/IIII \
+ SS/¯SSSSSSSS  H|H      H|H  EE/EEEEEEEEE  L|L           L|L         \n");
+	ft_printf("\x1b[32mM|M\\MMMM/M|M       I||I      N|NN\\N   N|N      I||I     \
+ S¦SS          H|H      H|H  E|E           L|L           L|L         \n");
+	ft_printf("\x1b[32mM|MM\\/\\/MM|M       I||I      N|N N\\N  N|N      I||I     \
+ SS\\SSSSSSSSS  H|HHHHHHHH|H  E¦\\EEEEEEE    L|L           L|L         \n");
+	ft_printf("\x1b[36mM|M      M|M       I||I      N|N  N\\N N|N      I||I     \
+ SSSSSSSS\\SSS  H|HHHHHHHH|H  E¦/EEEEEEE    L|L           L|L         \n");
+	ft_printf("\x1b[36mM|M      M|M       I||I      N|N   N\\NN|N      I||I     \
+         S¦SS  H|H      H|H  E|E           L|L           L|L         \n");
+	ft_printf("\x1b[34mM|M      M|M   IIII/II\\IIII  N|N    N\\_/N  IIII/II\\IIII \
+ SSSSSSSS_/SS  H|H      H|H  EE\\EEEEEEEEE  L\\_LLLLLLLLL  L\\_LLLLLLLLL\n");
+	ft_printf("\x1b[35mMMM      MMM   IIIIIIIIIIII  NNN     NNNN  IIIIIIIIIIII \
+ SSSSSSSSSSSS  HHH      HHH  EEEEEEEEEEEE  LLLLLLLLLLLL  LLLLLLLLLLLL\n\x1b[0m");
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void) av;
@@ -55,10 +70,12 @@ int	main(int ac, char **av, char **envp)
 		// get_tab_env(&ex, envp);
 		ex.tab = ft_dup_matrix(envp);
 		mini_getpid(&ex);
+		ft_printf("\033[2J\033[1;1H");
+		print_big_minishell();
 		while (1)
 		{
 			signal(SIGINT, handle_sigint);
-			// signal(SIGQUIT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			line = readline("=======> Minishell: ");
 			if (line)
 			{

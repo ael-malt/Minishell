@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 10:38:56 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 16:07:03 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:08:36 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static char	*word_dup(const char *str, int start, int finish)
 		word[i++] = str[start++];
 	word[i] = '\0';
 	return (word);
-}
 }
 
 static char	**ft_free_split(char **split, int j)

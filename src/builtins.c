@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/16 14:21:20 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:14:13 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@ extern int	g_exit_status;
 
 /* 
 TO-DO
+	Builtins:
 	- echo
 	- cd
 	- exit
 	- check unset
-
+	- mettre des couleurs dans l'affichage
 DONE
+	Builtins:
 	- pwd
 	- export
 	- env
+
+	Autres:
+	- Faire un jolie message minishell;
 */
 int	builtin(char *cmd, t_expand	*ex)
 {
