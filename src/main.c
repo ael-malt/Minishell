@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 18:14:44 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:18:51 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	mini_getpid(t_expand *p)
 
 void	print_big_minishell()
 {
+	ft_printf("\033[2J\033[1;1H");
 	ft_printf("\x1b[31mMMM      MMM   IIIIIIIIIIII  NNNNN    NNN  IIIIIIIIIIII \
  SSSSSSSSSSSS  HHH      HHH  EEEEEEEEEEEE  LLL           LLL         \n");
 	ft_printf("\x1b[33mM|\\MM  MM/|M   IIII\\II/IIII  N|¯\\NN   N|N  IIII\\II/IIII \
@@ -70,7 +71,6 @@ int	main(int ac, char **av, char **envp)
 		// get_tab_env(&ex, envp);
 		ex.tab = ft_dup_matrix(envp);
 		mini_getpid(&ex);
-		ft_printf("\033[2J\033[1;1H");
 		print_big_minishell();
 		while (1)
 		{
