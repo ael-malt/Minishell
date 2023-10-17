@@ -5,8 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: Invalid date        by                   #+#    #+#             */
 /*   Updated: 2023/10/17 14:09:09 by ael-malt         ###   ########.fr       */
+=======
+/*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
+/*   Updated: 2023/10/17 13:48:30 by ael-malt         ###   ########.fr       */
+>>>>>>> 9ca6d05 (Merge branch 'main' into amine_dev)
 /*                                                                            */
 /* ************************************************************************** */
 
