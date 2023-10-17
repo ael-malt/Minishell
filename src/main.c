@@ -5,8 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/17 14:09:09 by ael-malt         ###   ########.fr       */
+=======
 /*   Created: 2023/09/19 11:12:04 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/16 14:06:53 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:48:31 by ael-malt         ###   ########.fr       */
+>>>>>>> 9ca6d05 (Merge branch 'main' into amine_dev)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +41,12 @@ static void	mini_getpid(t_expand *p)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_lst		*lst;
-	t_lst		*tmp;
-	t_expand	ex;
-	char		*line;
-	char		*coucou;
-	
 	(void) av;
+	t_lst	*lst;
+	//t_lst *tmp;
+	t_expand	ex;
+	char	*line;
+	char	*new_line;
 	if (ac == 1)
 	{
 		//get_tab_env(envp);
@@ -55,24 +59,29 @@ int	main(int ac, char **av, char **envp)
 		{
 			signal(SIGINT, handle_sigint);
 			// signal(SIGQUIT, SIG_IGN);
-			line = readline("Minishell: ");
+			line = readline("=======> Minishell: ");
 			if (line)
 			{
-				// if ()
-				if (ft_strlen(line) > 0)
-					add_history(line);
-				coucou = search_expand_in_line(&ex, line);
-				// printf("%s\n", coucou);
+				add_history(line);
+				new_line = search_expand_in_line(&ex, line);
+				printf("%s\n", new_line);
 				lst = create_node();
-				lst->content = ft_strdup(coucou);
-				//printf("%s\n", lst->content);
+				lst->content = ft_strdup(new_line);
 				split_command(lst);
-				tmp = lst;
-				while (tmp)
-				{
-					// printf("command : %s\n ", tmp->command);
-					tmp = tmp->next;
-				}
+				tab_command(lst);
+				search_quote_in_split(lst);
+
+				//dump(lst);
+				// new_line = get_line_since_quote(new_line);
+				// printf("%s\n", new_line);
+				//===>nouvelle fonction
+				// tmp = lst;
+				// while (tmp)
+				// {
+				// 	printf("command : %s\n", tmp->command);
+				// 	tmp = tmp->next;
+				// }
+				
 				builtin(line, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
@@ -86,92 +95,35 @@ int	main(int ac, char **av, char **envp)
 		printf("Error : nb argc invalid\n");
 }
 
-// int	main(int ac, char **av, char **envp)
-// {
-// 	//t_tree	*tree;
-// 	t_expand	ex;
-// 	if (ac == 2)
-// 	{
-// 		get_tab_env(&ex, envp);
-// 		printf("%s\n", search_expand_in_line(&ex, av[1]));
-// 		// tree = create_node();
-// 		// tree->content = ft_strdup(av[1]);
-// 		// printf("%s\n", tree->content);
-// 		// split_command(tree);
-// 	}
-// }
+void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
+{
+	int	size;
+	int	i;
+	
+	size = 0;
+	while (envp[size])
+		size++;
+	ex->tab = malloc (sizeof(char *) * (size + 1));
+	if (!ex->tab)
+		return ;
+	i = 0;
+	while (i < size + 1)
+	{
+		ex->tab[i] = NULL;
+		i++;
+	}
+	i = 0;
+	while (envp[i])
+	{
+		ex->tab[i] = ft_strdup(envp[i]);
+		if (ex->tab[i] == 0)
+		{
+			free(ex->tab[i]);
+			exit(1);
+		}
+		// printf("%s\n", ex->tab[i]);
+		i++;
+	}
+	return;
+}
 
-// void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
-// {
-// 	int	size;
-
-// 	size = 0;
-// 	while (envp[size])
-// 		size++;
-// 	ex->tab = malloc (sizeof(char *) * (size + 1));
-// 	if (!ex->tab)
-// 		return ;
-// 	int i = 0;
-// 	while (i < size + 1)
-// 	{
-// 		ex->tab[i] = NULL;
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		ex->tab[i] = ft_strdup(envp[i]);
-// 		if (ex->tab[i] == 0)
-// 		{
-// 			free(ex->tab[i]);
-// 			exit(1);
-// 		}
-// 		// printf("%s\n", ex->tab[i]);
-// 		i++;
-// 	}
-// 	return;
-// }
-
-// char	**get_str(char *s) //commande a mettre dans un maillon; si nv commande aller vers la droite
-// {
-// 	int	i;
-// 	int j;
-// 	int k;
-// 	char **tab;
-// 	char *temp;
-
-// 	i = 0;
-// 	j = 0;
-// 	k = 0;
-// 	tab = malloc(sizeof(char *) * word_count(s));
-// 	while (limiteur(s[i]) != 1 || s[i])
-// 	{
-// 		if (s[i] && s[i] == ' ')
-// 			i++;
-// 		if (limiteur(s[i]) != 1 && s[i] && s[i] != ' ')
-// 		{
-// 			temp = malloc(sizeof (char) * len_word_count(&s[i]));
-// 			while (s[i] && s[i] != ' ')
-// 			{
-// 				temp[k] = s[i];
-// 				i++;
-// 				k++;
-// 			}
-// 			tab[j] = strdup(temp);
-// 			printf("%s\n", tab[j]);
-// 			//printf("%c\n", s[i]);
-// 			j++;
-// 			k = 0;
-// 			free(temp);
-// 			//temp = NULL;
-// 		}
-// 		if (limiteur(s[i]) == 1)
-// 		{
-// 			break;
-// 			return (tab);
-// 		}	
-// 		if (s[i] == '\0')
-// 			return (tab);
-// 	}
-// 	return (tab);
-// }

@@ -25,8 +25,10 @@ t_lst	*create_node(void)
 
 void	split_command(t_lst *lst)
 {
+	// int i;
+
+	// i = 0;
 	len_split_command(lst);
-	
 	if (is_operator(lst->content[0]) == 1)
 	{
 		if (lst->content[0] == '|') // content rest du pres
@@ -39,8 +41,22 @@ void	split_command(t_lst *lst)
 	}
 	else
 	{
-		lst->command = ft_strndup(lst->content, 0, (lst->len_com - 1)); //
+		lst->command = ft_strndup(lst->content, 0, (lst->len_com - 1));
+		// printf("end = %d\n", (lst->len_com - 1));
+		// while (lst->command[i] != '\0')
+		// {
+		// 	printf("%d | %c\n",lst->command[i], lst->command[i]);
+		// 	i++;
+		// }
+		// printf("%d | %c\n",lst->command[i], lst->command[i]);
 		lst->rest = ft_strndup(lst->content, lst->len_com, (lst->len_command_total)); // - 1
+		// printf("end = %d\n", (lst->len_com - 1));
+		// while (lst->rest[i] != '\0')
+		// {
+		// 	printf("%d | %c\n",lst->rest[i], lst->rest[i]);
+		// 	i++;
+		// }
+		// printf("%d | %c\n",lst->rest[i], lst->rest[i]);
 	}
 	if (lst->len_com == lst->len_command_total)
 		return;
@@ -48,50 +64,51 @@ void	split_command(t_lst *lst)
 		tree_branch(lst);
 	return;
 }
-//contwnt je garde cpmmande et j'emvoie au prochain rest
+//content je garde commande et j'envoie au prochain rest
 //rest = next content
 
 void	tree_branch(t_lst *lst)
 {
 	lst->next = create_node();
-	lst->next->prev = lst;
-	lst->next->content = lst->rest;
+	lst->next->prev = lst; //mallon sur lequel on est
+	lst->next->content = lst->rest; // prochain = rest
 	split_command(lst->next);
 }
 
 void	len_split_command(t_lst *lst)
 {
 	int	i;
+	char quote = 0;
 
 	i = 0;
 	while (lst->content[i] != '\0')
 		i++;
 	lst->len_command_total = i;
 	i = 0;
-	while (lst->content[i] != '\0' && is_operator(lst->content[i]) == 0)
+	while (lst->content[i] != '\0' && (is_operator(lst->content[i]) == 0 || (is_operator(lst->content[i]) == 1 && quote != 0))) {
+		if (!quote && (lst->content[i] == '\'' || lst->content[i] == '"' )) {
+			quote = lst->content[i];
+		} else if (quote && lst->content[i] == quote) {
+			quote = 0;
+		}
 		i++;
+	}
 	lst->len_com = i;
 }
 
-char	*ft_strndup(char *s, int start, int end)
+void	assign_token(t_lst *lst)
 {
-	int		i;
-	char	*copy;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if ((end - start) < 0)
-		return (NULL);
-	copy = malloc(sizeof (char) * ((end - start) + 2));
-	if (!copy)
-		return (NULL);
-	while (s[start] && start <= end)
+	if (!lst)
+		return;
+	while (lst)
 	{
-		copy[i] = s[start];
-		start++;
-		i++;
+		if (lst->content[0] == '|')
+			lst->token = 1;
+		else if (lst->content[0] == '>' || lst->content[0] == '<')
+			lst->token = 2;
+		else
+			lst->token = 0;
+		//printf("lst = content === %s | lst->token %d \n", lst->content, lst->token);
+		lst = lst->next;
 	}
-	copy[i] = '\0';
-	return (copy);
 }
