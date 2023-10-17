@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   switch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 17:20:08 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/07 16:32:56 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/12 15:23:54 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	*get_title(t_expand *ex, char *tab_str)
+{
+	int	j;
+
+	j = 0;
+	while (tab_str[j] != '=')
+		j++;
+	ex->title = malloc (sizeof (char) * j + 1);
+	if (!ex->title)
+		return (NULL);
+	j = 0;
+	while (tab_str[j] != '=')
+	{
+		ex->title[j] = tab_str[j];
+		j++;
+	}
+	ex->title[j]= '\0';
+	return (ex->title);
+}
 
 void	get_replace(t_expand *ex)
 {
@@ -23,14 +43,8 @@ void	get_replace(t_expand *ex)
 	count = 0;
 	while (ex->tab[i])
 	{
-		// printf("TAB = %s\n", ex->tab[i]);
-		// printf("title = %s\n", ex->title);
-		// printf("%s = expand\n", ex->expand);
 		if (!ft_strcmp(get_title(ex, ex->tab[i]), ex->expand))
 		{
-			// printf("TAB = %s\n", ex->tab[i]);
-			// printf("title = %s\n", ex->title);
-			// printf("%s = expand\n", ex->expand);
 			j += ft_strlen(ex->expand) + 1;
 			while (ex->tab[i][j] != '\0')
 			{
@@ -55,11 +69,6 @@ void	get_replace(t_expand *ex)
 	}
 	if (count == 0)
 		ex->replace = NULL;
-	// {
-	// 	printf("pas de correspondance\n");
-	// 	exit(0);
-	// }
-	//printf("%s = replace\n", ex->replace);
 }
 
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
@@ -77,10 +86,8 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 		return (NULL);
 	if (start != NULL)
 		k = ft_strlen(start);
-	if (end != NULL) 
+	if (end != NULL)
 		l = ft_strlen(end);
-	//printf("BUG ?\n");
-	//printf("%s\n", ex->replace);
 	ex->new_command = malloc(sizeof(char) * (k + ft_strlen(ex->replace) + l) + 1); // + 1
 	if (!ex->new_command)
 		return (NULL);
@@ -104,6 +111,29 @@ char	*ft_strjoin_connect(t_expand *ex, char *start, char *end)
 	ex->new_command[j] = '\0';
 	//printf("%s == new command\n", ex->new_command);
 	return (ex->new_command);
+}
+
+char	*ft_strndup(char *s, int start, int end)
+{
+	int		i;
+	char	*copy;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if ((end - start) < 0)
+		return (NULL);
+	copy = malloc(sizeof (char) * ((end - start) + 2));
+	if (!copy)
+		return (NULL);
+	while (s[start] && start <= end)
+	{
+		copy[i] = s[start];
+		start++;
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
 }
 
 void	ft_free_expand(t_expand *ex, char *str1, char *str2)

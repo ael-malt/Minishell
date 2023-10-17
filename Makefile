@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/19 11:14:11 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/13 17:39:55 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/17 13:56:56 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC			= src/main.c \
 				src/first_check.c \
 				src/lst.c\
 				src/operator.c \
-				src/env.c \
+z				src/env.c \
 				src/switch.c \
 				src/builtins.c \
 				src/util.c \
