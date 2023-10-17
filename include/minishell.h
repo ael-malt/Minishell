@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 15:35:58 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:01:07 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ enum	e_mini_error
 	PIPENDERR = 10,
 	MEM = 11,
 	IS_DIR = 12,
-	NOT_DIR = 13
+	NOT_DIR = 13,
+	NREDIR = 14,
+	NREDIR2 = 15
 };
 
 //-----------------------------FIRST_CHECK.C------------------------------//
@@ -135,6 +137,7 @@ void	handle_sigint(int signal);
 
 //-----------------------------------ERROR.C-----------------------------//
 void	*mini_perror(int err_type, char *param, int err);
+void	*mini_perror2(int err_type);
 //--------------------------UNSET.C--------------------------------------//
 int		invalid_arg_unset(char *s);
 void	cmp_unset(char **av, t_expand *ex);

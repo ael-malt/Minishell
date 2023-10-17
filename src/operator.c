@@ -38,21 +38,44 @@ int	len_operator(t_lst *lst)
 	i = 0;
 	while (lst->content[i] && is_operator(lst->content[i]) == 1)
 	{
-		if (i > 0 && (lst->content[i - 1] != lst->content[i]))
-		{
-			printf("Error : operator diff\n");
-			exit(0);
-		}
+		// if (i > 0 && (lst->content[i - 1] != lst->content[i]))
+		// {
+		// 	printf("Error : operator diff\n");
+		// 	exit(0);
+		// }
 		i++;
 	}
 	if (lst->content[0] == '|' && i > 1)
 	{
-		printf("Error : multi pipe\n");
+		mini_perror(PIPENDERR, NULL, 2);
 		exit(0);
 	}
-	if (i > 2)
+	if (i > 1 && lst->content[0] == '>' && lst->content[1] == '>' && (lst->content[2] == '<' || lst->content[2] == '|'))
 	{
-		printf("Error : trop d'operateur\n");
+		if (lst->content[2] == '|')
+			mini_perror(PIPENDERR, NULL, 2);
+		else if (lst->content[2] == '<')
+			mini_perror(NREDIR2, NULL, 2);
+		exit(0);
+	}
+	// if (i > 1 && lst->content[0] == '<' && lst->content[1] == '<' && lst->content[2] == '<'&& (lst->content[3] == '>' || lst->content[3] == '|'))
+	// {
+	// 	if (lst->content[3] == '|')
+	// 		mini_perror(PIPENDERR, NULL, 2);
+	// 	else if (lst->content[3] == '>')
+	// 		mini_perror(NREDIR, NULL, 2);
+	// 	exit(0);
+	// }
+	if (i > 1)
+	{
+	// 	printf("coucou\n");
+	// 	printf("lst->content[i] = %c\n", lst->content[i - 1]);
+		if (lst->content[i - 1] == '|')
+			mini_perror(PIPENDERR, NULL, 2);
+		else if (lst->content[i - 1] == '>')
+			mini_perror(NREDIR, NULL, 2);
+		else if (lst->content[i - 1] == '<')
+			mini_perror(NREDIR2, NULL, 2);
 		exit(0);
 	}
 	else
