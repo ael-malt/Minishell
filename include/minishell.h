@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/17 16:05:23 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:38:13 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,10 @@ char	*ft_strndup(char *s, int start, int end);
 void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
 //---------------------------------BUILTINS.C-----------------------------//
-int		builtin(char *cmd, t_expand	*ex);
+int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_pwd(void);
 int		mini_echo(t_list *cmd);
-int		mini_export(t_expand *ex, char *cmd);
+int		mini_export(t_expand *ex, char **split_command);
 
 //-----------------------------------UTIL.C-------------------------------//
 
@@ -135,11 +135,9 @@ void	handle_sigint(int signal);
 void	*mini_perror(int err_type, char *param, int err);
 int		mini_export_error(char *cmd);
 //--------------------------UNSET.C--------------------------------------//
-// int		invalid_arg_unset(char *s);
-// void	cmp_unset(char **av, t_expand *ex);
-// void	search_arg_unset(char *av, t_expand *ex);
-// char	**new_tab(t_expand *ex, int index);
-// int		len_tab(char **tab);
+int	mini_unset(t_expand *ex, char **av);
+char	**new_tab(t_expand *ex, int index);
+int		len_tab(char **tab);
 
 //------------------------LST_SPLIT-------------------------------------//
 void	tab_command(t_lst *lst);

@@ -6,11 +6,12 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:44:19 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/10 15:49:39 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:27:28 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 int	g_exit_status;
 

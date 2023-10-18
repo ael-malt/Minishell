@@ -6,106 +6,84 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/16 13:34:14 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:39:30 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// int	invalid_arg_unset(char *s)
-// {
-// 	int	i;
+static int	unset_var_in_tab(char *av, char **tab)
+{
+	int i;
+	int	len;
 
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		if (s[i] == '-') // ou verif si s[0] == '-'
-// 		{
-// 			//printf("tiret dans arg de unset\n");
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	i = 0;
+	len = ft_strlen(av);
+	while (tab[i])
+	{
+		if (!ft_strncmp(tab[i], av, len))
+			return (i);
+		i++;
+	}
+	return (0);
+}
 
-// void	cmp_unset(char **av, t_expand *ex)
-// {
-// 	int	i;
+int	mini_unset(t_expand *ex, char **av)
+{
+	int	i;
+	int	len;
+	int	j;
 
-// 	i = 0;
-// 	if (!ft_strcmp(av[0],"unset"))
-// 	{
-// 		i = 1;
-// 		while (av[i])
-// 		{
-// 			if (!invalid_arg_unset(av[i]))
-// 				search_arg_unset(av[i], ex);
-// 			i++;
-// 		}
-// 	}
-// }
+	i = 1;
+	ft_printf("%s\n", av[2]);
+	while (av[i])
+	{
+		j = 0;
+		len = ft_strlen(av[i]);
+		if (len == 0)
+			return (0);
+		j = unset_var_in_tab(av[i], ex->tab);
+		if (j)
+		{
+			ex->tab = new_tab(ex, j);
+		}
+		i++;
+	}
+	return (0);
+}
 
-// void	search_arg_unset(char *av, t_expand *ex)
-// {
-// 	int	i;
-// 	int	len;
+char	**new_tab(t_expand *ex, int index)
+{
+	int	i;
+	int	j;
 
-// 	i = 0;
-// 	while (av[i])
-// 		i++;
-// 	len = i;
-// 	if (len == 0)
-// 		return ;
-// 	i = 0;
-// 	while (ex->tab[i])
-// 	{
-// 		if (ft_strncmp(get_title(ex, ex->tab[i]), av, len))
-// 		{
-// 			ex->tab = new_tab(ex, i);
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	j = 0;
+	ex->new_tab = malloc(sizeof (char *) * len_tab(ex->tab));
+	if (!ex->new_tab)
+		return (0);
+	while (ex->new_tab[i])
+	{
+		ex->new_tab[i] = NULL; // pas \0 car tt est mis a null
+		i++;
+	}
+	i = 0;
+	while (ex->tab[i])
+	{
+		if (!(i == index))
+			ex->new_tab[j++] = ft_strdup(ex->tab[i]);
+		i++;
+	}
+	ft_free(ex->tab);
+	return (ex->new_tab);
+}
 
-// char	**new_tab(t_expand *ex, int index)
-// {
-// 	int	i;
-// 	int	j;
+int	len_tab(char **tab)
+{
+	int	i;
 
-// 	i = 0;
-// 	j = 0;
-// 	ex->new_tab = malloc(sizeof (char *) * len_tab(ex->tab));
-// 	if (!ex->new_tab)
-// 		return (0);
-// 	while (ex->new_tab[i])
-// 	{
-// 		ex->new_tab[i] = NULL; // pas \0 car tt est mis a null
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (ex->tab[i])
-// 	{
-// 		if (i == index)
-// 		{
-// 			free(ex->tab[i]);
-// 			i++;
-// 		}
-// 		ex->new_tab[j] = ft_strdup(ex->tab[i]);
-// 		i++;
-// 		j++;
-// 	}
-// 	ft_free(ex->tab);
-// 	return (ex->new_tab);
-// }
-
-// int	len_tab(char **tab)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (tab[i])
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}

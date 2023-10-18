@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 18:18:51 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:51:43 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,22 @@ static void	mini_getpid(t_expand *p)
 void	print_big_minishell()
 {
 	ft_printf("\033[2J\033[1;1H");
-	ft_printf("\x1b[31mMMM      MMM   IIIIIIIIIIII  NNNNN    NNN  IIIIIIIIIIII \
- SSSSSSSSSSSS  HHH      HHH  EEEEEEEEEEEE  LLL           LLL         \n");
-	ft_printf("\x1b[33mM|\\MM  MM/|M   IIII\\II/IIII  N|¯\\NN   N|N  IIII\\II/IIII \
- SS/¯SSSSSSSS  H|H      H|H  EE/EEEEEEEEE  L|L           L|L         \n");
-	ft_printf("\x1b[32mM|M\\MMMM/M|M       I||I      N|NN\\N   N|N      I||I     \
- S¦SS          H|H      H|H  E|E           L|L           L|L         \n");
-	ft_printf("\x1b[32mM|MM\\/\\/MM|M       I||I      N|N N\\N  N|N      I||I     \
- SS\\SSSSSSSSS  H|HHHHHHHH|H  E¦\\EEEEEEE    L|L           L|L         \n");
-	ft_printf("\x1b[36mM|M      M|M       I||I      N|N  N\\N N|N      I||I     \
- SSSSSSSS\\SSS  H|HHHHHHHH|H  E¦/EEEEEEE    L|L           L|L         \n");
-	ft_printf("\x1b[36mM|M      M|M       I||I      N|N   N\\NN|N      I||I     \
-         S¦SS  H|H      H|H  E|E           L|L           L|L         \n");
-	ft_printf("\x1b[34mM|M      M|M   IIII/II\\IIII  N|N    N\\_/N  IIII/II\\IIII \
- SSSSSSSS_/SS  H|H      H|H  EE\\EEEEEEEEE  L\\_LLLLLLLLL  L\\_LLLLLLLLL\n");
-	ft_printf("\x1b[35mMMM      MMM   IIIIIIIIIIII  NNN     NNNN  IIIIIIIIIIII \
- SSSSSSSSSSSS  HHH      HHH  EEEEEEEEEEEE  LLLLLLLLLLLL  LLLLLLLLLLLL\n\x1b[0m");
+	ft_printf("\x1b[31mMMM      MMM  IIIIIIIIIIII NNNNN    NNN IIIIIIIIIIII SSS\
+SSSSSSSSS HHH      HHH EEEEEEEEEEEE LLL          LLL         \n");
+	ft_printf("\x1b[33mM|\\MM  MM/|M  IIII\\II/IIII N|¯\\NN   N|N IIII\\II/IIII\
+ SS/¯SSSSSSSS H|H      H|H EE/EEEEEEEEE L|L          L|L         \n");
+	ft_printf("\x1b[32mM|M\\MMMM/M|M      I||I     N|NN\\N   N|N     I||I     S\
+¦SS         H|H      H|H E|E          L|L          L|L         \n");
+	ft_printf("\x1b[32mM|MM\\/\\/MM|M      I||I     N|N N\\N  N|N     I||I     \
+SS\\SSSSSSSSS H|HHHHHHHH|H E¦\\EEEEEEE   L|L          L|L         \n");
+	ft_printf("\x1b[36mM|M      M|M      I||I     N|N  N\\N N|N     I||I     SS\
+SSSSSS\\SSS H|HHHHHHHH|H E¦/EEEEEEE   L|L          L|L         \n");
+	ft_printf("\x1b[36mM|M      M|M      I||I     N|N   N\\NN|N     I||I       \
+      S¦SS H|H      H|H E|E          L|L          L|L         \n");
+	ft_printf("\x1b[34mM|M      M|M  IIII/II\\IIII N|N    N\\_/N IIII/II\\IIII \
+SSSSSSSS_/SS H|H      H|H EE\\EEEEEEEEE L\\_LLLLLLLLL  L\\_LLLLLLLLL\n");
+	ft_printf("\x1b[35mMMM      MMM  IIIIIIIIIIII NNN     NNNN IIIIIIIIIIII SSS\
+SSSSSSSSS HHH      HHH EEEEEEEEEEEE  LLLLLLLLLLLL LLLLLLLLLLLL\n\x1b[0m");
 }
 
 int	main(int ac, char **av, char **envp)
@@ -81,7 +81,7 @@ int	main(int ac, char **av, char **envp)
 			{
 				add_history(line);
 				new_line = search_expand_in_line(&ex, line);
-				printf("%s\n", new_line);
+				// printf("%s\n", new_line);
 				lst = create_node();
 				lst->content = ft_strdup(new_line);
 				split_command(lst);
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **envp)
 				// 	tmp = tmp->next;
 				// }
 				
-				builtin(line, &ex);
+				builtin(lst, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
 

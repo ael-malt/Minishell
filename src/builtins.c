@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/17 18:14:13 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:37:45 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,21 @@ DONE
 	Autres:
 	- Faire un jolie message minishell;
 */
-int	builtin(char *cmd, t_expand	*ex)
+int	builtin(t_lst *lst, t_expand *ex)
 {
-	while (cmd[0] == ' ' || (cmd[0] >= '\a' && cmd[0] <= '\r'))
-		cmd++;
-	if (!ft_strncmp(cmd, "pwd", 3))
+	while (lst->split_command[0][0] == ' ' || (lst->split_command[0][0] >= '\a' && lst->split_command[0][0] <= '\r'))
+		lst->split_command[0]++;
+	if (!ft_strncmp(lst->split_command[0], "pwd", 3))
 		g_exit_status = mini_pwd();
-	else if(!ft_strncmp(cmd, "env", 4))
+	else if(!ft_strncmp(lst->split_command[0], "env", 4))
 	{
 		ft_putmatrix_fd(ex->tab, 1, 1);
 		g_exit_status = 0;
 	}
-	else if(!ft_strncmp(cmd, "export", 6))
-		g_exit_status = mini_export(ex, cmd);
+	else if(!ft_strncmp(lst->split_command[0], "export", 6))
+		g_exit_status = mini_export(ex, lst->split_command);
+	else if(!ft_strncmp(lst->split_command[0], "unset", 5))
+		g_exit_status = mini_unset(ex, lst->split_command);
 	// else if(!ft_strncmp(cmd, "unset", 5))
 	// 	g_exit_status = mini_unset(ex, cmd);
 	else
@@ -65,8 +67,9 @@ int	mini_pwd(void)
 	return (0);
 }
 
-static int	var_in_tab(char *cmd, char **tab, int i)
+static int	export_var_in_tab(char *cmd, char **tab)
 {
+	int i;
 	int	pos;
 
 	i = 0;
@@ -82,36 +85,51 @@ static int	var_in_tab(char *cmd, char **tab, int i)
 	return (0);
 }
 
-int mini_export(t_expand *ex, char *cmd)
+int mini_export_verif(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (str[0] == '=' || ft_isdigit(str[0]))
+		return(0);
+	while (str && str[i])
+	{
+		if(!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int mini_export(t_expand *ex, char **split_command)
 {
 	int		i;
 	int		pos;
-	
-	i = 0;
-	while (i < 6)
+	int		status_error;
+
+	status_error = 0;
+	i = 1;
+	while (split_command[i])
 	{
-		cmd++;
+		if (mini_export_verif(split_command[i]))
+		{
+			pos = export_var_in_tab(split_command[i], ex->tab);
+			if (pos)
+			{
+				free(ex->tab[pos]);
+				ex->tab[pos] = ft_strdup(split_command[i]);
+			}
+			else if (!pos)
+				ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
+		}
+		else
+		{
+			mini_export_error(split_command[i]);
+			status_error = 1;
+		}
 		i++;
 	}
-	while ((cmd[0] >= '\a' && cmd[0] <= '\r') || cmd[0] == ' ')
-		cmd++;
-	if (!ft_isalpha(cmd[0]))
-	{
-		mini_export_error(cmd);
-		return (0);
-	}
-	i = 0;
-	pos = var_in_tab(cmd, ex->tab, i);
-	if (pos)
-	{
-		ft_printf("%d\n", pos);
-		free(ex->tab[pos]);
-		ex->tab[pos] = ft_strdup(cmd);
-	}
-	else if (!pos)
-	ex->tab = ft_extend_matrix(ex->tab, cmd);
-	i++;
-	return (0);
+	return (status_error);
 }
 
 int	mini_echo(t_list *cmd)

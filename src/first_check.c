@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 18:37:53 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/18 15:50:27 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	search_quote_in_split(t_lst *lst)
 		{
 			while (lst->split_command[i])
 			{
-				printf("command[%i] av = %s  || ", i, lst->split_command[i]);
+				// printf("command[%i] av = %s  || ", i, lst->split_command[i]);
 				if (lst->split_command[i][0] == '\"' || lst->split_command[i][0] == '\'')
 					lst->split_command[i] = supp_quote(lst->split_command[i]);
-				printf("ap = %s %p\n", lst->split_command[i], lst->next);
+				// printf("ap = %s %p\n", lst->split_command[i], lst->next);
 				i++;
 			}
 		}
