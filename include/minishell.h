@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/19 13:50:47 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:56:38 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_lst
 
 typedef struct s_expand
 {
-	char	**tab;
 	char	**tab;
 	char	*expand;
 	char	*replace;

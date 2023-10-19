@@ -3,12 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-<<<<<<< HEAD
-#    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2023/10/17 14:10:24 by ael-malt         ###   ########.fr        #
+#    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
+#    Updated: 2023/10/19 13:56:08 by ael-malt         ###   ########.fr        #
 #                                                                              #
+# **************************************************************************** #
 
 NAME		= minishell
 
@@ -21,6 +21,7 @@ PATH_LIB	= libft
 SRC			= src/main.c \
 				src/first_check.c \
 				src/lst.c\
+				src/lst_split.c \
 				src/operator.c \
 				src/env.c \
 				src/switch.c \
