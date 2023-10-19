@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 15:16:53 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:31:23 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **envp)
 		mini_getpid(&ex);
 		while (1)
 		{
-			signal(SIGINT, handle_sigint);
+			//signal(SIGINT, handle_sigint);
 			// signal(SIGQUIT, SIG_IGN);
 			line = readline("=======> Minishell: ");
 			if (line)
@@ -58,9 +58,21 @@ int	main(int ac, char **av, char **envp)
 				//printf("%s\n", new_line);
 				lst = create_node();
 				lst->content = ft_strdup(new_line);
-				split_command(lst);
-				tab_command(lst);
-				search_quote_in_split(lst);
+				if (split_command(lst, &ex) != -1)
+				{
+					printf("%d\n", split_command(lst, &ex));
+					printf("ENTREE LST %s\n", lst->command);
+					tab_command(lst);
+					search_quote_in_split(lst);
+					printf("==%s\n", lst->split_command[1]);
+					//builtin(line, &ex);
+				}
+				else
+					clean_return(lst, &ex);
+				//if (lst && lst->command && ft_strlen(lst->command) >= 1)
+				// {
+				// 
+				// }
 				//dump(lst);
 				// tmp = lst;
 				// while (tmp)
@@ -68,12 +80,6 @@ int	main(int ac, char **av, char **envp)
 				// 	printf("command : %s\n", tmp->command);
 				// 	tmp = tmp->next;
 				// }
-				
-				builtin(line, &ex);
-				// if (search_char(line) == 1 || search_quote(line) == 1)
-				// 	printf("Error : line invalid \n");
-
-
 			}
 			// free line
 		}

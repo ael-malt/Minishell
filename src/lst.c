@@ -23,18 +23,23 @@ t_lst	*create_node()
 	return (node);
 }
 
-void	split_command(t_lst *lst)
+int	split_command(t_lst *lst, t_expand *ex)
 {
 	len_split_command(lst);
 	if (is_operator(lst->content[0]) == 1)
 	{
-		if (lst->content[0] == '|') // content rest du pres
+		if (lst->content[0] == '|' && len_operator(lst) != -1) // content rest du pres
 			is_operator_split(lst);
-		if (lst->content[0] == '>' || lst->content[0] == '<')
+		if (len_redirection(lst, lst->content) != -1 && (lst->content[0] == '>' || lst->content[0] == '<'))
 		{
 			lst->command = ft_strndup(lst->content, 0, len_redirection(lst, lst->content));
 			lst->rest = ft_strndup(lst->content, (len_redirection(lst, lst->content) + 1), (lst->len_command_total));
 		}
+		// else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) != -1)
+		// {
+		// 	error_operator_message();
+		// 	return (-1); 
+		// }
 	}
 	else
 	{
@@ -42,18 +47,21 @@ void	split_command(t_lst *lst)
 		lst->rest = ft_strndup(lst->content, lst->len_com, (lst->len_command_total)); // - 1
 	}
 	if (lst->len_com == lst->len_command_total)
-		return;
+		return (1);
 	if (lst->rest && lst->command)
-		tree_branch(lst);
-	return;
+		if (tree_branch(lst, ex) == -1)
+			return (-1);
+	return (0);
 }
 
-void	tree_branch(t_lst *lst)
+int	tree_branch(t_lst *lst, t_expand *ex)
 {
 	lst->next = create_node();
 	lst->next->prev = lst; //mallon sur lequel on est
 	lst->next->content = lst->rest; // prochain = rest
-	split_command(lst->next);
+	if (split_command(lst->next, ex) == -1)
+		return (-1);
+	return (0);
 }
 
 void	len_split_command(t_lst *lst)

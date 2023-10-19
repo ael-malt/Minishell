@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/17 18:01:07 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:20:41 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_lst
 	char	*rest;
 	int		len_command_total;
 	int		len_com;
-	int		token; 
+	int		token;
+	int		error;
 	char	**split_command;
 	struct s_lst	*next;
 	struct s_lst	*prev;
@@ -68,16 +69,15 @@ enum	e_mini_error
 	QUOTE = 1,
 	NDIR = 2,
 	NPERM = 3,
-	NCMD = 6,
-	DUPERR = 7,
-	FORKERR = 8,
-	PIPERR = 9,
-	PIPENDERR = 10,
-	MEM = 11,
-	IS_DIR = 12,
-	NOT_DIR = 13,
-	NREDIR = 14,
-	NREDIR2 = 15
+	NCMD = 4,
+	DUPERR = 5,
+	FORKERR = 6,
+	PIPERR = 7,
+	PIPENDERR = 8,
+	MEM = 9,
+	IS_DIR = 10,
+	NOT_DIR = 11,
+	OPERROR = 12
 };
 
 //-----------------------------FIRST_CHECK.C------------------------------//
@@ -96,16 +96,17 @@ char	*supp_quote(char *s, int len, int index);
 
 //--------------------------LST.C-----------------------------------------//
 t_lst	*create_node();
-void	split_command(t_lst *lst);
-void	tree_branch(t_lst *tlst);
+int	split_command(t_lst *lst, t_expand *ex);
+int	tree_branch(t_lst *lst, t_expand  *ex);
 void	len_split_command(t_lst *lst);
 void	assign_token(t_lst *lst);
 
 //------------------------OPERATOR.C---------------------------------------//
 int	len_redirection(t_lst *tree, char *s);
 int	res_is_operator(t_lst *tree, char *s);
-void	is_operator_split(t_lst *lst);
+int	is_operator_split(t_lst *lst);
 int	len_operator(t_lst *lst);
+int	error_operator_return(int i, char *s, t_lst *lst);
 int	is_operator(char c);
 
 //--------------------------------ENV.C--------------------------------//
@@ -120,7 +121,6 @@ char	*get_title(t_expand *en, char *tab_str);
 void	get_replace(t_expand *ex);
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 char	*ft_strndup(char *s, int start, int end);
-void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(char *cmd, t_expand	*ex);
@@ -137,7 +137,10 @@ void	handle_sigint(int signal);
 
 //-----------------------------------ERROR.C-----------------------------//
 void	*mini_perror(int err_type, char *param, int err);
-void	*mini_perror2(int err_type);
+void	*mini_perror2(int err_type, char param, int err);
+void	free_lst(t_lst *lst);
+void	ft_free_expand(t_expand *ex);
+void	clean_return(t_lst *lst, t_expand *ex);
 //--------------------------UNSET.C--------------------------------------//
 int		invalid_arg_unset(char *s);
 void	cmp_unset(char **av, t_expand *ex);

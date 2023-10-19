@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/17 18:01:49 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:20:51 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ extern int	g_exit_status;
 void	*mini_perror(int err_type, char *param, int err)
 {
 	g_exit_status = err;
-	printf("%d\n", g_exit_status);
 	if (err_type == QUOTE)
 		ft_putstr_fd("minishell: error while looking for matching quote\n", 2);
 	else if (err_type == NDIR)
@@ -38,19 +37,75 @@ void	*mini_perror(int err_type, char *param, int err)
 		ft_putstr_fd("minishell: Is a directory: ", 2);
 	else if (err_type == NOT_DIR)
 		ft_putstr_fd("minishell: Not a directory: ", 2);
-	else
-		mini_perror2(err_type);
 	ft_putendl_fd(param, 2);
 	return (NULL);
 }
 
-void	*mini_perror2(int err_type)
+void	*mini_perror2(int err_type, char param, int err)
 {
-	if (err_type == PIPENDERR)
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-	else if (err_type == NREDIR)
-		ft_putstr_fd("minishell: syntax error near unexpected token `>'", 2);
-	else if (err_type == NREDIR2)
-		ft_putstr_fd("minishell: syntax error near unexpected token `<'", 2);
+	//printf("sgsd");
+	g_exit_status = err;
+	printf("%d\n", g_exit_status);
+	if (err_type == OPERROR)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		write (2, &param, 1);
+		ft_putendl_fd("'", 2);
+	}
 	return (NULL);
 }
+
+// void	free_lst(t_lst *lst)
+// {
+// 	if (!lst)
+// 		return ;
+// 	while (lst->prev)
+// 		lst = lst->prev;
+// 	while (lst->next)
+// 	{
+// 		printf("FREE = lst command = %s\n", lst->command);
+// 		printf("FREE = lst content = %s\n", lst->content);
+// 		free(lst->content);
+// 		free(lst->command);
+// 		if (lst->token == 1)
+// 			ft_free(lst->split_command);
+// 		lst = lst->next;
+// 		free(lst->prev);
+// 	}
+// 	lst = NULL;
+// }
+
+void	free_lst(t_lst *lst)
+{
+	t_lst	*tmp;
+
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		tmp = lst->next;
+		free(lst);
+		lst = tmp;
+	}
+	lst = NULL;
+}
+
+
+void	ft_free_expand(t_expand *ex)
+{
+	if (ex->expand)
+		free(ex->expand);
+	if (ex->replace)
+		free (ex->replace);
+	if (ex->title)
+		free(ex->title);
+	if (ex->new_command)
+		free(ex->new_command);
+}
+void	clean_return(t_lst *lst, t_expand *ex)
+{
+	(void) ex;
+	// ft_free_expand(ex);
+	free_lst(lst);
+}
+
