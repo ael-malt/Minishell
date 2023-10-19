@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/18 15:51:43 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:32:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	main(int ac, char **av, char **envp)
 				split_command(lst);
 				tab_command(lst);
 				search_quote_in_split(lst);
+				ft_printf("%s\n", lst->split_command[1]);
 
 				//dump(lst);
 				// new_line = get_line_since_quote(new_line);
@@ -99,7 +100,7 @@ int	main(int ac, char **av, char **envp)
 				// 	tmp = tmp->next;
 				// }
 				
-				builtin(lst, &ex);
+				// builtin(lst, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
 

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/18 16:35:40 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:16:56 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		mini_export_error(char *cmd)
 	i = ft_strchr_i(cmd, '=');
 	value = malloc(sizeof(char) * (i + 1));
 	if (!value)
-		return(0);
+		return(1);
 	j = 0;
 	while (j <= i)
 	{

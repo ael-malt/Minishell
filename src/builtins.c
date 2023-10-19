@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/18 18:22:55 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:21:15 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,22 @@ static int	export_var_in_tab(char *cmd, char **tab)
 int mini_export_verif(char *str)
 {
 	int	i;
-
+	int	equal_present;
+	
 	i = 1;
 	if (str[0] == '=' || ft_isdigit(str[0]))
 		return(0);
+	equal_present = 0;
 	while (str && str[i])
 	{
 		if(!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
 			return (0);
+		if (str[i] == '=')
+			equal_present = 1;
 		i++;
 	}
+	if (!equal_present)
+		return(2);
 	return (1);
 }
 
@@ -111,7 +117,7 @@ int mini_export(t_expand *ex, char **split_command)
 	i = 1;
 	while (split_command[i])
 	{
-		if (mini_export_verif(split_command[i]))
+		if (mini_export_verif(split_command[i]) == 1)
 		{
 			pos = export_var_in_tab(split_command[i], ex->tab);
 			if (pos)
@@ -122,11 +128,10 @@ int mini_export(t_expand *ex, char **split_command)
 			else if (!pos)
 				ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
 		}
-		else
-		{
-			mini_export_error(split_command[i]);
-			status_error = 1;
-		}
+		else if(mini_export_verif(split_command[i]) == 0)
+			status_error = mini_export_error(split_command[i]);
+		else if (mini_export_verif(split_command[i]) == 2)
+			status_error = 0;
 		i++;
 	}
 	return (status_error);
