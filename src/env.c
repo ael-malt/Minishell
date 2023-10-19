@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 16:40:36 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/18 14:12:46 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	i = 0;
 	str1 = NULL;
 	str2 = NULL;
-	while (line[i] || line == NULL)
+	while (line[i])
 	{
 		if (line[i] == '\'')
 		{
@@ -34,12 +34,12 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 			i++;
 			while (line[i] && line[i] != '\"')
 			{
-				if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
+				if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$'))
 					line = get_split_expand(str1, str2, ex, line, i);
 				i++;
 			}
 		}
-		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$') /*&& quote_expand(i, line, last) == 0*/) // si cas precedent alors sup ici '$
+		if (line[i] == '$' && (line[i + 1] != ' ' && line[i + 1] != '\t' && line[i + 1] != '\0' && line[i + 1] != '$'))
 			line = get_split_expand(str1, str2, ex, line, i);
 		i++;
 	}
@@ -54,6 +54,9 @@ char *get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i)
 	get_replace(ex);
 	if (ex->replace != NULL)
 		line = ft_strjoin_connect(ex, str1, str2);
+	free(str1);
+	free(str2);
+	ft_free_expand(ex);
 	return (line);
 }
 

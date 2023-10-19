@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/18 17:38:13 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:50:47 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+//si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
 typedef struct s_lst
 {
 	char	*content;
@@ -34,7 +34,8 @@ typedef struct s_lst
 	char	*rest;
 	int		len_command_total;
 	int		len_com;
-	int		token; //si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
+	int		token;
+	int		error;
 	char	**split_command;
 	struct s_lst	*next;
 	struct s_lst	*prev;
@@ -42,6 +43,7 @@ typedef struct s_lst
 
 typedef struct s_expand
 {
+	char	**tab;
 	char	**tab;
 	char	*expand;
 	char	*replace;
@@ -66,21 +68,22 @@ enum	e_mini_error
 	QUOTE = 1,
 	NDIR = 2,
 	NPERM = 3,
-	NCMD = 6,
-	DUPERR = 7,
-	FORKERR = 8,
-	PIPERR = 9,
-	PIPENDERR = 10,
-	MEM = 11,
-	IS_DIR = 12,
-	NOT_DIR = 13
+	NCMD = 4,
+	DUPERR = 5,
+	FORKERR = 6,
+	PIPERR = 7,
+	PIPENDERR = 8,
+	MEM = 9,
+	IS_DIR = 10,
+	NOT_DIR = 11,
+	OPERROR = 12
 };
 
 //-----------------------------FIRST_CHECK.C------------------------------//
 int	search_char(char *s);
 int	search_quote(char *s);
 void	search_quote_in_split(t_lst *lst);
-char	*supp_quote(char *s);
+char	*supp_quote(char *s, int len, int index);
 // char *get_line_since_quote(char *line);
 // char *ft_new_line1(char *line, int start, int end);
 // char *ft_new_line2(char *line, int start, int end);
@@ -92,17 +95,18 @@ char	*supp_quote(char *s);
 
 //--------------------------LST.C-----------------------------------------//
 t_lst	*create_node();
-void	split_command(t_lst *lst);
-void	tree_branch(t_lst *tlst);
+int	split_command(t_lst *lst, t_expand *ex);
+int	tree_branch(t_lst *lst, t_expand  *ex);
 void	len_split_command(t_lst *lst);
 void	assign_token(t_lst *lst);
 
 //------------------------OPERATOR.C---------------------------------------//
-int		len_redirection(t_lst *tree, char *s);
-int		res_is_operator(t_lst *tree, char *s);
-void	is_operator_split(t_lst *lst);
-int		len_operator(t_lst *lst);
-int		is_operator(char c);
+int	len_redirection(t_lst *tree, char *s);
+int	res_is_operator(t_lst *tree, char *s);
+int	is_operator_split(t_lst *lst);
+int	len_operator(t_lst *lst);
+int	error_operator_return(int i, char *s, t_lst *lst);
+int	is_operator(char c);
 
 //--------------------------------ENV.C--------------------------------//
 char	*search_expand_in_line(t_expand *ex, char *line);
@@ -116,7 +120,6 @@ char	*get_title(t_expand *en, char *tab_str);
 void	get_replace(t_expand *ex);
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 char	*ft_strndup(char *s, int start, int end);
-void	ft_free_expand(t_expand *ex, char *str1, char *str2);
 
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(t_lst *lst, t_expand	*ex);
@@ -134,6 +137,10 @@ void	handle_sigint(int signal);
 //-----------------------------------ERROR.C-----------------------------//
 void	*mini_perror(int err_type, char *param, int err);
 int		mini_export_error(char *cmd);
+void	*mini_perror2(int err_type, char param, int err);
+void	free_lst(t_lst *lst);
+void	ft_free_expand(t_expand *ex);
+void	clean_return(t_lst *lst, t_expand *ex);
 //--------------------------UNSET.C--------------------------------------//
 int	mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);

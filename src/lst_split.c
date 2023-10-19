@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/18 15:50:57 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:54:37 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 void	tab_command(t_lst *lst)
 {
 	int	i = 0;
-	assign_token(lst);
 	if (!lst)
 		return ;
+	assign_token(lst);
 	while (lst)
 	{
 		if (lst->token == 0)
 		{
 			i = 0;
 			//printf("command %s\n", lst->command);
+			//printf(" %d\n", lst->token);
 			//printf(" %d\n", lst->token);
 			lst->split_command = assign_tab_command(lst->command, lst);
 			// while (lst->split_command[i])
@@ -37,8 +38,6 @@ void	tab_command(t_lst *lst)
 		lst = lst->next;
 	}
 }
-
-/*compter le nb d'index qu'il va falloir pour le split /compte les argument de la commande*/
 int	len_tab_command(char *s)
 {
 	int	i;
@@ -53,7 +52,6 @@ int	len_tab_command(char *s)
 			i++;
 			while (s[i] && s[i] != '\'')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -62,7 +60,6 @@ int	len_tab_command(char *s)
 			i++;
 			while (s[i] && s[i] != '\"')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -70,7 +67,6 @@ int	len_tab_command(char *s)
 		{
 			while (s[i] && s[i] != ' ' && s[i] != '\t')
 				i++;
-			//printf("%c\n", s[i]);
 			count++;
 			i = i - 1;
 		}
@@ -86,12 +82,12 @@ char **malloc_command_in_lst(char *s, char **split)
 
 	i = 0;
 	size = len_tab_command(s);
-	split = malloc(sizeof(char *) * (len_tab_command(s) + 1)); // \0
+	split = malloc(sizeof(char *) * (len_tab_command(s) + 1));
 	if (!split)
 		return (NULL);
 	while (i < size + 1)
 	{
-		split[i] = NULL; // pas \0 car tt est mis a null
+		split[i] = NULL;
 		i++;
 	}
 	return (split);

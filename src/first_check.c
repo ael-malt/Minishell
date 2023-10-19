@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/18 15:50:27 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:52:34 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 void	search_quote_in_split(t_lst *lst)
 {
 	int	i;
+	int	len;
+	int	index;
 
 	i = 0;
+	len = 0;
+	index = 0;
 	if (!lst)
 		return ;
 	while(lst)
@@ -37,22 +41,18 @@ void	search_quote_in_split(t_lst *lst)
 	}
 }
 
-char	*supp_quote(char *s)
+char	*supp_quote(char *s, int len, int index)
 {
-	int	i;
-	int	index;
-	int	len;
-	char *rep;
+	int		i;
+	char	*rep;
 
-	len = 0;
-	index = 0;
 	while (s[len])
 		len++;
 	rep = malloc(sizeof (char) * len + 1);
 	if (!rep)
 		return (NULL);
 	i = 0;
-	while (s[i]) // car len == " '"
+	while (s[i])
 	{
 		if ((i == (len - 1) && s[i] == '\'') || (i == (len - 1) && s[i] == '\"'))
 		{

@@ -6,9 +6,10 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/19 13:32:06 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:54:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -65,10 +66,6 @@ int	main(int ac, char **av, char **envp)
 	char	*new_line;
 	if (ac == 1)
 	{
-		//get_tab_env(envp);
-		// while (envp[bleu])
-		// 	printf("%s\n", envp[bleu++]);
-		// get_tab_env(&ex, envp);
 		ex.tab = ft_dup_matrix(envp);
 		mini_getpid(&ex);
 		print_big_minishell();
@@ -82,17 +79,25 @@ int	main(int ac, char **av, char **envp)
 				add_history(line);
 				new_line = search_expand_in_line(&ex, line);
 				// printf("%s\n", new_line);
+				//printf("%s\n", new_line);
 				lst = create_node();
 				lst->content = ft_strdup(new_line);
-				split_command(lst);
-				tab_command(lst);
-				search_quote_in_split(lst);
-				ft_printf("%s\n", lst->split_command[1]);
-
+				if (split_command(lst, &ex) != -1)
+				{
+					printf("%d\n", split_command(lst, &ex));
+					printf("ENTREE LST %s\n", lst->command);
+					tab_command(lst);
+					search_quote_in_split(lst);
+					printf("==%s\n", lst->split_command[1]);
+					//builtin(line, &ex);
+				}
+				else
+					clean_return(lst, &ex);
+				//if (lst && lst->command && ft_strlen(lst->command) >= 1)
+				// {
+				// 
+				// }
 				//dump(lst);
-				// new_line = get_line_since_quote(new_line);
-				// printf("%s\n", new_line);
-				//===>nouvelle fonction
 				// tmp = lst;
 				// while (tmp)
 				// {
@@ -100,7 +105,7 @@ int	main(int ac, char **av, char **envp)
 				// 	tmp = tmp->next;
 				// }
 				
-				// builtin(lst, &ex);
+				builtin(lst, &ex);
 				// if (search_char(line) == 1 || search_quote(line) == 1)
 				// 	printf("Error : line invalid \n");
 
@@ -113,35 +118,35 @@ int	main(int ac, char **av, char **envp)
 		printf("Error : nb argc invalid\n");
 }
 
-void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
-{
-	int	size;
-	int	i;
+// void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
+// {
+// 	int	size;
+// 	int	i;
 	
-	size = 0;
-	while (envp[size])
-		size++;
-	ex->tab = malloc (sizeof(char *) * (size + 1));
-	if (!ex->tab)
-		return ;
-	i = 0;
-	while (i < size + 1)
-	{
-		ex->tab[i] = NULL;
-		i++;
-	}
-	i = 0;
-	while (envp[i])
-	{
-		ex->tab[i] = ft_strdup(envp[i]);
-		if (ex->tab[i] == 0)
-		{
-			free(ex->tab[i]);
-			exit(1);
-		}
-		// printf("%s\n", ex->tab[i]);
-		i++;
-	}
-	return;
-}
+// 	size = 0;
+// 	while (envp[size])
+// 		size++;
+// 	ex->tab = malloc (sizeof(char *) * (size + 1));
+// 	if (!ex->tab)
+// 		return ;
+// 	i = 0;
+// 	while (i < size + 1)
+// 	{
+// 		ex->tab[i] = NULL;
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		ex->tab[i] = ft_strdup(envp[i]);
+// 		if (ex->tab[i] == 0)
+// 		{
+// 			free(ex->tab[i]);
+// 			exit(1);
+// 		}
+// 		// printf("%s\n", ex->tab[i]);
+// 		i++;
+// 	}
+// 	return;
+// }
 

@@ -23,56 +23,45 @@ t_lst	*create_node(void)
 	return (node);
 }
 
-void	split_command(t_lst *lst)
+int	split_command(t_lst *lst, t_expand *ex)
 {
-	// int i;
-
-	// i = 0;
 	len_split_command(lst);
 	if (is_operator(lst->content[0]) == 1)
 	{
-		if (lst->content[0] == '|') // content rest du pres
+		if (lst->content[0] == '|' && len_operator(lst) != -1) // content rest du pres
 			is_operator_split(lst);
-		if (lst->content[0] == '>' || lst->content[0] == '<')
+		if (len_redirection(lst, lst->content) != -1 && (lst->content[0] == '>' || lst->content[0] == '<'))
 		{
 			lst->command = ft_strndup(lst->content, 0, len_redirection(lst, lst->content));
 			lst->rest = ft_strndup(lst->content, (len_redirection(lst, lst->content) + 1), (lst->len_command_total));
 		}
+		// else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) != -1)
+		// {
+		// 	error_operator_message();
+		// 	return (-1); 
+		// }
 	}
 	else
 	{
 		lst->command = ft_strndup(lst->content, 0, (lst->len_com - 1));
-		// printf("end = %d\n", (lst->len_com - 1));
-		// while (lst->command[i] != '\0')
-		// {
-		// 	printf("%d | %c\n",lst->command[i], lst->command[i]);
-		// 	i++;
-		// }
-		// printf("%d | %c\n",lst->command[i], lst->command[i]);
 		lst->rest = ft_strndup(lst->content, lst->len_com, (lst->len_command_total)); // - 1
-		// printf("end = %d\n", (lst->len_com - 1));
-		// while (lst->rest[i] != '\0')
-		// {
-		// 	printf("%d | %c\n",lst->rest[i], lst->rest[i]);
-		// 	i++;
-		// }
-		// printf("%d | %c\n",lst->rest[i], lst->rest[i]);
 	}
 	if (lst->len_com == lst->len_command_total)
-		return;
+		return (1);
 	if (lst->rest && lst->command)
-		tree_branch(lst);
-	return;
+		if (tree_branch(lst, ex) == -1)
+			return (-1);
+	return (0);
 }
-//content je garde commande et j'envoie au prochain rest
-//rest = next content
 
-void	tree_branch(t_lst *lst)
+int	tree_branch(t_lst *lst, t_expand *ex)
 {
 	lst->next = create_node();
 	lst->next->prev = lst; //mallon sur lequel on est
 	lst->next->content = lst->rest; // prochain = rest
-	split_command(lst->next);
+	if (split_command(lst->next, ex) == -1)
+		return (-1);
+	return (0);
 }
 
 void	len_split_command(t_lst *lst)
@@ -86,11 +75,10 @@ void	len_split_command(t_lst *lst)
 	lst->len_command_total = i;
 	i = 0;
 	while (lst->content[i] != '\0' && (is_operator(lst->content[i]) == 0 || (is_operator(lst->content[i]) == 1 && quote != 0))) {
-		if (!quote && (lst->content[i] == '\'' || lst->content[i] == '"' )) {
+		if (!quote && (lst->content[i] == '\'' || lst->content[i] == '"' ))
 			quote = lst->content[i];
-		} else if (quote && lst->content[i] == quote) {
+		else if (quote && lst->content[i] == quote)
 			quote = 0;
-		}
 		i++;
 	}
 	lst->len_com = i;
@@ -108,7 +96,6 @@ void	assign_token(t_lst *lst)
 			lst->token = 2;
 		else
 			lst->token = 0;
-		//printf("lst = content === %s | lst->token %d \n", lst->content, lst->token);
 		lst = lst->next;
 	}
 }
