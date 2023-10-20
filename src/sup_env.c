@@ -12,20 +12,87 @@
 
 #include "../include/minishell.h"
 
-// "$USERR" =        ||   "$USERR"
-// $USERR =         ||    $USERR  
-// "'$USERRR'" = ''     || '$USERR'
-// '"$USERR"' = "$USERR"    ||  "$USERR" ==== OK
-// '$USERR' = $USERR        ||  $USERR ==== OK
+void	pipex(t_lst *lst, t_expand *ex)
+{
+	int pid;
 
-// int env_is_ok(t_expand *ex, t_lst * lst)
+	pid = fork();
+	if (pid == -1)
+		perror("FORK");
+	if (pid == 0)
+		excecuting(lst->split_command, ex->tab);
+	waitpid(pid, NULL, 0);
+}
+
+void	excecuting(char **split_command, char **tab)
+{
+	int		i;
+	// char	**arguments;
+	int		index;
+	char	**path;
+	char	*chemin;
+
+	
+	i = 0;
+	index = unset_var_in_tab("PATH", tab);
+	// printf("%d\n", index);
+	path = ft_split(tab[index] + 5, ':');
+	if (path == NULL)
+		perror("No PATH");
+	while (path[i++])
+	{
+		chemin = ft_strjoin_connect2(path[i], split_command[0], '/');
+		if (access(chemin, F_OK) == 0)
+		{
+			if (execve(chemin, split_command, NULL) == -1)
+				perror("command not found");
+		}
+		free(chemin);
+	}
+	ft_free(split_command);
+	ft_free(path);
+	perror("command not found");
+}
+
+// char	**ft_split_path(char **envp)
 // {
-//     int i;
+// 	int		i;
+// 	char	**path_split;
 
-//     i = 0;
-//     while (s[i])
-//     {
-
-//     }
-//     return (0);
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		if (!ft_strncmp(envp[i], "PATH", 4))
+// 		{
+// 			path_split = ft_split(envp[i] + 5, ':');
+// 			return (path_split);
+// 		}
+// 		i++;
+// 	}
+// 	return (NULL);
 // }
+
+char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (s1 && s2)
+	{
+		str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 2));
+		if (!str)
+			return (NULL);
+		while (s1[i])
+			str[j++] = s1[i++];
+		str[j++] = connector;
+		i = 0;
+		while (s2[i])
+			str[j++] = s2[i++];
+		str[j] = '\0';
+		return (str);
+	}
+	return (NULL);
+}

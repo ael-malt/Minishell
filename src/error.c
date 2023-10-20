@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/20 16:06:31 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:57:40 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_free_expand(t_expand *ex)
 void	clean_return(t_lst *lst, t_expand *ex)
 {
 	(void) ex;
-	// ft_free_expand(ex);
+	// ft_free_expand(ex); // pas ca car pas encore expand
 	free_lst(lst);
 }
 

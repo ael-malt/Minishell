@@ -20,12 +20,14 @@ t_lst	*create_node(void)
 	if (!node)
 		return (NULL);
 	ft_memset(node, 0, sizeof(t_lst));
+	ft_memset(node, 0, sizeof(t_expand));
 	return (node);
 }
 
 int	split_command(t_lst *lst, t_expand *ex)
 {
 	len_split_command(lst);
+	printf("%s\n", lst->content);
 	if (is_operator(lst->content[0]) == 1)
 	{
 		if (lst->content[0] == '|' && len_operator(lst) != -1) // content rest du pres
@@ -35,7 +37,7 @@ int	split_command(t_lst *lst, t_expand *ex)
 			lst->command = ft_strndup(lst->content, 0, len_redirection(lst, lst->content));
 			lst->rest = ft_strndup(lst->content, (len_redirection(lst, lst->content) + 1), (lst->len_command_total));
 		}
-		else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) != -1)
+		else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) == -1)
 		{
 			error_operator_message(lst->content);
 			return (-1); 
