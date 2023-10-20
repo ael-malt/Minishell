@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/18 14:12:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:56:39 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ char *get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i)
 		line = ft_strjoin_connect(ex, str1, str2);
 	free(str1);
 	free(str2);
-	ft_free_expand(ex);
+	//ft_free_expand(ex);
+	//printf("%s\n", line);
 	return (line);
 }
 

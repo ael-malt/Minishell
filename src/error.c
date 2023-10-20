@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/19 13:51:54 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:06:31 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*mini_perror2(int err_type, char param, int err)
 {
 	//printf("sgsd");
 	g_exit_status = err;
-	printf("%d\n", g_exit_status);
+	//printf("%d\n", g_exit_status);
 	if (err_type == OPERROR)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);

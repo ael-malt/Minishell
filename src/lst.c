@@ -35,11 +35,11 @@ int	split_command(t_lst *lst, t_expand *ex)
 			lst->command = ft_strndup(lst->content, 0, len_redirection(lst, lst->content));
 			lst->rest = ft_strndup(lst->content, (len_redirection(lst, lst->content) + 1), (lst->len_command_total));
 		}
-		// else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) != -1)
-		// {
-		// 	error_operator_message();
-		// 	return (-1); 
-		// }
+		else if (len_operator(lst) == -1 || len_redirection(lst, lst->content) != -1)
+		{
+			error_operator_message(lst->content);
+			return (-1); 
+		}
 	}
 	else
 	{

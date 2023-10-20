@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/19 13:56:38 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:05:32 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int	len_redirection(t_lst *tree, char *s);
 int	res_is_operator(t_lst *tree, char *s);
 int	is_operator_split(t_lst *lst);
 int	len_operator(t_lst *lst);
-int	error_operator_return(int i, char *s, t_lst *lst);
+int	error_operator_return(int i, char *s);
+void	error_operator_message(char *s);
 int	is_operator(char c);
 
 //--------------------------------ENV.C--------------------------------//
