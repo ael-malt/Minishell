@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/19 16:26:52 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:43:21 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,19 @@
 # include <signal.h>
 # include <stddef.h>
 # include <sys/ioctl.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 //si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
 typedef struct s_lst
 {
+	struct	s_expand	*ex;
 	char	*content;
 	char	*command;
 	char	*rest;
 	int		len_command_total;
 	int		len_com;
 	int		token;
-	int		error;
 	char	**split_command;
 	struct s_lst	*next;
 	struct s_lst	*prev;
@@ -96,10 +97,12 @@ int	len_redirection(t_lst *tree, char *s);
 int	res_is_operator(t_lst *tree, char *s);
 int	is_operator_split(t_lst *lst);
 int	len_operator(t_lst *lst);
-int	error_operator_return(int i, char *s, t_lst *lst);
+int	error_operator_return(int i, char *s);
+void	error_operator_message(char *s);
 int	is_operator(char c);
 
 //--------------------------------ENV.C--------------------------------//
+void	expand_lst(t_lst *lst, t_expand *ex);
 char	*search_expand_in_line(t_expand *ex, char *line);
 char 	*get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i);
 char	*get_str2(t_expand *ex, char *line, int i);
@@ -117,6 +120,8 @@ int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_pwd(void);
 int		mini_echo(t_lst *lst);
 int		mini_export(t_expand *ex, char **split_command);
+int		unset_var_in_tab(char *av, char **tab);
+
 int		mini_exit(char **split_command);
 
 
@@ -146,7 +151,9 @@ char	**malloc_command_in_lst(char *s, char **split);
 char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst);
 
+void	pipex(t_lst *lst, t_expand *ex);
+void	excecuting(char **split_command, char **tab);
+char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
 
-void dump(t_lst *node);
 
 #endif

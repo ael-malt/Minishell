@@ -6,14 +6,19 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/20 16:48:10 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:45:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
 extern int	g_exit_status;
+
+/*
+	TO DO =
+	recuperation du path (pipex) mais avec mon ex->tab (env local)
+	lancer une commande fork et exceve
+*/
 
 static void	mini_getpid(t_expand *p)
 {
@@ -55,14 +60,12 @@ SSSSSSSS_/SS H|H      H|H EE\\EEEEEEEEE L\\_LLLLLLLLL  L\\_LLLLLLLLL\n");
 	ft_printf("\x1b[35mMMM      MMM  IIIIIIIIIIII NNN     NNNN IIIIIIIIIIII SSS\
 SSSSSSSSS HHH      HHH EEEEEEEEEEEE  LLLLLLLLLLLL LLLLLLLLLLLL\n\x1b[0m");
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	(void) av;
 	t_lst	*lst;
 	t_expand	ex;
 	char	*line;
-	char	*new_line;
 	if (ac == 1)
 	{
 		ex.tab = ft_dup_matrix(envp);
@@ -76,16 +79,17 @@ int	main(int ac, char **av, char **envp)
 			if (line)
 			{
 				add_history(line);
-				new_line = search_expand_in_line(&ex, line);
-				// printf("%s\n", new_line);
+				//new_line = search_expand_in_line(&ex, line);
+				//printf("%s\n", new_line);
 				lst = create_node();
-				lst->content = ft_strdup(new_line);
+				lst->content = ft_strdup(line);
 				if (split_command(lst, &ex) != -1)
 				{
+					expand_lst(lst, &ex);
 					tab_command(lst);
 					search_quote_in_split(lst);
-				// printf("%s\n", lst->split_command[0]);
 					builtin(lst, &ex);
+					pipex(lst, &ex);
 				}
 				else
 					clean_return(lst, &ex);

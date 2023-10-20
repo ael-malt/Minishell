@@ -47,15 +47,14 @@ int	len_operator(t_lst *lst)
 	i = 0;
 	while (lst->content[i] && is_operator(lst->content[i]) == 1)
 		i++;
-	if (!error_operator_return(i, lst->content, lst)) // si pas d'erreur
+	if (!error_operator_return(i, lst->content))
 		return (i);
 	else
 		return (-1);
 }
 	
-int	error_operator_return(int i, char *s, t_lst *lst)
+int	error_operator_return(int i, char *s)
 {
-	(void) lst;
 	if (s[0] == '|' && i > 1)
 		return (1);
 	else if (i > 2 && s[0] == s[1])
@@ -63,25 +62,18 @@ int	error_operator_return(int i, char *s, t_lst *lst)
 	return (0);
 }
 
-// int	error_operator_message(int i, char *s, t_lst *lst)
-// {
-// 	if (s[0] == '|' && i > 1)
-// 	{
-// 		//lst->error = OPERROR;
-// 		//printf("coucou");
-// 		mini_perror2(OPERROR, s[1], 2);
-// 		//exit(0);
-// 		return (1);
-// 	}
-// 	else if (i > 2 && s[0] == s[1])
-// 	{
-// 		//lst->error = OPERROR;
-// 		mini_perror2(OPERROR, s[2], 2);
-// 		return (1);
-// 		//exit(0);
-// 	}
-// 	return (0);
-// }
+void	error_operator_message(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && is_operator(s[i]) == 1)
+		i++;
+	if (s[0] == '|' && i > 1)
+		mini_perror2(OPERROR, s[1], 2);
+	else if (i > 2 && s[0] == s[1])
+		mini_perror2(OPERROR, s[2], 2);
+}
 
 int	is_operator(char c)
 {
@@ -104,9 +96,6 @@ int	res_is_operator(t_lst *lst, char *s)
 		i++;
 	}
 	if (lst->len_command_total == count)
-	{
-		printf("Error : rest just operator\n"); // exit ??
 		return (1);
-	}
 	return (0);
 }

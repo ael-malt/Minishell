@@ -6,11 +6,27 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/18 14:12:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:25:02 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	expand_lst(t_lst *lst, t_expand *ex)
+{
+	printf("%s\n", lst->content);
+	if (!lst)
+		return ;
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst)
+	{
+		printf("lst content %s\n", lst->content);
+		lst->content = search_expand_in_line(ex, lst->content);
+		printf(" av = lst content %s\n", lst->content);
+		lst = lst->next;
+	}
+}
 
 char	*search_expand_in_line(t_expand *ex, char *line)
 {
@@ -21,6 +37,7 @@ char	*search_expand_in_line(t_expand *ex, char *line)
 	i = 0;
 	str1 = NULL;
 	str2 = NULL;
+	//ft_memset(ex , 0, sizeof(t_expand));
 	while (line[i])
 	{
 		if (line[i] == '\'')
@@ -56,7 +73,8 @@ char *get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i)
 		line = ft_strjoin_connect(ex, str1, str2);
 	free(str1);
 	free(str2);
-	ft_free_expand(ex);
+	//ft_free_expand(ex);
+	//printf("%s\n", line);
 	return (line);
 }
 
