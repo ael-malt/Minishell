@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/19 16:36:17 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:40:43 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ DONE
 	- export
 	- env
 	- unset
-
+	
 	Autres:
 	- Faire un jolie message minishell;
+	- executables normaux
 */
 int	builtin(t_lst *lst, t_expand *ex)
 {
-	while (lst->split_command[0][0] == ' ' || (lst->split_command[0][0] >= '\a' && lst->split_command[0][0] <= '\r'))
-		lst->split_command[0]++;
 	if (!ft_strncmp(lst->split_command[0], "pwd", 3))
 		g_exit_status = mini_pwd();
 	else if(!ft_strncmp(lst->split_command[0], "env", 4))
@@ -146,13 +145,21 @@ int	mini_echo(t_lst *lst)
 {
 	int	i;
 	int	n;
-
+	int	j;
+	
 	i = 1;
 	n = 0;
-	while (lst->split_command[i] && !ft_strcmp(lst->split_command[i], "-n"))
+	while (lst->split_command[i] && !ft_strncmp(lst->split_command[i], "-n", 2))
 	{
-		n = 1;
-		i++;
+		j = 1;
+		while(lst->split_command[i][++j] == 'n');
+		if (lst->split_command[i][j - 1] && lst->split_command[i][j] == '\0')
+		{
+			n = 1;
+			i++;
+		}
+		else
+			break ;
 	}
 	while (lst->split_command && lst->split_command[i])
 	{
