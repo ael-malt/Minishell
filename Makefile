@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/23 00:28:52 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/23 17:02:17 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC			= src/main.c \
 				src/unset.c\
 				src/sup_env.c\
 				src/directory.c \
+				src/heredoc.c \
 
 LIB			= $(PATH_LIB)/libft.a
 

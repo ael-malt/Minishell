@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/23 03:23:45 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:58:24 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ char	*ft_strndup(char *s, int start, int end);
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_echo(t_lst *lst);
-int		unset_var_in_tab(char *av, char **tab);
+int		is_builtin(t_lst *lst);
 int		mini_exit(char **split_command);
 
 //--------------------------------------ENV.C-----------------------------//
@@ -149,9 +149,14 @@ void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
 
 //--------------------------UNSET.C--------------------------------------//
-int	mini_unset(t_expand *ex, char **av);
+int		unset_var_in_tab(char *av, char **tab);
+int		mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);
 int		len_tab(char **tab);
+
+//------------------------LST_SPLIT-------------------------------------//
+int	is_heredoc(t_lst *lst);
+int	mini_heredoc(t_lst *lst);
 
 //------------------------LST_SPLIT-------------------------------------//
 void	tab_command(t_lst *lst);

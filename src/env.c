@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 11:33:26 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:26:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,25 @@ int mini_export(t_expand *ex, char **split_command)
 	i = 0;
 	if (ft_matrixlen(split_command) == 1)
 		return (export_no_arg(ex));
-	while (split_command[++i])
+	else if (ft_matrixlen(split_command) > 1)
 	{
-		if (mini_export_verif(split_command[i]) == 1)
+		while (split_command[++i])
 		{
-			pos = export_var_in_tab(split_command[i], ex->tab);
-			if (pos)
+			if (mini_export_verif(split_command[i]) == 1)
 			{
-				free(ex->tab[pos]);
-				ex->tab[pos] = ft_strdup(split_command[i]);
+				pos = export_var_in_tab(split_command[i], ex->tab);
+				if (pos)
+				{
+					free(ex->tab[pos]);
+					ex->tab[pos] = ft_strdup(split_command[i]);
+				}
+				else if (!pos)
+					ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
 			}
-			else if (!pos)
-				ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
-		}
-		else if (mini_export_verif(split_command[i]) == 0)
-		{
-			ft_printf("ICI\n");
-			return (mini_export_error(split_command[i]));
+			else if (mini_export_verif(split_command[i]) == 0)
+			{
+				return (mini_export_error(split_command[i]));
+			}
 		}
 	}
 	return (0);

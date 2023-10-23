@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 11:52:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:56:15 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ SSSSSSSSS HHH      HHH EEEEEEEEEEEE  LLLLLLLLLLLL LLLLLLLLLLLL\n\x1b[0m");
 
 char	*get_line_info(t_expand *ex)
 {
-	char	*str;
+	char	*tmp;
+	char	*tmp2;
 	char	*pwd;
 	int		index;
 	int		j;
@@ -60,14 +61,23 @@ char	*get_line_info(t_expand *ex)
 	index = unset_var_in_tab("USER", ex->tab);
 	j = 0;
 	while (ex->tab[index][j++] != '=');
-	str = ft_strjoin(GREEN, &ex->tab[index][j]);
-	str = ft_strjoin(str, "@Minishell");
-	str = ft_strjoin(str, DEFAULT);
-	str = ft_strjoin(str, ":");
-	str = ft_strjoin(str, BLUE);
-	str = ft_strjoin(str, pwd);
-	str = ft_strjoin(str, DEFAULT);
-	str = ft_strjoin(str, "$ ");
+	tmp = ft_strdup(GREEN);
+	tmp2 = ft_strjoin(tmp, &ex->tab[index][j]);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, "@Minishell");
+	free(tmp2);
+	tmp2 = ft_strjoin(tmp, DEFAULT);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, ":");
+	free(tmp2);
+	tmp2 = ft_strjoin(tmp, BLUE);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, pwd);
+	free(tmp2);
+	tmp2 = ft_strjoin(tmp, DEFAULT);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, "$ ");
+	free(tmp2);
 	free(pwd);
-	return (str);
+	return (tmp);
 }

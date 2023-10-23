@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/20 18:44:16 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:31:20 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**new_tab(t_expand *ex, int index)
 
 	i = 0;
 	j = 0;
-	ex->new_tab = malloc(sizeof (char *) * len_tab(ex->tab));
+	ex->new_tab = malloc(sizeof (char *) * (len_tab(ex->tab) + 1));
 	if (!ex->new_tab)
 		return (0);
 	while (ex->new_tab[i])

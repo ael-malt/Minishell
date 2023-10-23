@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/23 02:10:59 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:50:07 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,44 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
+void	check_rl_args(char *line, t_expand *ex)
+{
+	t_lst *lst;
+	
+
+	if (line[0] && (line[0] != ' ' && !(line[0] >= '\a' && line[0] <= '\r')))
+	{
+		add_history(line);
+		//new_line = search_expand_in_line(&ex, line);
+		//printf("%s\n", new_line);
+		lst = create_node();
+		lst->content = ft_strdup(line);
+		if (split_command(lst, ex) != -1)
+		{
+			assign_token(lst);
+			expand_lst(lst, ex);
+			tab_command(lst);
+			search_quote_in_split(lst);
+			if (is_builtin(lst))
+				g_exit_status = builtin(lst, ex);
+			else if (is_heredoc(lst))
+				mini_heredoc(lst);
+			// else
+			// 	pipex(lst, ex);
+			// g_exit_status = mini_heredoc(lst);
+		}
+		else
+			clean_return(lst, ex);
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void) av;
-	t_lst	*lst;
 	t_expand	ex;
 	char	*line_start;
 	char	*line;
+
 	if (ac == 1)
 	{
 		ex.tab = ft_dup_matrix(envp);
@@ -58,27 +89,14 @@ int	main(int ac, char **av, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			line_start = get_line_info(&ex);
 			line = readline(line_start);
-			if (line)
-			{
-				add_history(line);
-				//new_line = search_expand_in_line(&ex, line);
-				//printf("%s\n", new_line);
-				lst = create_node();
-				lst->content = ft_strdup(line);
-				if (split_command(lst, &ex) != -1)
-				{
-					expand_lst(lst, &ex);
-					tab_command(lst);
-					search_quote_in_split(lst);
-					builtin(lst, &ex);
-					// pipex(lst, &ex);
-				}
-				else
-					clean_return(lst, &ex);
-			}
+			if (!line)
+				break ;
+			else
+				check_rl_args(line, &ex);
 			// free line
 			free(line_start);
 		}
+		ft_printf("exit\n");
 		exit(g_exit_status);
 	}
 	else

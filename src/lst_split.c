@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/23 00:21:42 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:52:56 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ void	tab_command(t_lst *lst)
 	int	i = 0;
 	if (!lst)
 		return ;
-	assign_token(lst);
 	while (lst)
 	{
 		if (lst->token == 0)
 		{
 			i = 0;
-			lst->split_command = assign_tab_command(lst->content, lst);
+			lst->split_command = assign_tab_command(lst->command, lst);
 			while (lst->split_command[i])
 			{
 				// printf ("%s | ", lst->split_command[i]);

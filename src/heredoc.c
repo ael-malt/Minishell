@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 13:44:19 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 15:42:18 by ael-malt         ###   ########.fr       */
+/*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
+/*   Updated: 2023/10/23 18:03:26 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-int	g_exit_status;
-
-void	handle_sigint(int signal)
+int	is_heredoc(t_lst *lst)
 {
-	if (signal == SIGINT)
-	{
-		ft_printf("\n");
-		g_exit_status = 130;
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		// exit(0);
-	}
-	// else if (signal == SIGQUIT)
-	// {
-		// rl_on_new_line();
-		// rl_redisplay();
-	// }z
+	int	is_redirect;
+
+	is_redirect = 0;
+	if (lst->token == 2)
+		is_redirect = 1;
+	// ft_printf("%s\n", lst->command);
+	return (0);
+}
+
+int	mini_heredoc(t_lst *lst)
+{
+	(void) lst;
+	return (0);
 }
