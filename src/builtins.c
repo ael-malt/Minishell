@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 03:57:06 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:13:59 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ extern int	g_exit_status;
 TO-DO
 	Builtins:
 	- fix signals
-	- verif cd
+	- verif cd (minishell: export: `�j�E�' not an identifier)
 	- mettre des couleurs dans l'affichage
 	- initialiser toutes les variables de la lst en NULL des le debut
 
