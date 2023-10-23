@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 04:11:50 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 11:49:21 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ int	mini_cd_error(char **split_command)
 
 int	mini_cd(t_expand *ex, char **split_command)
 {
-	char	*pwd[2];
+	char	**pwd;
 	int		exit_status;
 	int		i;
 
+	pwd = malloc(sizeof(char *) * 3);
+	if (!pwd)
+		return (1);
 	exit_status = 0;
 	i = export_var_in_tab("HOME=", ex->tab);
 	if (i == 0)
@@ -68,6 +71,7 @@ int	mini_cd(t_expand *ex, char **split_command)
 	}
 	pwd[0] = ft_strdup("export");
 	pwd[1] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	// ft_printf("%s\n", pwd[1]);
 	mini_export(ex, pwd);
 	if (ft_matrixlen(split_command) == 1 && i != 0)
 		chdir(&ex->tab[i][5]);
@@ -78,9 +82,12 @@ int	mini_cd(t_expand *ex, char **split_command)
 	}
 	else
 		exit_status = mini_cd_error(split_command);
+	free(pwd[1]);
 	pwd[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	// ft_printf("%s\n", pwd[1]);
 	mini_export(ex, pwd);
 	free(pwd[0]);
 	free(pwd[1]);
+	free(pwd);
 	return (exit_status);
 }

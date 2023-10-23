@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 02:12:11 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 11:52:32 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*get_line_info(t_expand *ex)
 	j = 0;
 	while (ex->tab[index][j++] != '=');
 	str = ft_strjoin(GREEN, &ex->tab[index][j]);
+	str = ft_strjoin(str, "@Minishell");
 	str = ft_strjoin(str, DEFAULT);
 	str = ft_strjoin(str, ":");
 	str = ft_strjoin(str, BLUE);
