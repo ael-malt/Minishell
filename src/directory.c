@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 03:56:24 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:11:50 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	mini_cd_error(char **split_command)
 
 int	mini_cd(t_expand *ex, char **split_command)
 {
-	// char	*pwd[2];
+	char	*pwd[2];
 	int		exit_status;
 	int		i;
 
@@ -66,9 +66,9 @@ int	mini_cd(t_expand *ex, char **split_command)
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		exit_status = 1;
 	}
-	// pwd[0] = ft_strdup("export");
-	// pwd[1] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
-	// mini_export(ex, pwd);
+	pwd[0] = ft_strdup("export");
+	pwd[1] = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	mini_export(ex, pwd);
 	if (ft_matrixlen(split_command) == 1 && i != 0)
 		chdir(&ex->tab[i][5]);
 	else if (ft_matrixlen(split_command) > 2)
@@ -78,9 +78,9 @@ int	mini_cd(t_expand *ex, char **split_command)
 	}
 	else
 		exit_status = mini_cd_error(split_command);
-	// pwd[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
-	// mini_export(ex, pwd);
-	// free(pwd[0]);
-	// free(pwd[1]);
+	pwd[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	mini_export(ex, pwd);
+	free(pwd[0]);
+	free(pwd[1]);
 	return (exit_status);
 }

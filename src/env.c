@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 02:30:05 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:05:42 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	mini_export_verif(char *str)
 	equal_present = 0;
 	while (str && str[i])
 	{
-		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=' || str[i] == '/' || str[i] == '-' || str[i] == ' '))
+		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=' || str[i] == '/' || str[i] == '-' || str[i] == ' '  || str[i] == '.'))
 			return (0);
 		if (str[i] == '=')
 			equal_present = 1;
