@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/19 13:56:08 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/23 00:28:52 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC			= src/main.c \
 				src/lst.c\
 				src/lst_split.c \
 				src/operator.c \
+				src/expand.c \
 				src/env.c \
 				src/switch.c \
 				src/builtins.c \
@@ -30,7 +31,8 @@ SRC			= src/main.c \
 				src/signal.c \
 				src/error.c \
 				src/unset.c\
-					  src/sup_env.c\
+				src/sup_env.c\
+				src/directory.c \
 
 LIB			= $(PATH_LIB)/libft.a
 

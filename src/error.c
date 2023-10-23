@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/20 16:57:40 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:13:21 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,28 @@ void	*mini_perror(int err_type, char *param, int err)
 	return (NULL);
 }
 
-int		mini_export_error(char *cmd)
+int		mini_export_error(char *arg)
 {
 	char	*value;
 	int		i;
 	int		j;
 	
-	i = ft_strchr_i(cmd, '=');
+	i = ft_strchr_i(arg, '=');
+	if (i == -1)
+		i = ft_strlen(arg);
 	value = malloc(sizeof(char) * (i + 1));
 	if (!value)
 		return(1);
 	j = 0;
 	while (j <= i)
 	{
-		value[j] = cmd [j];
+		value[j] = arg[j];
 		j++;
 	}
 	value[j] = '\0';
-	ft_printf("minishell: export: not an identifier: %s\n", value);
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(value, 2);
+	ft_putstr_fd("' not an identifier\n", 2);
 	return (1);
 }
 
@@ -84,7 +88,7 @@ void	*mini_perror2(int err_type, char param, int err)
 // 		lst = lst->prev;
 // 	while (lst->next)
 // 	{
-// 		printf("FREE = lst command = %s\n", lst->command);
+// 		printf("FREE `%s'= lst command \n", lst->command);
 // 		printf("FREE = lst content = %s\n", lst->content);
 // 		free(lst->content);
 // 		free(lst->command);

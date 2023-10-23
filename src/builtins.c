@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/20 18:43:42 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:57:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ extern int	g_exit_status;
 /* 
 TO-DO
 	Builtins:
-	- cd
 	- fix signals
+	- verif cd
 	- mettre des couleurs dans l'affichage
 	- initialiser toutes les variables de la lst en NULL des le debut
 
 DONE
 	Builtins:
+	- cd
 	- exit
 	- echo
 	- pwd
@@ -52,93 +53,14 @@ int	builtin(t_lst *lst, t_expand *ex)
 		g_exit_status = mini_echo(lst);
 	else if(!ft_strncmp(lst->split_command[0], "exit", 4))
 		g_exit_status = mini_exit(lst->split_command);
+	else if(!ft_strncmp(lst->split_command[0], "cd", 2))
+		g_exit_status = mini_cd(ex, lst->split_command);
 	else
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	return (g_exit_status);
-}
-
-int	mini_pwd(void)
-{
-	char	*buf;
-
-	
-	buf = getcwd(NULL, 0);
-	ft_putendl_fd(buf, 1);
-	free(buf);
-	return (0);
-}
-
-static int	export_var_in_tab(char *cmd, char **tab)
-{
-	int i;
-	int	pos;
-
-	i = 0;
-	pos = ft_strchr_i(cmd, '=');
-	if (pos == -1)
-		return (-1);
-	while (tab[i])
-	{
-		if (!ft_strncmp(tab[i], cmd, pos + 1))
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-int mini_export_verif(char *str)
-{
-	int	i;
-	int	equal_present;
-	
-	i = 1;
-	if (str[0] == '=' || ft_isdigit(str[0]))
-		return(0);
-	equal_present = 0;
-	while (str && str[i])
-	{
-		if(!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='))
-			return (0);
-		if (str[i] == '=')
-			equal_present = 1;
-		i++;
-	}
-	if (!equal_present)
-		return(2);
-	return (1);
-}
-
-int mini_export(t_expand *ex, char **split_command)
-{
-	int		i;
-	int		pos;
-	int		status_error;
-
-	status_error = 0;
-	i = 1;
-	while (split_command[i])
-	{
-		if (mini_export_verif(split_command[i]) == 1)
-		{
-			pos = export_var_in_tab(split_command[i], ex->tab);
-			if (pos)
-			{
-				free(ex->tab[pos]);
-				ex->tab[pos] = ft_strdup(split_command[i]);
-			}
-			else if (!pos)
-				ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
-		}
-		else if(mini_export_verif(split_command[i]) == 0)
-			status_error = mini_export_error(split_command[i]);
-		else if (mini_export_verif(split_command[i]) == 2)
-			status_error = 0;
-		i++;
-	}
-	return (status_error);
 }
 
 int	mini_echo(t_lst *lst)
@@ -201,7 +123,8 @@ int mini_exit(char **split_command)
 		}
 		else
 		{
-			ft_printf("minishell: exit: %s: numeric argument required\n", split_command[1]);
+			ft_putstr_fd("minishell: exit: numeric argument required: ", 2);
+			ft_putendl_fd(split_command[1], 2);
 			g_exit_status = 2;
 		}
 	}

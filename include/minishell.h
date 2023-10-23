@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/20 18:43:21 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:23:45 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define MINISHELL_H
 
 # include "../libft/include/libft.h"
+# include "colors.h"
 # include <limits.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -27,6 +28,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
 //si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
 typedef struct s_lst
 {
@@ -101,7 +103,7 @@ int	error_operator_return(int i, char *s);
 void	error_operator_message(char *s);
 int	is_operator(char c);
 
-//--------------------------------ENV.C--------------------------------//
+//--------------------------------EXPAND.C--------------------------------//
 void	expand_lst(t_lst *lst, t_expand *ex);
 char	*search_expand_in_line(t_expand *ex, char *line);
 char 	*get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i);
@@ -117,17 +119,23 @@ char	*ft_strndup(char *s, int start, int end);
 
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(t_lst *lst, t_expand	*ex);
-int		mini_pwd(void);
 int		mini_echo(t_lst *lst);
-int		mini_export(t_expand *ex, char **split_command);
 int		unset_var_in_tab(char *av, char **tab);
-
 int		mini_exit(char **split_command);
 
+//--------------------------------------ENV.C-----------------------------//
+int		mini_pwd(void);
+int	export_var_in_tab(char *cmd, char **tab);
+int		mini_export(t_expand *ex, char **split_command);
+
+//---------------------------------DIRECTORY.C----------------------------//
+int		mini_pwd(void);
+int		mini_cd(t_expand *ex, char **split_command);
 
 //-----------------------------------UTIL.C-------------------------------//
-
 int		ft_countchar(char *s, char c);
+void	print_big_minishell();
+char	*get_line_info(t_expand *ex);
 
 //-----------------------------------SIGNAL.C-----------------------------//
 void	handle_sigint(int signal);
@@ -139,6 +147,7 @@ void	*mini_perror2(int err_type, char param, int err);
 void	free_lst(t_lst *lst);
 void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
+
 //--------------------------UNSET.C--------------------------------------//
 int	mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);

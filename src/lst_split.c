@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/20 17:43:17 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:21:42 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	tab_command(t_lst *lst)
 			lst->split_command = assign_tab_command(lst->content, lst);
 			while (lst->split_command[i])
 			{
-				printf ("%s | ", lst->split_command[i]);
+				// printf ("%s | ", lst->split_command[i]);
 				i++;
 			}
 			//printf ("%s\n", lst->split_command[i]);
