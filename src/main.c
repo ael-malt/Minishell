@@ -6,15 +6,10 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2023/10/24 17:44:03 by lazanett         ###   ########.fr       */
-=======
-<<<<<<< HEAD
 /*   Updated: 2023/10/24 15:14:40 by lazanett         ###   ########.fr       */
 =======
 /*   Updated: 2023/10/20 18:45:06 by ael-malt         ###   ########.fr       */
 >>>>>>> a41bfd8388cdbb39b425826bd87d96d581e6aec4
->>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,18 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2023/10/24 17:43:59 by lazanett         ###   ########.fr       */
-=======
-<<<<<<< HEAD
 /*   Updated: 2023/10/24 17:22:47 by lazanett         ###   ########.fr       */
 =======
 /*   Updated: 2023/10/20 18:43:21 by ael-malt         ###   ########.fr       */
 >>>>>>> a41bfd8388cdbb39b425826bd87d96d581e6aec4
->>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +121,11 @@ char	*ft_strndup(char *s, int start, int end);
 int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_pwd(void);
 int		mini_echo(t_lst *lst);
+int		mini_echo(t_lst *lst);
 int		mini_export(t_expand *ex, char **split_command);
 int		unset_var_in_tab(char *av, char **tab);
+
+int		mini_exit(char **split_command);
 
 int		mini_exit(char **split_command);
 
