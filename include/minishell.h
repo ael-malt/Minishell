@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 17:22:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:43:51 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,6 @@ typedef struct s_expand
 	pid_t	pid;
 
 }	t_expand;
-
-typedef struct s_mini
-{
-	char	**full_cmd;
-	char	*full_path;
-	int		infile;
-	int		outfile;
-}			t_mini;
 
 enum	e_mini_error
 {
@@ -127,9 +119,11 @@ char	*ft_strndup(char *s, int start, int end);
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_pwd(void);
-int		mini_echo(t_list *cmd);
+int		mini_echo(t_lst *lst);
 int		mini_export(t_expand *ex, char **split_command);
 int		unset_var_in_tab(char *av, char **tab);
+
+int		mini_exit(char **split_command);
 
 
 //-----------------------------------UTIL.C-------------------------------//

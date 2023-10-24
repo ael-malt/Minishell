@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/20 18:33:19 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:44:16 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	unset_var_in_tab(char *av, char **tab)
 	len = ft_strlen(av);
 	while (tab[i])
 	{
-		if (!ft_strncmp(tab[i], av, len))
+		if (!ft_strncmp(tab[i], av, len) && (tab[i][ft_strlen(av)] == '='))
 			return (i);
 		i++;
 	}
