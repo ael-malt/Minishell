@@ -3,10 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2023/10/24 17:43:59 by lazanett         ###   ########.fr       */
+=======
+<<<<<<< HEAD
+/*   Updated: 2023/10/24 17:22:47 by lazanett         ###   ########.fr       */
+=======
+/*   Updated: 2023/10/20 18:43:21 by ael-malt         ###   ########.fr       */
+>>>>>>> a41bfd8388cdbb39b425826bd87d96d581e6aec4
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
