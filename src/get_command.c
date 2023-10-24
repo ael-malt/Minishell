@@ -81,27 +81,6 @@ void	excecuting(char **split_command, char **tab)
 	perror("command not found acc");
 }
 
-int	is_builtin(t_lst *lst)
-{
-	if (!lst->split_command)
-		return (0);
-	if (!ft_strncmp(lst->split_command[0], "pwd", 3))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "env", 4))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "export", 6))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "unset", 5))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "echo", 4))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "exit", 4))
-		return (1);
-	else if(!ft_strncmp(lst->split_command[0], "cd", 2))
-		return (1);
-	return (0);
-}
-
 char	**ft_split_path(char **envp)
 {
 	int		i;

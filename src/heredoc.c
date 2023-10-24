@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/24 17:31:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:16:34 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	is_heredoc(t_lst *lst)
 int	mini_heredoc(t_lst *lst)
 {
 	int	fd[2];
-	char
-	g_exit_status = 0;
+	// char
+	// g_exit_status = 0;
 	if(pipe(fd) == -1)
 	{
 		mini_perror(PIPERR, NULL, 1);
