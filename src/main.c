@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/20 18:30:51 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:14:40 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,16 @@ int	main(int ac, char **av, char **envp)
 				lst->content = ft_strdup(line);
 				if (split_command(lst, &ex) != -1)
 				{
+					assign_token(lst);
 					expand_lst(lst, &ex);
 					tab_command(lst);
 					search_quote_in_split(lst);
-					builtin(lst, &ex);
-					pipex(lst, &ex);
+					//builtin(lst, &ex); Pas au bon endroit
+					if (is_solo_ex(lst) == 0)
+						solo_exe(lst, &ex);
+					else
+						multi_pipe(lst, &ex);
+					
 				}
 				else
 					clean_return(lst, &ex);

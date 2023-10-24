@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/20 18:34:41 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:22:47 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ enum	e_mini_error
 	OPERROR = 12
 };
 
+int multipipe(t_lst * lst, t_expand *ex);
 //-----------------------------FIRST_CHECK.C------------------------------//
 int	search_char(char *s);
 int	search_quote(char *s);
@@ -146,7 +147,7 @@ void	free_lst(t_lst *lst);
 void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
 //--------------------------UNSET.C--------------------------------------//
-int	mini_unset(t_expand *ex, char **av);
+int		mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);
 int		len_tab(char **tab);
 
@@ -157,9 +158,19 @@ char	**malloc_command_in_lst(char *s, char **split);
 char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst);
 
-void	pipex(t_lst *lst, t_expand *ex);
+//-------------------------GET_COMMAND----------------------------------//
+int		is_solo_ex(t_lst *lst);
+void	solo_exe(t_lst *lst, t_expand *ex);
 void	excecuting(char **split_command, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
-
-
+void	exc_absolut_way(t_lst *lst);
+int		is_builtin(t_lst *lst);
+//----------------------MULTI_PIPE.C-----------------------------------//
+int		lst_count_pipe(t_lst *lst);
+int		len_lst(t_lst *lst);
+void	multi_pipe(t_lst * lst, t_expand *ex);
+void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
+void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 #endif
