@@ -121,9 +121,11 @@ char	*ft_strndup(char *s, int start, int end);
 //---------------------------------BUILTINS.C-----------------------------//
 int		builtin(t_lst *lst, t_expand	*ex);
 int		mini_pwd(void);
-int		mini_echo(t_list *cmd);
+int		mini_echo(t_lst *lst);
 int		mini_export(t_expand *ex, char **split_command);
 int		unset_var_in_tab(char *av, char **tab);
+
+int		mini_exit(char **split_command);
 
 
 //-----------------------------------UTIL.C-------------------------------//
