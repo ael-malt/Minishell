@@ -6,6 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/10/24 15:14:40 by lazanett         ###   ########.fr       */
 =======
 /*   Updated: 2023/10/20 18:45:06 by ael-malt         ###   ########.fr       */
