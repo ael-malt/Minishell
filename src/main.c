@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 15:28:18 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 18:03:38 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ void	check_rl_args(char *line, t_expand *ex)
 				g_exit_status = builtin(lst, ex);
 			else if (is_heredoc(lst))
 				mini_heredoc(lst);
+			if (is_solo_ex(lst) == 0)
+				solo_exe(lst, &ex);
+			else
+				multi_pipe(lst, &ex);
+					
 			// else
 			// 	pipex(lst, ex);
 			// g_exit_status = mini_heredoc(lst);

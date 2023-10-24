@@ -27,7 +27,7 @@ t_lst	*create_node(void)
 int	split_command(t_lst *lst, t_expand *ex)
 {
 	len_split_command(lst);
-	// printf("%s\n", lst->content);
+	printf("%s\n", lst->content);
 	if (is_operator(lst->content[0]) == 1)
 	{
 		if (lst->content[0] == '|' && len_operator(lst) != -1) // content rest du pres
@@ -92,9 +92,9 @@ void	assign_token(t_lst *lst)
 		return;
 	while (lst)
 	{
-		if (lst->content[0] == '|')
+		if (lst->command[0] == '|')
 			lst->token = 1;
-		else if (lst->content[0] == '>' || lst->content[0] == '<')
+		else if (lst->command[0] == '>' || lst->command[0] == '<')
 			lst->token = 2;
 		else
 			lst->token = 0;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
+#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/24 15:42:29 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/24 17:56:59 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,9 @@ SRC			= src/main.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
+				src/unset.c\
+				src/get_command.c\
+				src/multi_pipe.c \
 				src/sup_env.c\
 				src/heredoc.c \
 				src/builtins/builtins.c \
