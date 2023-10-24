@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/23 16:58:24 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:50:30 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,6 @@ void	get_replace(t_expand *ex);
 char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
 char	*ft_strndup(char *s, int start, int end);
 
-//---------------------------------BUILTINS.C-----------------------------//
-int		builtin(t_lst *lst, t_expand	*ex);
-int		mini_echo(t_lst *lst);
-int		is_builtin(t_lst *lst);
-int		mini_exit(char **split_command);
-
-//--------------------------------------ENV.C-----------------------------//
-int		mini_pwd(void);
-int	export_var_in_tab(char *cmd, char **tab);
-int		mini_export(t_expand *ex, char **split_command);
-
-//---------------------------------DIRECTORY.C----------------------------//
-int		mini_pwd(void);
-int		mini_cd(t_expand *ex, char **split_command);
-
 //-----------------------------------UTIL.C-------------------------------//
 int		ft_countchar(char *s, char c);
 void	print_big_minishell();
@@ -148,12 +133,6 @@ void	free_lst(t_lst *lst);
 void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
 
-//--------------------------UNSET.C--------------------------------------//
-int		unset_var_in_tab(char *av, char **tab);
-int		mini_unset(t_expand *ex, char **av);
-char	**new_tab(t_expand *ex, int index);
-int		len_tab(char **tab);
-
 //------------------------LST_SPLIT-------------------------------------//
 int	is_heredoc(t_lst *lst);
 int	mini_heredoc(t_lst *lst);
@@ -169,5 +148,31 @@ void	pipex(t_lst *lst, t_expand *ex);
 void	excecuting(char **split_command, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
 
+//---------------------------------BUILTINS.C-----------------------------//
+
+int		builtin(t_lst *lst, t_expand	*ex);
+int		is_builtin(t_lst *lst);
+
+		//--------------------------CD.C----------------------------//
+int		mini_cd(t_expand *ex, char **split_command);
+
+		//-------------------------ECHO.C---------------------------//
+int		mini_echo(t_lst *lst);
+
+		//-------------------------EXIT.C--------------------------//
+int		mini_exit(char **split_command);
+
+		//------------------------EXPORT.C--------------------------//
+int		export_var_in_tab(char *cmd, char **tab);
+int		mini_export(t_expand *ex, char **split_command);
+
+		//--------------------------PWD.C---------------------------//
+int		mini_pwd(void);
+
+		//-------------------------UNSET.C--------------------------//
+int		unset_var_in_tab(char *av, char **tab);
+int		mini_unset(t_expand *ex, char **av);
+char	**new_tab(t_expand *ex, int index);
+int		len_tab(char **tab);
 
 #endif

@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.c                                        :+:      :+:    :+:   */
+/*   mini_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 16:42:58 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:48:40 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	mini_pwd(void)
-{
-	char	*buf;
-
-	buf = getcwd(NULL, 0);
-	ft_printf("%s\n", buf);
-	free(buf);
-	return (0);
-}
-
-int	mini_cd_error(char **split_command)
+static int	mini_cd_error(char **split_command)
 {
 	DIR	*dir;
 	int	exit_status;

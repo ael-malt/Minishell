@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/23 17:50:07 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:28:18 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,17 @@ static void	mini_getpid(t_expand *p)
 void	check_rl_args(char *line, t_expand *ex)
 {
 	t_lst *lst;
-	
 
-	if (line[0] && (line[0] != ' ' && !(line[0] >= '\a' && line[0] <= '\r')))
-	{
+	if (line[0])
 		add_history(line);
+	while (line[0] == ' ' || (line[0] >= '\a' && line[0] <= '\r'))
+		line++;
+	if (line[0])
+	{
 		//new_line = search_expand_in_line(&ex, line);
 		//printf("%s\n", new_line);
 		lst = create_node();
+
 		lst->content = ft_strdup(line);
 		if (split_command(lst, ex) != -1)
 		{

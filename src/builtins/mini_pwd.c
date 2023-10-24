@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   mini_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/24 17:31:32 by ael-malt         ###   ########.fr       */
+/*   Created: 2023/10/24 15:39:25 by ael-malt          #+#    #+#             */
+/*   Updated: 2023/10/24 15:40:00 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-extern int	g_exit_status;
-int	is_heredoc(t_lst *lst)
+int	mini_pwd(void)
 {
-	if (lst->token == 2 && lst->content[0] == '<' && lst->content[1] == '<')
-		return (1);
-	return (0);
-}
+	char	*buf;
 
-int	mini_heredoc(t_lst *lst)
-{
-	int	fd[2];
-	char
-	g_exit_status = 0;
-	if(pipe(fd) == -1)
-	{
-		mini_perror(PIPERR, NULL, 1);
-		return (-1);
-	}
-
-	(void) lst;
-	// ft_printf("here\n");
+	buf = getcwd(NULL, 0);
+	ft_printf("%s\n", buf);
+	free(buf);
 	return (0);
 }

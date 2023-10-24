@@ -6,11 +6,11 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/23 14:31:20 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:37:58 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	unset_var_in_tab(char *av, char **tab)
 {

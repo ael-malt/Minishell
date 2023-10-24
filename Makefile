@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/23 17:02:17 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/24 15:42:29 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,19 @@ SRC			= src/main.c \
 				src/lst_split.c \
 				src/operator.c \
 				src/expand.c \
-				src/env.c \
 				src/switch.c \
-				src/builtins.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
-				src/unset.c\
 				src/sup_env.c\
-				src/directory.c \
 				src/heredoc.c \
+				src/builtins/builtins.c \
+				src/builtins/mini_cd.c \
+				src/builtins/mini_echo.c \
+				src/builtins/mini_exit.c \
+				src/builtins/mini_export.c \
+				src/builtins/mini_pwd.c \
+				src/builtins/mini_unset.c \
 
 LIB			= $(PATH_LIB)/libft.a
 
