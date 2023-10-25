@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 17:58:37 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:44:37 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ enum	e_mini_error
 	MEM = 9,
 	IS_DIR = 10,
 	NOT_DIR = 11,
-	OPERROR = 12
+	OPERROR = 12,
+	NOTCMD = 13
 };
 
 int multipipe(t_lst * lst, t_expand *ex);
@@ -131,7 +132,7 @@ void	*mini_perror2(int err_type, char param, int err);
 void	free_lst(t_lst *lst);
 void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
-
+void	*mini_perror_exec(int err_type, char **split_command);
 //------------------------LST_SPLIT-------------------------------------//
 int	is_heredoc(t_lst *lst);
 int	mini_heredoc(t_lst *lst);
@@ -146,7 +147,7 @@ char	**assign_tab_command(char *s, t_lst *lst);
 //-------------------------GET_COMMAND----------------------------------//
 int		is_solo_ex(t_lst *lst);
 void	solo_exe(t_lst *lst, t_expand *ex);
-void	excecuting(char **split_command, char **tab);
+void	excecuting(t_lst *lst, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
 void	exc_absolut_way(t_lst *lst);
 int		is_builtin(t_lst *lst);

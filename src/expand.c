@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 17:59:05 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:27:59 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 
 void	expand_lst(t_lst *lst, t_expand *ex)
 {
-	printf("%s\n", lst->content);
+	//printf("%s\n", lst->content);
 	if (!lst)
 		return ;
 	while (lst->prev)
 		lst = lst->prev;
 	while (lst)
 	{
-		printf("lst content %s\n", lst->content);
-		lst->content = search_expand_in_line(ex, lst->content);
-		printf(" av = lst content %s\n", lst->content);
+		//printf("lst content %s\n", lst->content);
+		//printf("lst command%s\n", lst->command);
+		lst->command = search_expand_in_line(ex, lst->command); // CHANGEMENT POUR RECUP CE QU'IL FAUT DANS SPLIT
+		//printf("ap = lst content %s\n", lst->content);
+		//printf("ap = lst command%s\n", lst->command);
 		lst = lst->next;
 	}
 }
