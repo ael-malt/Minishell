@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 18:00:40 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:03:32 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 void	tab_command(t_lst *lst)
 {
-	int	i = 0;
+	//int	i = 0;
 	if (!lst)
 		return ;
 	while (lst)
 	{
 		if (lst->token == 0)
 		{
-			i = 0;
+			//i = 0;
+			//printf("content =%s\n", lst->content);
+			//printf("command =%s\n", lst->command);
 			lst->split_command = assign_tab_command(lst->command, lst);
-			while (lst->split_command[i])
-			{
-				// printf ("%s | ", lst->split_command[i]);
-				i++;
-			}
-			//printf ("%s\n", lst->split_command[i]);
+			// while (lst->split_command[i])
+			// {
+			// 	printf ("%s . ", lst->split_command[i]);
+			// 	i++;
+			// }
+			// printf ("%s\n", lst->split_command[i]);
 			// printf("\n");
 		}
 		lst = lst->next;

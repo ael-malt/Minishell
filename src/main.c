@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/25 17:20:37 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:53:49 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	check_rl_args(char *line, t_expand *ex)
 		//new_line = search_expand_in_line(&ex, line);
 		//printf("%s\n", new_line);
 		lst = create_node();
-
 		lst->content = ft_strdup(line);
 		if (split_command(lst, ex) != -1)
 		{
@@ -61,14 +60,14 @@ void	check_rl_args(char *line, t_expand *ex)
 			expand_lst(lst, ex);
 			tab_command(lst);
 			search_quote_in_split(lst);
-			if (is_builtin(lst))
-				g_exit_status = builtin(lst, ex);
-			else if (is_heredoc(lst))
-				mini_heredoc(lst);
-			// else if (is_solo_ex(lst) == 0)
-			// 	solo_exe(lst, ex);
-			// else
-			// 	multi_pipe(lst, ex);
+			// if (is_builtin(lst))
+			// 	g_exit_status = builtin(lst, ex);
+			// else if (is_heredoc(lst))
+			// 	mini_heredoc(lst);
+			if (is_solo_ex(lst) == 0)
+				solo_exe(lst, ex);
+			else
+				multi_pipe(lst, ex);
 					
 			// else
 			// 	pipex(lst, ex);

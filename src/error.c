@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/23 03:13:21 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:34:26 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,27 +79,32 @@ void	*mini_perror2(int err_type, char param, int err)
 	}
 	return (NULL);
 }
-
-// void	free_lst(t_lst *lst)
-// {
-// 	if (!lst)
-// 		return ;
-// 	while (lst->prev)
-// 		lst = lst->prev;
-// 	while (lst->next)
-// 	{
-// 		printf("FREE `%s'= lst command \n", lst->command);
-// 		printf("FREE = lst content = %s\n", lst->content);
-// 		free(lst->content);
-// 		free(lst->command);
-// 		if (lst->token == 1)
-// 			ft_free(lst->split_command);
-// 		lst = lst->next;
-// 		free(lst->prev);
-// 	}
-// 	lst = NULL;
-// }
-
+void	*mini_perror_exec(int err_type, char **split_command)
+{
+	//g_exit_status = err;
+	//printf("%d\n", g_exit_status);
+	//printf("coucou\n");
+	if (err_type == NOTCMD)
+	{
+		//printf("split_command = %s\n", split_command[0]);
+		ft_printf("%s: command not found\n", split_command[0]);
+		
+	}
+	else if (err_type == NOT_DIR)
+	{
+		int i = 0;
+		ft_putstr_fd("minishell: ", 2);
+		while (split_command[i])
+		{
+			ft_putstr_fd(split_command[i], 2);
+			i++;
+		}
+		ft_putendl_fd(": Not a directory", 2);
+		//g_exit_status = err;
+		//exit(EXIT_FAILURE);
+	}
+	return (NULL);
+}
 void	free_lst(t_lst *lst)
 {
 	t_lst	*tmp;

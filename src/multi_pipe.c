@@ -6,11 +6,13 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 17:14:10 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:44:32 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern int	g_exit_status;
 
 int	lst_count_pipe(t_lst *lst)
 {
@@ -29,20 +31,6 @@ int	lst_count_pipe(t_lst *lst)
 	}
 	return (count);
 }
-int	len_lst(t_lst *lst)
-{
-	int	len;
-
-	len = 0;
-	if (!lst)
-		return (0);
-	while (lst)
-	{
-		len++;
-		lst = lst->next;
-	}
-	return (len);
-}
 
 void	multi_pipe(t_lst * lst, t_expand *ex)
 {
@@ -54,7 +42,6 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 	i = 0;
 	fd_temp = 0;
 	nb_pipe = lst_count_pipe(lst);
-
 	while (i <= nb_pipe)
 	{
 		if (i < (nb_pipe))
@@ -72,26 +59,21 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
-	
+
 	if (pipe(fd) == -1)
 		perror("Pipe");
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
 	if (pid == 0)
-	{
-		//child
 		exc_cmd(fd, *fd_temp, lst, ex);
-	}
 	else
 	{
-		//parent
 		if (*fd_temp)
 			close(*fd_temp);
 		*fd_temp = dup(fd[0]);
 		close(fd[0]);
-		close(fd[1]); //nouveau
-		// waitpid(pid, NULL, 0);
+		close(fd[1]);
 	}
 }
 void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
@@ -103,33 +85,31 @@ void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		perror("Dup");
 	close(fd_temp);
 	close(fd[1]);
+	if (is_builtin(lst) == 1)
+		builtin(lst, ex);
 	if (ft_strchr(lst->split_command[0], '/') != NULL)
 		exc_absolut_way(lst);
 	else
-		excecuting(lst->split_command, ex->tab);
+		excecuting(lst, ex->tab);
 }
 
 void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
-
-	// if (pipe(fd) == -1)
-	// 	perror("Pipe");
+	int	status;
 	pid = fork();
 	if (pid < 0)
 		perror("FORK");
 	if (pid == 0)
-	{
-		//child
 		exc_last_cmd(fd, *fd_temp, lst, ex);
-	}
 	else
 	{
-		//parent
-		if (*fd_temp) //NOUVEAU
+		if (*fd_temp)
 			close(*fd_temp);
 		close(fd[0]);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+		//if (WIFEXITED(status))
+		g_exit_status = status / 256;
 	}
 }
 
@@ -143,10 +123,10 @@ void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	// 	perror("Dup");
 	// close(fd[1]);
 	close(fd_temp);
-	// if (is_builtin(lst) == 1)
-	// 	builtin(lst, ex);
-	if (ft_strchr(lst->split_command[0], '/') != NULL)
+	if (is_builtin(lst) == 1)
+	 	builtin(lst, ex);
+	else if (ft_strchr(lst->split_command[0], '/') != NULL)
 		exc_absolut_way(lst);
 	else
-		excecuting(lst->split_command, ex->tab);
+		excecuting(lst, ex->tab);
 }

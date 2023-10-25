@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 14:06:12 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:54:37 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	search_quote_in_split(t_lst *lst)
 				// printf("command[%i] av = %s  || ", i, lst->split_command[i]);
 				if (lst->split_command[i][0] == '\"' || lst->split_command[i][0] == '\'')
 					lst->split_command[i] = supp_quote(lst->split_command[i], len, index);
-				// printf("\nap = %s\n", lst->split_command[i]);
+				//printf("\nap = %s\n", lst->split_command[i]);
 				i++;
 			}
 		}
@@ -40,7 +40,6 @@ void	search_quote_in_split(t_lst *lst)
 		i = 0;
 	}
 }
-
 char	*supp_quote(char *s, int len, int index)
 {
 	int		i;

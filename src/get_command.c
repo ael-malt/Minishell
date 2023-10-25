@@ -12,6 +12,12 @@
 
 #include "../include/minishell.h"
 
+// gerer les erreurs de command pas existante
+// etendre aux builins // gerer les erreurs
+// redirection
+
+extern int	g_exit_status;
+
 int	is_solo_ex(t_lst *lst)
 {
 	int	count;
@@ -32,7 +38,8 @@ int	is_solo_ex(t_lst *lst)
 
 void	solo_exe(t_lst *lst, t_expand *ex)
 {
-	int pid;
+	int	pid;
+	int	status;
 
 	pid = fork();
 	if (pid == -1)
@@ -44,59 +51,86 @@ void	solo_exe(t_lst *lst, t_expand *ex)
 		else if (ft_strchr(lst->split_command[0], '/') != NULL)
 			exc_absolut_way(lst);
 		else
-			excecuting(lst->split_command, ex->tab);
+			excecuting(lst, ex->tab);
 	}
 	else
-		waitpid(pid, NULL, 0);
+	{
+		//waitpid(pid, NULL, 0);
+		//if (WEXITSTATUS(pid) > 0
+		waitpid(pid, &status, 0);
+		// Utilisez la macro WEXITSTATUS pour obtenir la valeur de retour
+		//if (WIFEXITED(status))
+		//printf("%d\n", status);
+		g_exit_status = status / 256;
+		//printf("%d\n", g_exit_status);
+
+	}
+	//printf("var globale = %d\n", g_exit_status);
 }
 
-void	excecuting(char **split_command, char **tab)
+void	excecuting(t_lst *lst, char **tab)
 {
 	int		i;
 	int		index;
 	char	**path;
 	char	*chemin;
 
-
 	i = 0;
 	index = unset_var_in_tab("PATH", tab);
 	path = ft_split(tab[index] + 5, ':');
 	if (path == NULL)
-		perror("No PATH");
-	//for (int i = 0; split_command[i]; i++)
-	//	printf("%s\n", split_command[i]);
+	{
+		ft_printf("%s: command not found\n", lst->split_command[0]); // change valeur var global
+		//perror("No PATH"); // modif plus tard
+	}
 	while (path[i++])
 	{
-		chemin = ft_strjoin_connect2(path[i], split_command[0], '/');
-		//printf("chemin | %s\n", chemin);
+		chemin = ft_strjoin_connect2(path[i], lst->split_command[0], '/');
+		// int i = 0;
+		// while (lst->split_command[i])
+		// {
+		// 	printf("%s\n", lst->split_command[i]);
+		// 	i++;
+		// }
 		if (access(chemin, F_OK) == 0)
 		{
-			if (execve(chemin, split_command, NULL) == -1)
-				perror("command not found ex");
+			if (execve(chemin, lst->split_command, NULL) == -1)
+			{
+				mini_perror_exec(NOTCMD, lst->split_command);
+				exit(127);
+			}
 		}
 		free(chemin);
 	}
 	//ft_free(split_command);
 	//ft_free(path);
-	perror("command not found acc");
+	mini_perror_exec(NOTCMD, lst->split_command);
+	exit(127);// 127 var global
+	//perror("command not found");
 }
 
-char	**ft_split_path(char **envp)
+void	exc_absolut_way(t_lst *lst)
 {
-	int		i;
-	char	**path_split;
-
-	i = 0;
-	while (envp[i])
+	if (access(lst->split_command[0], F_OK) == 0)
 	{
-		if (!ft_strncmp(envp[i], "PATH", 4))
+		if (execve(lst->split_command[0], lst->split_command, NULL) == -1)
 		{
-			path_split = ft_split(envp[i] + 5, ':');
-			return (path_split);
+			//ft_free(lst->split_command);
+			// printf("%s", lst->split_command[0]);
+			// perror("");
+			mini_perror_exec(NOT_DIR, lst->split_command); // verif chemin ab
+			exit(127);
 		}
-		i++;
 	}
-	return (NULL);
+	else
+	{
+	// 	ft_free(lst->split_command);
+		//printf("%s", lst->split_command[0]);
+		//perror("");
+		mini_perror_exec(NOT_DIR, lst->split_command); // verif pour chemin absolu
+		exit(126);
+	}
+	// ft_free(lst->split_command);
 }
 
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector)
@@ -122,24 +156,4 @@ char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector)
 		return (str);
 	}
 	return (NULL);
-}
-
-void	exc_absolut_way(t_lst *lst)
-{
-	if (access(lst->split_command[0], F_OK) == 0)
-	{
-		if (execve(lst->split_command[0], lst->split_command, NULL) == -1)
-		{
-			//ft_free(lst->split_command);
-			//ft_perror("command not found");
-			printf("no excev\n");
-		}
-	}
-	else
-		printf("no acces\n");
-	// {
-	// 	ft_free(lst->split_command);
-	// 	ft_perror("command not found");
-	// }
-	// ft_free(lst->split_command);
 }
