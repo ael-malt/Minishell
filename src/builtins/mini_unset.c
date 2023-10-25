@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   mini_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 15:37:58 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:52:56 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	unset_var_in_tab(char *av, char **tab)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	mini_unset(t_expand *ex, char **split_command)
@@ -45,7 +45,7 @@ int	mini_unset(t_expand *ex, char **split_command)
 		if (len == 0)
 			return (0);
 		j = unset_var_in_tab(split_command[i], ex->tab);
-		if (j)
+		if (j >= 0)
 		{
 			ex->tab = new_tab(ex, j);
 		}
@@ -54,6 +54,7 @@ int	mini_unset(t_expand *ex, char **split_command)
 	return (0);
 }
 
+
 char	**new_tab(t_expand *ex, int index)
 {
 	int	i;
@@ -61,7 +62,8 @@ char	**new_tab(t_expand *ex, int index)
 
 	i = 0;
 	j = 0;
-	ex->new_tab = malloc(sizeof (char *) * (len_tab(ex->tab) + 1));
+	// ex->new_tab = NULL;
+	ex->new_tab = malloc(sizeof (char *) * (ft_matrixlen(ex->tab) + 1));
 	if (!ex->new_tab)
 		return (0);
 	while (ex->new_tab[i])
@@ -76,16 +78,6 @@ char	**new_tab(t_expand *ex, int index)
 			ex->new_tab[j++] = ft_strdup(ex->tab[i]);
 		i++;
 	}
-	ft_free(ex->tab);
+	ft_free_matrix(&ex->tab);
 	return (ex->new_tab);
-}
-
-int	len_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
 }

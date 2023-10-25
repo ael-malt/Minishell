@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/24 15:37:43 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:39:04 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int	export_var_in_tab(char *cmd, char **tab)
 		return (-1);
 	while (tab[i])
 	{
-		if (!ft_strncmp(tab[i], cmd, pos + 1))
+		if (!ft_strncmp(tab[i], cmd, pos))
+		{
 			return (i);
+		}
 		i++;
 	}
-	return (0);
+	return (-2);
 }
 
 static int	mini_export_verif(char *str)
@@ -82,12 +84,12 @@ int mini_export(t_expand *ex, char **split_command)
 			if (mini_export_verif(split_command[i]) == 1)
 			{
 				pos = export_var_in_tab(split_command[i], ex->tab);
-				if (pos)
+				if (pos >= 0)
 				{
 					free(ex->tab[pos]);
 					ex->tab[pos] = ft_strdup(split_command[i]);
 				}
-				else if (!pos)
+				else
 					ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
 			}
 			else if (mini_export_verif(split_command[i]) == 0)

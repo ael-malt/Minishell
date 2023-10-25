@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 18:13:52 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:20:37 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	check_rl_args(char *line, t_expand *ex)
 				g_exit_status = builtin(lst, ex);
 			else if (is_heredoc(lst))
 				mini_heredoc(lst);
-			if (is_solo_ex(lst) == 0)
-				solo_exe(lst, ex);
-			else
-				multi_pipe(lst, ex);
+			// else if (is_solo_ex(lst) == 0)
+			// 	solo_exe(lst, ex);
+			// else
+			// 	multi_pipe(lst, ex);
 					
 			// else
 			// 	pipex(lst, ex);
@@ -76,6 +76,31 @@ void	check_rl_args(char *line, t_expand *ex)
 		}
 		else
 			clean_return(lst, ex);
+	}
+}
+
+void	export_envp(t_expand *ex, char **envp)
+{
+	char	*pwd;
+	char	*tmp;
+	
+	if (envp[0] != NULL)
+	{
+		ex->tab = ft_dup_matrix(envp);
+		ft_printf("%s\n", envp[0]);
+	}
+	else
+	{
+		ex->tab = malloc(sizeof(ex->tab) * 4);
+		if (!ex->tab)
+			return ;
+		tmp = getcwd(NULL, 0);
+		pwd = ft_strjoin("PWD=", tmp);
+		free(tmp);
+		ex->tab[0] = ft_strdup(pwd);
+		free(pwd);
+		ex->tab[1] = ft_strdup("SHLVL=1");
+		ex->tab[2] = ft_strdup("_=/usr/bin/env");
 	}
 }
 
@@ -88,7 +113,7 @@ int	main(int ac, char **av, char **envp)
 
 	if (ac == 1)
 	{
-		ex.tab = ft_dup_matrix(envp);
+		export_envp(&ex, envp);
 		mini_getpid(&ex);
 		print_big_minishell();
 		while (1)

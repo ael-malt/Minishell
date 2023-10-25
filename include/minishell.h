@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/24 17:58:37 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:53:28 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	excecuting(char **split_command, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
 void	exc_absolut_way(t_lst *lst);
 int		is_builtin(t_lst *lst);
+
 //----------------------MULTI_PIPE.C-----------------------------------//
 int		lst_count_pipe(t_lst *lst);
 int		len_lst(t_lst *lst);
@@ -184,6 +185,5 @@ int		mini_pwd(void);
 int		unset_var_in_tab(char *av, char **tab);
 int		mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);
-int		len_tab(char **tab);
 
 #endif
