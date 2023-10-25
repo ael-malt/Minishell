@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 17:52:44 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:55:11 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,11 @@
 
 int	mini_heredoc(t_lst *lst)
 {
-	int	fd[2];
+	// int	fd[2];
 	// char
 	// g_exit_status = 0;
-	if(pipe(fd) == -1)
-	{
-		mini_perror(PIPERR, NULL, 1);
-		return (-1);
-	}
 
-// 	(void) lst;
+	(void) lst;
 // 	// ft_printf("here\n");
 // 	return (0);
-// }
+}
