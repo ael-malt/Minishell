@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/25 17:53:49 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 19:09:07 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ void	check_rl_args(char *line, t_expand *ex)
 			expand_lst(lst, ex);
 			tab_command(lst);
 			search_quote_in_split(lst);
-			// if (is_builtin(lst))
-			// 	g_exit_status = builtin(lst, ex);
+			// ft_printf("command = %s\n", lst->command);
+			// ft_printf("content = %s\n", lst->content);
 			// else if (is_heredoc(lst))
 			// 	mini_heredoc(lst);
-			if (is_solo_ex(lst) == 0)
+			if (is_heredoc(lst))
+				mini_heredoc(lst);
+			else if (is_solo_ex(lst) == 0)
 				solo_exe(lst, ex);
 			else
 				multi_pipe(lst, ex);

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 17:53:26 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:42:27 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
 //------------------------LST_SPLIT-------------------------------------//
 int	is_heredoc(t_lst *lst);
-int	mini_heredoc(t_lst *lst);
+void	mini_heredoc(t_lst *lst);
 
 //------------------------LST_SPLIT-------------------------------------//
 void	tab_command(t_lst *lst);
