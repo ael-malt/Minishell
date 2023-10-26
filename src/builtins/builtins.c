@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/26 12:19:10 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 18:18:28 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ extern int	g_exit_status;
 /* 
 TO-DO
 	Builtins:
-	- fix signals
-	- mettre des couleurs dans l'affichage
-	- initialiser toutes les variables de la lst en NULL des le debut
 
 DONE
 	Builtins:
@@ -32,8 +29,11 @@ DONE
 	- unset
 	
 	Autres:
+	- initialiser toutes les variables de la lst en NULL des le debut
 	- Faire un jolie message minishell;
 	- executables normaux
+	- fix signals
+	- mettre des couleurs dans l'affichage
 */
 int	builtin(t_lst *lst, t_expand *ex)
 {
