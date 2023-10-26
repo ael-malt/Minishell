@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/25 19:09:07 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:42:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
-void	check_rl_args(char *line, t_expand *ex)
+void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 {
-	t_lst *lst;
-
 	if (line[0])
 		add_history(line);
 	while (line[0] == ' ' || (line[0] >= '\a' && line[0] <= '\r'))
@@ -70,7 +68,6 @@ void	check_rl_args(char *line, t_expand *ex)
 				solo_exe(lst, ex);
 			else
 				multi_pipe(lst, ex);
-					
 			// else
 			// 	pipex(lst, ex);
 			// g_exit_status = mini_heredoc(lst);
@@ -107,10 +104,11 @@ void	export_envp(t_expand *ex, char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	(void) av;
+	(void)		av;
 	t_expand	ex;
-	char	*line_start;
-	char	*line;
+	t_lst		lst;
+	char		*line_start;
+	char		*line;
 
 	if (ac == 1)
 	{
@@ -126,10 +124,12 @@ int	main(int ac, char **av, char **envp)
 			if (!line)
 				break ;
 			else
-				check_rl_args(line, &ex);
+				check_rl_args(line, &lst, &ex);
 			// free line
 			free(line_start);
 		}
+		if (lst.content)
+			free_lst(&lst);
 		ft_printf("exit\n");
 		exit(g_exit_status);
 	}

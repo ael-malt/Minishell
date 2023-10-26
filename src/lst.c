@@ -20,7 +20,7 @@ t_lst	*create_node(void)
 	if (!node)
 		return (NULL);
 	ft_memset(node, 0, sizeof(t_lst));
-	ft_memset(node, 0, sizeof(t_expand));
+	// ft_memset(node, 0, sizeof(t_expand));
 	return (node);
 }
 

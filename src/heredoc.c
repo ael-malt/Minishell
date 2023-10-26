@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 19:40:11 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:47:20 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	heredoc_signal(int fd, int i)
 		close(fd);
 	else
 	{
-		ft_printf("HERE\n");
+		// ft_printf("HERE\n");
 		ft_putendl_fd("minishell: warning:\
  here-document delimited by end-of-file", 2);
 		unlink(".tmp");
@@ -41,7 +41,6 @@ void	mini_heredoc(t_lst *lst)
 {
 	char	*line;
 	int		fd;
-	char	*limiter;
 	char	**split;
 
 	g_exit_status = 0;
@@ -49,26 +48,24 @@ void	mini_heredoc(t_lst *lst)
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		perror("open");
+	split = ft_split(lst->command, ' ');
 	while (1)
 	{
 		if (g_exit_status == 130)
-			return (heredoc_signal(fd, 1));
+			return heredoc_signal(fd, 1);
 		line = readline(">");
 		if (line == NULL)
-			heredoc_signal(fd, 2);
-		else
 		{
-			split = ft_split(lst->command, ' ');
-			limiter = ft_strdup(split[1]);
-			if (strcmp (line, limiter) == 0)
-				break ;
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
+			heredoc_signal(fd, 2);
+			break ;
 		}
+		if (split[1] && strcmp(line, split[1]) == 0)
+			break ;
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 	}
 	if (line != NULL)
 		free(line);
 	ft_free_matrix(&split);
-	free(limiter);
 	close(fd);
 }
