@@ -98,6 +98,7 @@ void	assign_token(t_lst *lst)
 			lst->token = 2;
 		else
 			lst->token = 0;
+		//printf("token = %d comm\n", lst->token);
 		lst = lst->next;
 	}
 }
