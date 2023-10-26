@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/24 15:40:43 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:19:10 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ DONE
 */
 int	builtin(t_lst *lst, t_expand *ex)
 {
+	exit(0);
 	if (!ft_strcmp(lst->split_command[0], "pwd"))
 		g_exit_status = mini_pwd();
 	else if(!ft_strcmp(lst->split_command[0], "env"))

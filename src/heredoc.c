@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 17:55:11 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:07:02 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	mini_heredoc(t_lst *lst)
 
 	(void) lst;
 // 	// ft_printf("here\n");
-// 	return (0);
+	return (0);
 }

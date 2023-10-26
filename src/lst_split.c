@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:48:51 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 15:03:32 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 14:59:05 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ void	tab_command(t_lst *lst)
 			// printf ("%s\n", lst->split_command[i]);
 			// printf("\n");
 		}
+		else if (lst->token == 2)
+		{
+			// printf("coucou\n");
+			// int i = 0;
+			// printf("command =%s\n", lst->command);
+			lst->split_redir = ft_split_redir(lst->command, " \t\n");
+			// while (lst->split_redir[i])
+			// {
+			// 	printf("%s . ", lst->split_redir[i]);
+			// 	i++;
+			// }
+		}
+		// printf("%d\n",lst->token);
 		lst = lst->next;
 	}
 }

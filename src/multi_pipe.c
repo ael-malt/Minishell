@@ -6,12 +6,12 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 17:44:32 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 14:32:08 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+// gerer | | erreur;
 extern int	g_exit_status;
 
 int	lst_count_pipe(t_lst *lst)
@@ -31,24 +31,42 @@ int	lst_count_pipe(t_lst *lst)
 	}
 	return (count);
 }
+int	ft_lstsize1(t_lst *lst)
+{
+	int	len;
 
+	len = 0;
+	if (!lst)
+		return (0);
+	while (lst)
+	{
+		len++;
+		lst = lst->next;
+	}
+	return (len);
+}
 void	multi_pipe(t_lst * lst, t_expand *ex)
 {
 	int	i;
-	int	nb_pipe;
+	int	nb_sep;
 	int	fd[2];
 	int	fd_temp;
 
 	i = 0;
 	fd_temp = 0;
-	nb_pipe = lst_count_pipe(lst);
-	while (i <= nb_pipe)
+	
+	nb_sep = ft_lstsize1(lst) - 1;
+	while (i <= nb_sep)
 	{
-		if (i < (nb_pipe))
+		if (i < (nb_sep))
 		{
 			pipex(fd, &fd_temp, lst, ex);
-			if (lst->next != NULL && lst->next->next != NULL)
+			if (lst->next->token == 1 && lst->next != NULL && lst->next->next != NULL) // ajout pour dire de faire un pipe
 				lst = lst->next->next;
+			else
+			{
+			// error pipe suivi de rien
+			}
 		}
 		else
 			last_pipe(fd, &fd_temp, lst, ex);
@@ -66,7 +84,12 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	if (pid == -1)
 		perror("FORK");
 	if (pid == 0)
-		exc_cmd(fd, *fd_temp, lst, ex);
+	{
+		if (lst->token == 0)
+			exc_cmd(fd, *fd_temp, lst, ex);
+		//else if(lst->token == 2)
+			//exc_redir_out(fd, *fd_temp, lst, ex);
+	}
 	else
 	{
 		if (*fd_temp)
@@ -115,8 +138,16 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 
 void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 {
-	if (dup2(fd_temp, STDIN_FILENO) == -1) // pipe pres
-		perror("Dup");
+		// printf("%d\n", is_redir(lst));
+	if (lst->prev->token == 1)
+	{
+		if (dup2(fd_temp, STDIN_FILENO) == -1) // pipe pres
+			perror("Dup");
+	}
+	else if(lst->prev->token == 2)
+	{
+		
+	}
 	(void) fd;
 	// close(fd[0]);
 	// if (dup2(fd[1], STDOUT_FILENO) == -1) // si pas redir

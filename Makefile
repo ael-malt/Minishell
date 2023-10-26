@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
+#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/25 17:51:15 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/10/26 12:44:35 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,8 @@ SRC			= src/main.c \
 				src/builtins/mini_export.c \
 				src/builtins/mini_pwd.c \
 				src/builtins/mini_unset.c \
+				src/redir.c \
+				src/split_redir.c \
 
 LIB			= $(PATH_LIB)/libft.a
 
