@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 15:09:16 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:42:56 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	search_quote_in_split(t_lst *lst)
 					lst->split_command[i] = supp_quote(lst->split_command[i], len, index);
 				//printf("\nap = %s\n", lst->split_command[i]);
 				i++;
+			}
+		}
+		else if (lst->token == 2)
+		{
+			if (lst->split_redir[1])
+			{
+				printf("av = %s  || ", lst->split_redir[1]);
+				if (lst->split_redir[1][0] == '\"' || lst->split_redir[1][0] == '\'')
+					lst->split_redir[1] = supp_quote(lst->split_redir[1], len, index);
+				printf("ap = %s\n", lst->split_redir[1]);
 			}
 		}
 		lst = lst->next;

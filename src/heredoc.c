@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/26 15:56:08 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:13:02 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,59 @@ static void	heredoc_signal(int fd, int i)
 	}
 }
 
+int	is_heredoc_limiter_valid(t_lst *lst)
+{
+	int	i;
+
+	i = 0;
+	if (!lst->split_redir[1])
+	{
+		mini_heardoc_error(OPERROR, "newline", 2);
+		return (0);
+	}
+	else
+	{
+		while (lst->split_redir[1][i])
+		{
+			if(lst->split_redir[1][i] == '|' || lst->split_redir[1][i] == '<' || lst->split_redir[1][i] == '>' || lst->split_redir[1][i] == '&' || lst->split_redir[1][i] == '#')
+			{
+				mini_heardoc_error(OPERROR, &lst->split_redir[1][i], 2);
+				return (0);
+			}
+			i++;
+		}
+		
+	}
+	return (1);
+}
 void	mini_heredoc(t_lst *lst)
 {
 	char	*line;
 	int		fd;
-	char	**split;
 
+	if (!is_heredoc_limiter_valid(lst))
+		return ;
 	g_exit_status = 0;
 	line = NULL;
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		perror("open");
-	split = ft_split(lst->command, ' ');
 	while (1)
 	{
+		line = readline(">");
 		if (g_exit_status == 130)
 			return heredoc_signal(fd, 1);
-		line = readline(">");
 		if (line == NULL)
 		{
 			heredoc_signal(fd, 2);
 			break ;
 		}
-		if (split[1] && strcmp(line, split[1]) == 0)
+		if (lst->split_redir[1] && strcmp(line, lst->split_redir[1]) == 0)
 			break ;
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}
 	if (line != NULL)
 		free(line);
-	ft_free_matrix(&split);
 	close(fd);
 }

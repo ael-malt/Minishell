@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 15:55:34 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:12:43 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 # include <readline/history.h>
 # include <dirent.h>
 //si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
+
+/*
+TO-DO
+operator = | | ou heredoc >> | inexpected toke `|' ; ; << R| ne marche pas dans bash donc regarder si opersteur dans le nom du heredoc et egarger maniere generale ce qui suis un operateur.
+
+*/
 typedef struct s_lst
 {
 	struct	s_expand	*ex;
@@ -134,6 +140,8 @@ void	free_lst(t_lst *lst);
 void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
+void	*mini_heardoc_error(int err_type, char *param, int err);
+
 //------------------------LST_SPLIT.C-------------------------------------//
 int	is_heredoc(t_lst *lst);
 void	mini_heredoc(t_lst *lst);
@@ -146,7 +154,7 @@ char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst);
 
 //-------------------------GET_COMMAND.C----------------------------------//
-int		is_solo_ex(t_lst *lst);
+int		is_solo_redir(t_lst *lst);
 void	solo_exe(t_lst *lst, t_expand *ex);
 void	solo_redir_in(t_lst *lst, t_expand *ex);
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
@@ -161,9 +169,9 @@ int		lst_count_pipe(t_lst *lst);
 int		len_lst(t_lst *lst);
 void	multi_pipe(t_lst * lst, t_expand *ex);
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
-void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag);
 void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
-void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag);
 
 //------------------------REDIR---------------------------------------//
 int	is_redir(t_lst *lst);

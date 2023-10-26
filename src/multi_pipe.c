@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 14:32:08 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:17:00 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,26 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
+	int flag;
 
 	if (pipe(fd) == -1)
 		perror("Pipe");
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
+	if (is_builtin(lst) == 1)
+		flag = 1;
 	if (pid == 0)
 	{
 		if (lst->token == 0)
-			exc_cmd(fd, *fd_temp, lst, ex);
+			exc_cmd(fd, *fd_temp, lst, ex, flag);
 		//else if(lst->token == 2)
 			//exc_redir_out(fd, *fd_temp, lst, ex);
 	}
 	else
 	{
+		if (flag == 1)
+			builtin(lst, ex);
 		if (*fd_temp)
 			close(*fd_temp);
 		*fd_temp = dup(fd[0]);
@@ -99,7 +104,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		close(fd[1]);
 	}
 }
-void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag)
 {
 	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
@@ -108,11 +113,9 @@ void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		perror("Dup");
 	close(fd_temp);
 	close(fd[1]);
-	if (is_builtin(lst) == 1)
-		builtin(lst, ex);
-	if (ft_strchr(lst->split_command[0], '/') != NULL)
+	if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
 		exc_absolut_way(lst);
-	else
+	else if (flag == 0)
 		excecuting(lst, ex->tab);
 }
 
@@ -120,13 +123,19 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
 	int	status;
+	int	flag;
+
 	pid = fork();
 	if (pid < 0)
 		perror("FORK");
+	if (is_builtin(lst) == 1)
+		flag = 1;
 	if (pid == 0)
-		exc_last_cmd(fd, *fd_temp, lst, ex);
+		exc_last_cmd(fd, *fd_temp, lst, ex, flag);
 	else
 	{
+		if (flag == 1)
+			builtin(lst, ex);
 		if (*fd_temp)
 			close(*fd_temp);
 		close(fd[0]);
@@ -136,28 +145,18 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	}
 }
 
-void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
+void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag)
 {
-		// printf("%d\n", is_redir(lst));
-	if (lst->prev->token == 1)
-	{
-		if (dup2(fd_temp, STDIN_FILENO) == -1) // pipe pres
-			perror("Dup");
-	}
-	else if(lst->prev->token == 2)
-	{
-		
-	}
+	if (dup2(fd_temp, STDIN_FILENO) == -1) // pipe pres
+		perror("Dup");
 	(void) fd;
 	// close(fd[0]);
 	// if (dup2(fd[1], STDOUT_FILENO) == -1) // si pas redir
 	// 	perror("Dup");
 	// close(fd[1]);
 	close(fd_temp);
-	if (is_builtin(lst) == 1)
-	 	builtin(lst, ex);
-	else if (ft_strchr(lst->split_command[0], '/') != NULL)
+	if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
 		exc_absolut_way(lst);
-	else
+	else if (flag == 0)
 		excecuting(lst, ex->tab);
 }
