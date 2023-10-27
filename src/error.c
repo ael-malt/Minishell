@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 17:34:26 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:50:47 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ int		mini_export_error(char *arg)
 	ft_putstr_fd(value, 2);
 	ft_putstr_fd("' not an identifier\n", 2);
 	return (1);
+}
+
+void	*mini_heardoc_error(int err_type, char *param, int err)
+{
+	//printf("sgsd");
+	g_exit_status = err;
+	//printf("%d\n", g_exit_status);
+	if (err_type == OPERROR)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		write (2, &param, ft_strlen(param));
+		ft_putendl_fd("'", 2);
+	}
+	if (err_type == NONAME)
+		ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+	return (NULL);
 }
 
 void	*mini_perror2(int err_type, char param, int err)

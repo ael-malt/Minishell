@@ -18,45 +18,33 @@
 
 extern int	g_exit_status;
 
-int	is_solo_ex(t_lst *lst)
-{
-	int	count;
-
-	count = 0;
-	if (!lst)
-		return (-1);
-	while (lst->prev)
-		lst = lst->prev;
-	while (lst->next)
-	{
-		if (lst->token == 1 || lst->token == 2)
-			count++;
-		lst = lst->next;
-	}
-	return (count);
-}
-
 void	solo_exe(t_lst *lst, t_expand *ex)
 {
 	int	pid;
 	int	status;
 	int fd[2];
 	(void) fd;
+	int	flag;
 
+	flag = 0;
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
+	if (is_builtin(lst) == 1)
+		flag = 1;
 	if (pid == 0)
 	{
-		if (is_builtin(lst) == 1)
-			builtin(lst, ex);
-		else if (ft_strchr(lst->split_command[0], '/') != NULL)
+		signal(SIGQUIT, SIG_DFL);
+		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
 			exc_absolut_way(lst);
-		else
+	
+		else if (flag == 0)
 			excecuting(lst, ex->tab);
 	}
 	else
 	{
+		if (flag == 1)
+			builtin(lst, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0
 		// close(fd[0]);
@@ -78,14 +66,19 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 	int	status;
 	int fd[2];
 	int	outfile;
+	int	flag;
 
 	(void) fd;
+	flag = 0;
 	outfile = 0;
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
+	if (is_builtin(lst) == 1)
+		flag = 1;
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (i == 2)
 			outfile = open(lst->next->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (i == 4)
@@ -99,15 +92,15 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 			perror("Dup");
 		close(outfile);
-		if (is_builtin(lst) == 1)
-			builtin(lst, ex);
-		else if (ft_strchr(lst->split_command[0], '/') != NULL)
+		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
 			exc_absolut_way(lst);
-		else
+		else if (flag == 0)
 			excecuting(lst, ex->tab);
 	}
 	else
 	{
+		if (flag == 1)
+			builtin(lst, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0
 		//close(fd[0]);
@@ -130,14 +123,18 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 	int	status;
 	int fd[2];
 	int	infile;
+	int flag;
 
-		// ft_printf("ICI");
+	flag = 0;
 	(void) fd;
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
+	if (is_builtin(lst->next) == 1)
+		flag = 1;
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		infile = open(lst->split_redir[1], O_RDONLY, 0644);
 		if (infile < 0)
 		{
@@ -146,15 +143,15 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 		if (dup2(infile, STDIN_FILENO) == -1)
 			ft_perror("Dup");
 		close(infile);
-		if (is_builtin(lst->next) == 1)
-			builtin(lst->next, ex);
-		else if (ft_strchr(lst->next->split_command[0], '/') != NULL)
+		if (ft_strchr(lst->next->split_command[0], '/') != NULL && flag == 0)
 			exc_absolut_way(lst->next);
-		else
+		else if (flag == 0)
 			excecuting(lst->next, ex->tab);
 	}
 	else
 	{
+		if (flag == 1)
+			builtin(lst->next, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0
 		//close(fd[0]);

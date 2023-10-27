@@ -6,19 +6,36 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:07:53 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 14:30:20 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:28:49 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	is_solo_redir(t_lst *lst)
+{
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (-1);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst)
+	{
+		if (lst->token == 2)
+			count++;
+		lst = lst->next;
+	}
+	return (count);
+}
 
 int	is_redir(t_lst *lst)
 {
 	if (!lst)
 		return(-1);
-	//if (if_heredoc(lst) == 1) // heredoc <<
-	//	return (1);
+	if (is_heredoc(lst) == 1) // heredoc <<
+		return (1);
 	else if (lst->token == 2 && lst->command[0] == '>' && lst->command[1] == '>') //ajout append >>
 		return (4);
 	else if (lst->token == 2 && lst->command[0] == '>') // sortie

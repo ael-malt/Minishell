@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 17:54:54 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:33:57 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	expand_lst(t_lst *lst, t_expand *ex)
 		//printf("lst command%s\n", lst->command);
 		lst->command = search_expand_in_line(ex, lst->command); // CHANGEMENT POUR RECUP CE QU'IL FAUT DANS SPLIT
 		//printf("ap = lst content %s\n", lst->content);
-		//printf("ap = lst command%s\n", lst->command);
+		//printf("ap = lst command %s\n", lst->command);
 		lst = lst->next;
 	}
 }
