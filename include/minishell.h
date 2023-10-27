@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/27 14:32:11 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:29:32 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,10 @@ void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
 void	*mini_heardoc_error(int err_type, char *param, int err);
 
-//------------------------LST_SPLIT.C-------------------------------------//
+//------------------------HEREDOC.C-------------------------------------//
 int	is_heredoc(t_lst *lst);
 void	mini_heredoc(t_lst *lst);
+int	is_heredoc_limiter_valid(t_lst *lst);
 
 //------------------------LST_SPLIT.C-------------------------------------//
 void	tab_command(t_lst *lst);

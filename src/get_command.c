@@ -24,40 +24,33 @@ void	solo_exe(t_lst *lst, t_expand *ex)
 	int	status;
 	int fd[2];
 	(void) fd;
-	int	flag;
 
-	flag = 0;
-	pid = fork();
-	if (pid == -1)
-		perror("FORK");
 	if (is_builtin(lst) == 1)
-		flag = 1;
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
-			exc_absolut_way(lst);
-	
-		else if (flag == 0)
-			excecuting(lst, ex->tab);
-	}
+		builtin(lst, ex);
 	else
 	{
-		if (flag == 1)
-			builtin(lst, ex);
-		//waitpid(pid, NULL, 0);
-		//if (WEXITSTATUS(pid) > 0
-		// close(fd[0]);
-		// close(fd[1]);
-		waitpid(pid, &status, 0);
-		// Utilisez la macro WEXITSTATUS pour obtenir la valeur de retour
-		//if (WIFEXITED(status))
-		//printf("%d\n", status);
-		g_exit_status = status / 256;
-		//printf("%d\n", g_exit_status);
-
+		pid = fork();
+		if (pid == -1)
+			perror("FORK");
+		if (pid == 0)
+		{
+			signal(SIGQUIT, SIG_DFL);
+			if (ft_strchr(lst->split_command[0], '/') != NULL)
+				exc_absolut_way(lst);
+			else
+				excecuting(lst, ex->tab);
+		}
+		else
+		{
+			waitpid(pid, &status, 0);
+			// Utilisez la macro WEXITSTATUS pour obtenir la valeur de retour
+			//if (WIFEXITED(status))
+			//printf("%d\n", status);
+			g_exit_status = status / 256;
+			//printf("%d\n", g_exit_status);
+		//printf("var globale = %d\n", g_exit_status);
+		}
 	}
-	//printf("var globale = %d\n", g_exit_status);
 }
 
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
