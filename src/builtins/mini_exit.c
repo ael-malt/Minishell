@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/24 15:42:44 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:12:00 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int mini_exit(char **split_command)
 	i = 1;
 	is_num = 1;
 	ft_printf("exit\n");
+	if (split_command[1] && split_command[2])
+		return (ft_putendl_fd("Minishell: exit: too many arguments", 2));
 	if (split_command[1])
 	{
 		while (split_command[1][i])
@@ -48,4 +50,5 @@ int mini_exit(char **split_command)
 		}
 	}
 	exit(g_exit_status);
+	return (1);
 }

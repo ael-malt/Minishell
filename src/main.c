@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/26 15:56:50 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:25:42 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 			// 	mini_heredoc(lst);
 			// if (is_solo_ex(lst) == 0) // av 0 changer a 1 pour 1 redir
 			// 	solo_exe(lst, ex);
-			if(is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
-				solo_redir_out(lst, ex, is_redir(lst->next));
-			else if(is_redir(lst) == 3)
-				solo_redir_in(lst, ex);
+			// if (is_builtin(lst))
+				// builtin(lst, ex);
+			mini_heredoc(lst);
+			// if(is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+			// 	solo_redir_out(lst, ex, is_redir(lst->next));
+			// else if(is_redir(lst) == 3)
+			// 	solo_redir_in(lst, ex);
 			//else
 			//	multi_pipe(lst, ex);
 					

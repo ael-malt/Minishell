@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/26 18:18:28 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:12:49 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ extern int	g_exit_status;
 /* 
 TO-DO
 	Builtins:
+	- Si le builtin est avec une redirection gerer correctement si child ou pas
 
 DONE
 	Builtins:
+	- Si le builtin est dans un pipe ne pas le faire dans un fork sinon le faire directement
 	- cd
 	- exit
 	- echo
@@ -28,16 +30,18 @@ DONE
 	- env
 	- unset
 	
+	- exit avec plus d'un arg = erreur
+	
 	Autres:
 	- initialiser toutes les variables de la lst en NULL des le debut
 	- Faire un jolie message minishell;
 	- executables normaux
 	- fix signals
 	- mettre des couleurs dans l'affichage
+	- recevoir SIG_QUIT quand u prompt est ouvert (ex cat ou wc) 
 */
 int	builtin(t_lst *lst, t_expand *ex)
 {
-	exit(0);
 	if (!ft_strcmp(lst->split_command[0], "pwd"))
 		g_exit_status = mini_pwd();
 	else if(!ft_strcmp(lst->split_command[0], "env"))
