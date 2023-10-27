@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/27 16:29:32 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:57:41 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
-//si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
-
 /*
 TO-DO
-operator = | | ou heredoc >> | inexpected toke `|' ; ; << R| ne marche pas dans bash donc regarder si opersteur dans le nom du heredoc et egarger maniere generale ce qui suis un operateur.
+* mettre a la norme et organiser le parsing ==> lara
+* gerer qund ca se termine par un pipe ==> lara
+* verif $? message erreur ==> lara aider par Amine
+* echo $? ne reset pas le return code ==> lara
+
+* etendre redir au multi-pipe
+* etendre here doc au redir en general ==> Amine
 
 */
 typedef struct s_lst

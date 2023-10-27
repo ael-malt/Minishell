@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/27 16:36:58 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:47:37 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@ int	is_heredoc_limiter_valid(t_lst *lst)
 	int	i;
 
 	i = 0;
-	// if (!lst->split_redir[1])
-	// {
-	// 	mini_heardoc_error(OPERROR, "newline", 2);
-	// 	return (0);
-	// }
-	//else
-	//{
 	if (!lst)
 		return (-1);
 	while (lst->prev)
