@@ -34,6 +34,7 @@ void	solo_exe(t_lst *lst, t_expand *ex)
 		flag = 1;
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
 			exc_absolut_way(lst);
 	
@@ -77,6 +78,7 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 		flag = 1;
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (i == 2)
 			outfile = open(lst->next->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (i == 4)
@@ -132,6 +134,7 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 		flag = 1;
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		infile = open(lst->split_redir[1], O_RDONLY, 0644);
 		if (infile < 0)
 		{

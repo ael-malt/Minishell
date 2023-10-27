@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 17:12:43 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:32:11 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,18 @@ enum	e_mini_error
 	IS_DIR = 10,
 	NOT_DIR = 11,
 	OPERROR = 12,
-	NOTCMD = 13
+	NOTCMD = 13,
+	NONAME = 14
 };
 
 int multipipe(t_lst * lst, t_expand *ex);
 //-----------------------------FIRST_CHECK.C------------------------------//
-int	search_char(char *s);
-int	search_quote(char *s);
+//int	search_char(char *s);
+//int	search_quote(char *s);
 void	search_quote_in_split(t_lst *lst);
 char	*supp_quote(char *s, int len, int index);
+int		check_double_pipe(t_lst *lst);
+int		check_is_name_for_redir(t_lst *lst);
 // char *get_line_since_quote(char *line);
 // char *ft_new_line1(char *line, int start, int end);
 // char *ft_new_line2(char *line, int start, int end);
@@ -158,7 +161,7 @@ int		is_solo_redir(t_lst *lst);
 void	solo_exe(t_lst *lst, t_expand *ex);
 void	solo_redir_in(t_lst *lst, t_expand *ex);
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
-
+void	solo_redir_heredoc(t_lst *lst, t_expand *ex);
 void	excecuting(t_lst *lst, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
 void	exc_absolut_way(t_lst *lst);
@@ -169,9 +172,9 @@ int		lst_count_pipe(t_lst *lst);
 int		len_lst(t_lst *lst);
 void	multi_pipe(t_lst * lst, t_expand *ex);
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
-void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag);
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
-void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int flag);
+void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 
 //------------------------REDIR---------------------------------------//
 int	is_redir(t_lst *lst);

@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/26 16:53:54 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:50:47 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	*mini_heardoc_error(int err_type, char *param, int err)
 		write (2, &param, ft_strlen(param));
 		ft_putendl_fd("'", 2);
 	}
+	if (err_type == NONAME)
+		ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
 	return (NULL);
 }
 

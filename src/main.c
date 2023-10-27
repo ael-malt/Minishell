@@ -6,20 +6,14 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/26 16:29:58 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 14:38:54 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 extern int	g_exit_status;
-
-/*
-	TO DO =
-	recuperation du path (pipex) mais avec mon ex->tab (env local)
-	lancer une commande fork et exceve
-*/
-
+/*geger les erreur de variable globale check 2pipe = 2 : command not found*/
 static void	mini_getpid(t_expand *p)
 {
 	pid_t	pid;
@@ -58,24 +52,23 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 			expand_lst(lst, ex);
 			tab_command(lst);
 			search_quote_in_split(lst);
-			// ft_printf("command = %s\n", lst->command);
-			// ft_printf("content = %s\n", lst->content);
-			// else if (is_heredoc(lst))
-			// 	mini_heredoc(lst);
-			if (is_solo_redir(lst) == 0) // av 0 changer a 1 pour 1 redir
-				solo_exe(lst, ex);
-			else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
-				solo_redir_out(lst, ex, is_redir(lst->next));
-			else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
-				solo_redir_in(lst, ex);
-			else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
-				mini_heredoc(lst);
-			//else
-			//	multi_pipe(lst, ex);
-					
-			// else
-			// 	pipex(lst, ex);
-			// g_exit_status = mini_heredoc(lst);
+			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
+			{
+				//printf("%d\n", is_solo_redir(lst));
+				if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
+					solo_exe(lst, ex);
+				else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
+					solo_redir_out(lst, ex, is_redir(lst->next));
+				else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+					solo_redir_in(lst, ex);
+				else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
+					mini_heredoc(lst);
+				else
+					multi_pipe(lst, ex);
+				// else
+				// 	pipex(lst, ex);
+				// g_exit_status = mini_heredoc(lst);
+			}
 		}
 		else
 			clean_return(lst, ex);
