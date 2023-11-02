@@ -12,6 +12,10 @@
 
 #include "../include/minishell.h"
 
+// TO-DO
+// Ajouter < et << au redirections multipipes
+// Gerer les redirections en dernier maillon
+// Refaire mon heardoc
 int	lst_count_pipe(t_lst *lst)
 {
 	int	count;
@@ -24,6 +28,24 @@ int	lst_count_pipe(t_lst *lst)
 	while (lst->next)
 	{
 		if (lst->token == 1)
+			count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
+int lst_count_redir(t_lst *lst)
+{
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (-1);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst->next)
+	{
+		if (lst->token == 2)
 			count++;
 		lst = lst->next;
 	}
@@ -47,21 +69,30 @@ int	len_lst(t_lst *lst)
 void	multi_pipe(t_lst * lst, t_expand *ex)
 {
 	int	i;
-	int	nb_pipe;
+	int	nb_operator;
 	int	fd[2];
 	int	fd_temp;
 
 	i = 0;
 	fd_temp = 0;
-	nb_pipe = lst_count_pipe(lst);
+	nb_operator = lst_count_pipe(lst) + lst_count_redir(lst);
 
-	while (i <= nb_pipe)
+	while (i <= nb_operator)
 	{
-		if (i < (nb_pipe))
+		if (i < (nb_operator))
 		{
-			pipex(fd, &fd_temp, lst, ex);
-			if (lst->next != NULL && lst->next->next != NULL)
-				lst = lst->next->next;
+			if (lst->next && lst->next->token == 1)
+			{
+				pipex(fd, &fd_temp, lst, ex);
+				if (lst->next != NULL && lst->next->next != NULL)
+					lst = lst->next->next;
+			}
+			else if (lst->next && lst->next->token == 2)
+			{
+				redirex(fd, &fd_temp, lst, ex);
+				// if (lst->next != NULL && lst->next->next != NULL)
+					lst = lst->next;
+			}
 		}
 		else
 			last_pipe(fd, &fd_temp, lst, ex);
@@ -91,7 +122,37 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		*fd_temp = dup(fd[0]);
 		close(fd[0]);
 		close(fd[1]); //nouveau
-		// waitpid(pid, NULL, 0);
+		waitpid(pid, NULL, 0); // ?
+	}
+}
+
+void redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
+{
+	int	pid;
+
+	// (void) fd;
+	pid = fork();
+	if (pid == -1)
+		perror("FORK");
+	if (pid == 0)
+	{
+		if(is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+		{
+			// ft_printf("HERE: %s\n", lst->command);
+			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
+		}
+		else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+			solo_redir_in(lst, ex);
+	}
+	else
+	{
+		//parent
+		// if (*fd_temp)
+		// 	close(*fd_temp);
+		// *fd_temp = dup(fd[0]);
+		close(fd[0]);
+		close(fd[1]); //nouveau
+		waitpid(pid, NULL, 0); // ?
 	}
 }
 void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)

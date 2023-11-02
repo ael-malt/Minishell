@@ -129,7 +129,10 @@ void	free_lst(t_lst *lst)
 		return ;
 	while (lst)
 	{
-		tmp = lst->next;
+		if (lst->next)
+			tmp = lst->next;
+		else
+			tmp = NULL;
 		free(lst);
 		lst = tmp;
 	}

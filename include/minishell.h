@@ -177,7 +177,9 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
 void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 
 //------------------------REDIR---------------------------------------//
-int	is_redir(t_lst *lst);
+int		is_redir(t_lst *lst);
+void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i);
+void	redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
 
 //---------------------------SPLIT_REDIR.C---------------------------//
 int		check_charset(char c, char *charset);

@@ -34,6 +34,20 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
+void	start_execution(t_lst *lst,t_expand *ex)
+{
+	if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
+		solo_exe(lst, ex);
+	else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
+		solo_redir_out(lst, ex, is_redir(lst->next));
+	else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+		solo_redir_in(lst, ex);
+	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
+		mini_heredoc(lst);
+	else
+		multi_pipe(lst, ex);
+}
+
 void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 {
 	if (line[0])
@@ -53,22 +67,7 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 			tab_command(lst);
 			search_quote_in_split(lst);
 			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
-			{
-				//printf("%d\n", is_solo_redir(lst));
-				if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
-					solo_exe(lst, ex);
-				else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
-					solo_redir_out(lst, ex, is_redir(lst->next));
-				else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
-					solo_redir_in(lst, ex);
-				else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
-					mini_heredoc(lst);
-				else
-					multi_pipe(lst, ex);
-				// else
-				// 	pipex(lst, ex);
-				// g_exit_status = mini_heredoc(lst);
-			}
+				start_execution(lst, ex);
 		}
 		else
 			clean_return(lst, ex);
@@ -81,10 +80,7 @@ void	export_envp(t_expand *ex, char **envp)
 	char	*tmp;
 	
 	if (envp[0] != NULL)
-	{
 		ex->tab = ft_dup_matrix(envp);
-		ft_printf("%s\n", envp[0]);
-	}
 	else
 	{
 		ex->tab = malloc(sizeof(ex->tab) * 4);
