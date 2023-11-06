@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/27 14:43:52 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:29:31 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ static void	mini_getpid(t_expand *p)
 
 void	start_execution(t_lst *lst,t_expand *ex)
 {
-	if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
+	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst)) // av 0 changer a 1 pour 1 redir
 		solo_exe(lst, ex);
-	else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
+	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
+	&& (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
 		solo_redir_out(lst, ex, is_redir(lst->next));
-	else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+	else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3 && !lst_count_pipe(lst))
 		solo_redir_in(lst, ex);
-	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
+	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
 		mini_heredoc(lst);
 	else
 		multi_pipe(lst, ex);

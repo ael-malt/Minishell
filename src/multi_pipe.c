@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/27 14:39:31 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:29:08 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,23 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 				if (lst->next != NULL && lst->next->next != NULL)
 					lst = lst->next->next;
 			}
-			else if (lst->next && lst->next->token == 2)
+			else if (lst->next && (lst->next->token == 2 || lst->token == 2))
 			{
+				printf("here");
 				redirex(fd, &fd_temp, lst, ex);
 				// if (lst->next != NULL && lst->next->next != NULL)
 					lst = lst->next;
 			}
 		}
 		else
+		{
 			last_pipe(fd, &fd_temp, lst, ex);
+		}
 		i++;
 	}
 	wait(NULL);
 }
+
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
@@ -126,7 +130,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	}
 }
 
-void redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
+void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
 
@@ -136,11 +140,10 @@ void redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		perror("FORK");
 	if (pid == 0)
 	{
-		if(is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
-		{
-			// ft_printf("HERE: %s\n", lst->command);
-			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
-		}
+		// if (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+		// 	redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
+		else if (is_redir(lst->next) == 3)
+			redir_in(fd, *fd_temp, lst, ex);
 		else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
 			solo_redir_in(lst, ex);
 	}
@@ -155,6 +158,7 @@ void redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		waitpid(pid, NULL, 0); // ?
 	}
 }
+
 void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 {
 	signal(SIGQUIT, SIG_DFL);

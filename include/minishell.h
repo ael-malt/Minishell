@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/27 14:32:11 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:09:23 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	search_quote_in_split(t_lst *lst);
 char	*supp_quote(char *s, int len, int index);
 int		check_double_pipe(t_lst *lst);
 int		check_is_name_for_redir(t_lst *lst);
+
 // char *get_line_since_quote(char *line);
 // char *ft_new_line1(char *line, int start, int end);
 // char *ft_new_line2(char *line, int start, int end);
@@ -157,10 +158,7 @@ char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst);
 
 //-------------------------GET_COMMAND.C----------------------------------//
-int		is_solo_redir(t_lst *lst);
 void	solo_exe(t_lst *lst, t_expand *ex);
-void	solo_redir_in(t_lst *lst, t_expand *ex);
-void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
 void	solo_redir_heredoc(t_lst *lst, t_expand *ex);
 void	excecuting(t_lst *lst, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
@@ -178,6 +176,10 @@ void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 
 //------------------------REDIR---------------------------------------//
 int		is_redir(t_lst *lst);
+int		is_solo_redir(t_lst *lst);
+void	solo_redir_in(t_lst *lst, t_expand *ex);
+void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
 void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i);
 void	redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:07:53 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 16:28:49 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:53:33 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,41 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 
 	}
 	//printf("var globale = %d\n", g_exit_status);
+}
+
+void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
+{
+	// ft_printf("HERE: %s\n", lst->command);
+	(void) fd;
+	(void) fd_temp;
+	(void) lst;
+	(void) ex;
+	// int	infile;
+
+	// signal(SIGQUIT, SIG_DFL);
+	// if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
+	// 	ft_perror("Dup");
+	// close(fd[0]);
+	// // if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
+	// // 	perror("Dup");
+	// close(fd_temp);
+	// close(fd[1]);
+	// infile = open(lst->split_redir[1], O_RDONLY, 0644);
+	// if (infile < 0)
+	// {
+	// 	perror("Infile");
+	// }
+	// close(infile);
+	// if (is_builtin(lst) == 1)
+	// {
+	// 	builtin(lst, ex);
+	// 	exit(0);
+	// }
+	// else if (ft_strchr(lst->next->split_command[0], '/') != NULL)
+	// 	exc_absolut_way(lst);
+	// else
+	// 	excecuting(lst, ex->tab);
+	
 }
 
 void	solo_redir_in(t_lst *lst, t_expand *ex)
