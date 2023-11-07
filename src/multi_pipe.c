@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/06 18:29:08 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/07 12:33:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		perror("FORK");
 	if (pid == 0)
 	{
-		// if (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
-		// 	redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
+		if (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
 		else if (is_redir(lst->next) == 3)
 			redir_in(fd, *fd_temp, lst, ex);
 		else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
