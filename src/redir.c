@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:07:53 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/06 17:53:33 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:43:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,35 +141,42 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 {
 	// ft_printf("HERE: %s\n", lst->command);
-	(void) fd;
-	(void) fd_temp;
-	(void) lst;
-	(void) ex;
-	// int	infile;
+	// (void) fd;
+	// (void) fd_temp;
+	// (void) lst;
+	// (void) ex;
+	t_lst *tmp_lst;
+	int	infile;
 
-	// signal(SIGQUIT, SIG_DFL);
-	// if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
-	// 	ft_perror("Dup");
-	// close(fd[0]);
-	// // if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
-	// // 	perror("Dup");
-	// close(fd_temp);
-	// close(fd[1]);
-	// infile = open(lst->split_redir[1], O_RDONLY, 0644);
-	// if (infile < 0)
-	// {
-	// 	perror("Infile");
-	// }
-	// close(infile);
-	// if (is_builtin(lst) == 1)
-	// {
-	// 	builtin(lst, ex);
-	// 	exit(0);
-	// }
-	// else if (ft_strchr(lst->next->split_command[0], '/') != NULL)
-	// 	exc_absolut_way(lst);
-	// else
-	// 	excecuting(lst, ex->tab);
+	if (!lst->token)
+		lst = lst->next;
+	if (lst->next && lst->next->token == 0)
+		tmp_lst = lst->next;
+	else if(lst->prev && lst->prev->token == 0)
+		tmp_lst = lst->prev;
+	signal(SIGQUIT, SIG_DFL);
+	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
+		ft_perror("Dup");
+	close(fd[0]);
+	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
+	// 	perror("Dup");
+	close(fd_temp);
+	close(fd[1]);
+	infile = open(lst->split_redir[1], O_RDONLY, 0644);
+	if (infile < 0)
+	{
+		perror("Infile");
+	}
+	close(infile);
+	if (is_builtin(lst) == 1)
+	{
+		builtin(lst, ex);
+		exit(0);
+	}
+	else if (ft_strchr(lst->next->split_command[0], '/') != NULL)
+		exc_absolut_way(lst);
+	else
+		excecuting(lst, ex->tab);
 	
 }
 
@@ -179,15 +186,19 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 	int	status;
 	int fd[2];
 	int	infile;
-	int flag;
+	t_lst *tmp_lst;
 
-	flag = 0;
 	(void) fd;
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
-	if (is_builtin(lst->next) == 1)
-		flag = 1;
+	if (!lst->token)
+		lst = lst->next;
+	if (lst->next && lst->next->token == 0)
+		tmp_lst = lst->next;
+	else if(lst->prev && lst->prev->token == 0)
+		tmp_lst = lst->prev;
+		printf("CONTENT: %s\n", lst->command);
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -199,15 +210,15 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 		if (dup2(infile, STDIN_FILENO) == -1)
 			ft_perror("Dup");
 		close(infile);
-		if (ft_strchr(lst->next->split_command[0], '/') != NULL && flag == 0)
-			exc_absolut_way(lst->next);
-		else if (flag == 0)
-			excecuting(lst->next, ex->tab);
+		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && !is_builtin(tmp_lst))
+			exc_absolut_way(tmp_lst);
+		else if (!is_builtin(tmp_lst))
+			excecuting(tmp_lst, ex->tab);
 	}
 	else
 	{
-		if (flag == 1)
-			builtin(lst->next, ex);
+		if (is_builtin(tmp_lst))
+			builtin(tmp_lst, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0
 		//close(fd[0]);

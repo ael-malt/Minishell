@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/06 17:29:31 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:40:34 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	start_execution(t_lst *lst,t_expand *ex)
 	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
 	&& (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
 		solo_redir_out(lst, ex, is_redir(lst->next));
-	else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3 && !lst_count_pipe(lst))
+	else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst))
 		solo_redir_in(lst, ex);
 	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
 		mini_heredoc(lst);

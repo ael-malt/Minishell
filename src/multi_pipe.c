@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/07 12:33:53 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:00:41 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 			}
 			else if (lst->next && (lst->next->token == 2 || lst->token == 2))
 			{
-				printf("here");
+				// printf("here");
 				redirex(fd, &fd_temp, lst, ex);
 				// if (lst->next != NULL && lst->next->next != NULL)
 					lst = lst->next;
