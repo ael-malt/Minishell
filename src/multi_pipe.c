@@ -169,7 +169,7 @@ void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		perror("Dup");
 	close(fd_temp);
 	close(fd[1]);
-	if (is_builtin(lst) == 1)
+	if (is_builtin(lst))
 	{
 		builtin(lst, ex);
 		exit(0);
@@ -215,7 +215,7 @@ void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	// 	perror("Dup");
 	// close(fd[1]);
 	close(fd_temp);
-	if (is_builtin(lst) == 1)
+	if (is_builtin(lst))
 	{
 		builtin(lst, ex);
 		exit(0);

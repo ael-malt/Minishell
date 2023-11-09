@@ -84,14 +84,21 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 }
 
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
-{
-	int	pid;
-	int	status;
-	int fd[2];
-	int	outfile;
-	int	flag;
-
+{	
+	int		pid;
+	int		status;
+	int 	fd[2];
+	int		outfile;
+	int		flag;
+	t_lst	*tmp_lst;
+	
 	(void) fd;
+	if (!lst->token)
+		lst = lst->next;
+	if (lst->next && lst->next->token == 0)
+		tmp_lst = lst->next;
+	else if(lst->prev && lst->prev->token == 0)
+		tmp_lst = lst->prev;
 	flag = 0;
 	outfile = 0;
 	pid = fork();
@@ -101,27 +108,25 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (i == 2)
-			outfile = open(lst->next->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			outfile = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (i == 4)
-			outfile = open(lst->next->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+			outfile = open(lst->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (outfile < 0)
-		{
 			printf("erreur dup\n");
-		}
 		//if (dup2(fd[0], STDIN_FILENO) == -1)
 		//	perror("Dup");
 		if (dup2(outfile, STDOUT_FILENO) == -1)
 			perror("Dup");
 		close(outfile);
-		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
-			exc_absolut_way(lst);
+		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && flag == 0)
+			exc_absolut_way(tmp_lst);
 		else if (flag == 0)
-			excecuting(lst, ex->tab);
+			excecuting(tmp_lst, ex->tab);
 	}
 	else
 	{
 		if (flag == 1)
-			builtin(lst, ex);
+			builtin(tmp_lst, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0
 		//close(fd[0]);
@@ -145,15 +150,15 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	// (void) fd_temp;
 	// (void) lst;
 	// (void) ex;
-	t_lst *tmp_lst;
+	// t_lst *tmp_lst;
 	int	infile;
 
-	if (!lst->token)
-		lst = lst->next;
-	if (lst->next && lst->next->token == 0)
-		tmp_lst = lst->next;
-	else if(lst->prev && lst->prev->token == 0)
-		tmp_lst = lst->prev;
+	// if (!lst->token)
+	// 	lst = lst->next;
+	// if (lst->next && lst->next->token == 0)
+	// 	tmp_lst = lst->next;
+	// else if(lst->prev && lst->prev->token == 0)
+	// 	tmp_lst = lst->prev;
 	signal(SIGQUIT, SIG_DFL);
 	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
@@ -198,7 +203,6 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 		tmp_lst = lst->next;
 	else if(lst->prev && lst->prev->token == 0)
 		tmp_lst = lst->prev;
-		printf("CONTENT: %s\n", lst->command);
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);

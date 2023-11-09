@@ -20,26 +20,23 @@ void	solo_exe(t_lst *lst, t_expand *ex)
 	int	status;
 	int fd[2];
 	(void) fd;
-	int	flag;
 
-	flag = 0;
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
-	if (is_builtin(lst) == 1)
-		flag = 1;
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		if (ft_strchr(lst->split_command[0], '/') != NULL && flag == 0)
+		if (ft_strchr(lst->split_command[0], '/') != NULL && !is_builtin(lst))
 			exc_absolut_way(lst);
-	
-		else if (flag == 0)
+		else if (!is_builtin(lst))
 			excecuting(lst, ex->tab);
+		else if (is_builtin(lst))
+			exit(0);
 	}
 	else
 	{
-		if (flag == 1)
+		if (is_builtin(lst))
 			builtin(lst, ex);
 		//waitpid(pid, NULL, 0);
 		//if (WEXITSTATUS(pid) > 0

@@ -36,11 +36,17 @@ static void	mini_getpid(t_expand *p)
 
 void	start_execution(t_lst *lst,t_expand *ex)
 {
-	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst)) // av 0 changer a 1 pour 1 redir
-		solo_exe(lst, ex);
+	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst))
+		solo_exe(lst, ex); // av 0 changer a 1 pour 1 redir
 	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
-	&& (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
-		solo_redir_out(lst, ex, is_redir(lst->next));
+		&& ((is_redir(lst) == 2 || is_redir(lst) == 4
+		|| (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))))
+		{
+		if (is_redir(lst))
+			solo_redir_out(lst, ex, is_redir(lst));
+		else if (is_redir(lst->next))
+			solo_redir_out(lst, ex, is_redir(lst->next));
+		}
 	else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst))
 		solo_redir_in(lst, ex);
 	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
@@ -123,8 +129,8 @@ int	main(int ac, char **av, char **envp)
 			// free line
 			free(line_start);
 		}
-		if (lst.content)
-			free_lst(&lst);
+		// if (lst.content)
+		// 	free_lst(&lst);
 		ft_printf("exit\n");
 		exit(g_exit_status);
 	}
