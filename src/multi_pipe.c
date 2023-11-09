@@ -145,11 +145,10 @@ void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst));
 		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
-		else if (is_redir(lst->next) == 3)
-		{
+		else if (is_redir(lst) == 3)
 			redir_in(fd, *fd_temp, lst, ex);
-			// ft_printf("here\n");
-		}
+		else if (is_redir(lst->next) == 3)
+			redir_in(fd, *fd_temp, lst->next, ex);
 		// else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
 		// 	solo_redir_in(lst, ex);
 	}
@@ -181,7 +180,7 @@ void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		exit(0);
 	}
 	else if (ft_strchr(lst->split_command[0], '/') != NULL)
-		exc_absolut_way(lst);
+		exc_absolut_way(lst, ex);
 	else
 		excecuting(lst, ex->tab);
 }
@@ -227,7 +226,7 @@ void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		exit(0);
 	}
 	if (ft_strchr(lst->split_command[0], '/') != NULL)
-		exc_absolut_way(lst);
+		exc_absolut_way(lst, ex);
 	else
 		excecuting(lst, ex->tab);
 }

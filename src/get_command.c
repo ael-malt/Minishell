@@ -28,7 +28,7 @@ void	solo_exe(t_lst *lst, t_expand *ex)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (ft_strchr(lst->split_command[0], '/') != NULL && !is_builtin(lst))
-			exc_absolut_way(lst);
+			exc_absolut_way(lst, ex);
 		else if (!is_builtin(lst))
 			excecuting(lst, ex->tab);
 		else if (is_builtin(lst))
@@ -79,7 +79,7 @@ void	excecuting(t_lst *lst, char **tab)
 		// }
 		if (access(chemin, F_OK) == 0)
 		{
-			if (execve(chemin, lst->split_command, NULL) == -1)
+			if (execve(chemin, lst->split_command, tab) == -1)
 			{
 				mini_perror_exec(NOTCMD, lst->split_command);
 				exit(127);
@@ -94,11 +94,11 @@ void	excecuting(t_lst *lst, char **tab)
 	//perror("command not found");
 }
 
-void	exc_absolut_way(t_lst *lst)
+void	exc_absolut_way(t_lst *lst, t_expand *ex)
 {
 	if (access(lst->split_command[0], F_OK) == 0)
 	{
-		if (execve(lst->split_command[0], lst->split_command, NULL) == -1)
+		if (execve(lst->split_command[0], lst->split_command, ex->tab) == -1)
 		{
 			//ft_free(lst->split_command);
 			// printf("%s", lst->split_command[0]);

@@ -162,7 +162,7 @@ void	solo_exe(t_lst *lst, t_expand *ex);
 void	solo_redir_heredoc(t_lst *lst, t_expand *ex);
 void	excecuting(t_lst *lst, char **tab);
 char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
-void	exc_absolut_way(t_lst *lst);
+void	exc_absolut_way(t_lst *lst, t_expand *ex);
 int		is_builtin(t_lst *lst);
 
 //----------------------MULTI_PIPE.C-----------------------------------//

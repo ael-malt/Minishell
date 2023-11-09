@@ -54,13 +54,13 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 	t_lst	*tmp_lst;
 	int	outfile;
 
-	if (!lst->token)
+	signal(SIGQUIT, SIG_DFL);
+	if (lst->next && !lst->token)
 		lst = lst->next;
 	if (lst->next && lst->next->token == 0)
 		tmp_lst = lst->next;
 	else if(lst->prev && lst->prev->token == 0)
 		tmp_lst = lst->prev;
-	signal(SIGQUIT, SIG_DFL);
 	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
 	close(fd[0]);
@@ -85,7 +85,7 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 		exit(0);
 	}
 	else if (ft_strchr(tmp_lst->split_command[0], '/') != NULL)
-		exc_absolut_way(tmp_lst);
+		exc_absolut_way(tmp_lst, ex);
 	else
 		excecuting(tmp_lst, ex->tab);
 }
@@ -99,7 +99,7 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 	t_lst	*tmp_lst;
 	
 	(void) fd;
-	if (!lst->token)
+	if (lst->next && !lst->token)
 		lst = lst->next;
 	if (lst->next && lst->next->token == 0)
 		tmp_lst = lst->next;
@@ -124,7 +124,7 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 			perror("Dup");
 		close(outfile);
 		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && !is_builtin(lst))
-			exc_absolut_way(tmp_lst);
+			exc_absolut_way(tmp_lst, ex);
 		else if (!is_builtin(lst))
 			excecuting(tmp_lst, ex->tab);
 	}
@@ -155,18 +155,18 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	// (void) fd_temp;
 	// (void) lst;
 	// (void) ex;
-	// t_lst *tmp_lst;
+	t_lst *tmp_lst;
 	int	infile;
 
-	ft_printf("content: %s\n", lst->content);
-	// if (!lst->token)
-	// 	lst = lst->next;
-	// if (lst->next && lst->next->token == 0)
-	// 	tmp_lst = lst->next;
-	// else if(lst->prev && lst->prev->token == 0)
-	// 	tmp_lst = lst->prev;
 	signal(SIGQUIT, SIG_DFL);
-	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
+	ft_printf("content: %s\n", lst->content);
+	if (lst->next && !lst->token)
+		lst = lst->next;
+	if (lst->next && lst->next->token == 0)
+		tmp_lst = lst->next;
+	else if(lst->prev && lst->prev->token == 0)
+		tmp_lst = lst->prev;
+	if (dup2(fd_temp, STDOUT_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
 	close(fd[0]);
 	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
@@ -175,19 +175,19 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	close(fd[1]);
 	infile = open(lst->split_redir[1], O_RDONLY, 0644);
 	if (infile < 0)
-	{
 		perror("Infile");
-	}
+	if (dup2(infile, STDIN_FILENO) == -1)
+		perror("Dup");
 	close(infile);
-	if (is_builtin(lst) == 1)
+	if (is_builtin(tmp_lst) == 1)
 	{
-		builtin(lst, ex);
+		builtin(tmp_lst, ex);
 		exit(0);
 	}
-	else if (ft_strchr(lst->next->split_command[0], '/') != NULL)
-		exc_absolut_way(lst);
+	else if (ft_strchr(tmp_lst->next->split_command[0], '/') != NULL)
+		exc_absolut_way(tmp_lst, ex);
 	else
-		excecuting(lst, ex->tab);
+		excecuting(tmp_lst, ex->tab);
 	
 }
 
@@ -203,7 +203,7 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 	pid = fork();
 	if (pid == -1)
 		perror("FORK");
-	if (!lst->token)
+	if (lst->next && !lst->token)
 		lst = lst->next;
 	if (lst->next && lst->next->token == 0)
 		tmp_lst = lst->next;
@@ -221,7 +221,7 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 			ft_perror("Dup");
 		close(infile);
 		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && !is_builtin(tmp_lst))
-			exc_absolut_way(tmp_lst);
+			exc_absolut_way(tmp_lst, ex);
 		else if (!is_builtin(tmp_lst))
 			excecuting(tmp_lst, ex->tab);
 	}
