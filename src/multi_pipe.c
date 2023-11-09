@@ -133,6 +133,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
 	int	pid;
+	// ft_printf("here\n");
 
 	// (void) fd;
 	pid = fork();
@@ -140,12 +141,17 @@ void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		perror("FORK");
 	if (pid == 0)
 	{
-		if (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+		if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+			redir_out(fd, *fd_temp, lst, ex, is_redir(lst));
+		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
 		else if (is_redir(lst->next) == 3)
+		{
 			redir_in(fd, *fd_temp, lst, ex);
-		else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
-			solo_redir_in(lst, ex);
+			// ft_printf("here\n");
+		}
+		// else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+		// 	solo_redir_in(lst, ex);
 	}
 	else
 	{
