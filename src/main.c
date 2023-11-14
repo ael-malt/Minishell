@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/27 16:39:15 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:14:49 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
-void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
+void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 {
 	if (line[0])
 		add_history(line);
@@ -50,25 +50,27 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 		{
 			assign_token(lst);
 			expand_lst(lst, ex);
-			tab_command(lst);
-			search_quote_in_split(lst);
-			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0 && is_heredoc_limiter_valid(lst) == 0)
-			{
-				//printf("%d\n", is_solo_redir(lst));
-				if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
-					solo_exe(lst, ex);
-				else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
-					solo_redir_out(lst, ex, is_redir(lst->next));
-				else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
-					solo_redir_in(lst, ex);
-				else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
-					mini_heredoc(lst);
-				else
-					multi_pipe(lst, ex);
-				// else
-				// 	pipex(lst, ex);
-				// g_exit_status = mini_heredoc(lst);
-			}
+			tab_command(lst, sp);
+			search_quote_in_split_command(lst);
+			search_quote_in_split_redir(lst);
+			// /if (check_last_is_pipe(lst) == 0 && check_syntax(lst) == 0 && check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0 && is_heredoc_limiter_valid(lst) == 0)
+			// {
+			// 	// printf("excecute\n");
+			// 	// //printf("%d\n", is_solo_redir(lst));
+			// 	if (is_solo_redir(lst) == 0 && lst_count_pipe(lst) == 0) // av 0 changer a 1 pour 1 redir
+			// 	 	solo_exe(lst, ex);
+			// 	else if(is_solo_redir(lst) == 1 && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
+			// 		solo_redir_out(lst, ex, is_redir(lst->next));
+			// 	else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+			// 		solo_redir_in(lst, ex);
+			// 	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1)
+			// 		mini_heredoc(lst);
+			// 	else
+			// 		multi_pipe(lst, ex);
+			// 	// else
+			// 	// 	pipex(lst, ex);
+			// 	// g_exit_status = mini_heredoc(lst);
+			// }
 		}
 		else
 			clean_return(lst, ex);
@@ -105,6 +107,7 @@ int	main(int ac, char **av, char **envp)
 	(void)		av;
 	t_expand	ex;
 	t_lst		lst;
+	t_split		sp;
 	char		*line_start;
 	char		*line;
 
@@ -122,7 +125,7 @@ int	main(int ac, char **av, char **envp)
 			if (!line)
 				break ;
 			else
-				check_rl_args(line, &lst, &ex);
+				check_rl_args(line, &lst, &ex, &sp);
 			// free line
 			free(line_start);
 		}
