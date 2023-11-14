@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/08 17:00:41 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:20:08 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 	{
 		if (i < (nb_operator))
 		{
-			if (lst->next && lst->next->token == 1)
+				// ft_printf("\n\nlst->content: %s\n\n", lst->command);
+			if (lst->next && lst->token != 2 && lst->next->token == 1)
 			{
 				pipex(fd, &fd_temp, lst, ex);
 				if (lst->next != NULL && lst->next->next != NULL)
@@ -92,6 +93,11 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 				// printf("here");
 				redirex(fd, &fd_temp, lst, ex);
 				// if (lst->next != NULL && lst->next->next != NULL)
+				if(lst->next && lst->next->token == 0 && lst->next->next && lst->next->next->token == 1 && lst->next->next->next)
+					lst = lst->next->next->next;
+				else if (lst->next && lst->next->next && (lst->next->token == 0 || lst->next->token == 1))
+					lst = lst->next->next;
+				else if (lst->next)
 					lst = lst->next;
 			}
 		}
@@ -142,7 +148,10 @@ void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	if (pid == 0)
 	{
 		if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+		{
+			ft_printf("\n\nlst->content: %s\n\n", lst->command);
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst));
+		}
 		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
 		else if (is_redir(lst) == 3)

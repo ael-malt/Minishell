@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:07:53 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/08 17:43:06 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:42:35 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 	if (dup2(outfile, STDOUT_FILENO) == -1)
 		perror("Dup");
 	close(outfile);
-	if (is_builtin(tmp_lst) == 1)
+	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
 		builtin(tmp_lst, ex);
 		exit(0);
 	}
-	else if (ft_strchr(tmp_lst->split_command[0], '/') != NULL)
+	else if (tmp_lst && ft_strchr(tmp_lst->split_command[0], '/') != NULL)
 		exc_absolut_way(tmp_lst, ex);
-	else
+	else if (tmp_lst)
 		excecuting(tmp_lst, ex->tab);
 }
 
@@ -159,7 +159,6 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	int	infile;
 
 	signal(SIGQUIT, SIG_DFL);
-	ft_printf("content: %s\n", lst->content);
 	if (lst->next && !lst->token)
 		lst = lst->next;
 	if (lst->next && lst->next->token == 0)
@@ -168,27 +167,28 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		tmp_lst = lst->prev;
 	if (dup2(fd_temp, STDOUT_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
+	close(fd_temp);
 	close(fd[0]);
+	// ft_printf("content: %s\n", lst->content);
 	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
 	// 	perror("Dup");
-	close(fd_temp);
 	close(fd[1]);
 	infile = open(lst->split_redir[1], O_RDONLY, 0644);
+	// ft_printf("infile: %s\n", lst->split_redir[1]);
 	if (infile < 0)
 		perror("Infile");
 	if (dup2(infile, STDIN_FILENO) == -1)
 		perror("Dup");
 	close(infile);
-	if (is_builtin(tmp_lst) == 1)
+	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
 		builtin(tmp_lst, ex);
 		exit(0);
 	}
-	else if (ft_strchr(tmp_lst->next->split_command[0], '/') != NULL)
+	else if (tmp_lst && ft_strchr(tmp_lst->next->split_command[0], '/') != NULL)
 		exc_absolut_way(tmp_lst, ex);
-	else
+	else if (tmp_lst)
 		excecuting(tmp_lst, ex->tab);
-	
 }
 
 void	solo_redir_in(t_lst *lst, t_expand *ex)
