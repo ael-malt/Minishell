@@ -34,7 +34,28 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
-void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
+void	start_execution(t_lst *lst,t_expand *ex)
+{
+	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst))
+		solo_exe(lst, ex); // av 0 changer a 1 pour 1 redir
+	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
+		&& ((is_redir(lst) == 2 || is_redir(lst) == 4
+		|| (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))))
+		{
+		if (is_redir(lst))
+			solo_redir_out(lst, ex, is_redir(lst));
+		else if (is_redir(lst->next))
+			solo_redir_out(lst, ex, is_redir(lst->next));
+		}
+	else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst))
+		solo_redir_in(lst, ex);
+	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
+		mini_heredoc(lst);
+	else
+		multi_pipe(lst, ex);
+}
+
+void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 {
 	if (line[0])
 		add_history(line);
@@ -50,13 +71,11 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 		{
 			assign_token(lst);
 			expand_lst(lst, ex);
-			tab_command(lst);
-			search_quote_in_split(lst);
-			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
-				start_execution(lst, ex);
 			tab_command(lst, sp);
 			search_quote_in_split_command(lst);
 			search_quote_in_split_redir(lst);
+			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
+				start_execution(lst, ex);
 		}
 		else
 			clean_return(lst, ex);

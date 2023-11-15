@@ -30,7 +30,7 @@ SRC			= src/main.c \
 				src/Parsing/8_lst_split.c \
 				src/Parsing/9_split_redir.c \
 				src/Parsing/10_supp_quote.c \
-				src/Parsing/10_supp_quote_utils.c \
+				src/Parsing/11_supp_quote_utils.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
