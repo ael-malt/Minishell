@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/06 17:09:23 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:20:31 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
-//si = 0 = commande ; si == 1 = operateur ; si == 2 = redirection
-
 /*
 TO-DO
-operator = | | ou heredoc >> | inexpected toke `|' ; ; << R| ne marche pas dans bash donc regarder si opersteur dans le nom du heredoc et egarger maniere generale ce qui suis un operateur.
+* mettre a la norme et organiser le parsing ==> lara
+* gerer qund ca se termine par un pipe ==> lara (V)
+* refaire le split et enlever les quote inutiles ==> lara (V)
+* verif $? message erreur ==> lara aider par Amine
+* echo $? ne reset pas le return code ==> lara
+
+* etendre redir au multi-pipe
+* etendre here doc au redir en general ==> Amine
 
 */
 typedef struct s_lst
@@ -57,10 +62,30 @@ typedef struct s_expand
 	char	*title;
 	char	*new_command;
 	char	**new_tab;
+	char	*str1;
+	char	*str2;
 	int		flag;
+	int		i;
+	int		c;
+	int		j;
+	int		count;
+	size_t	k;
+	size_t	l;
+	size_t	m;
 	pid_t	pid;
 
 }	t_expand;
+
+typedef	struct s_split
+{
+	char	**split;
+	int		start;
+	int		end;
+	int		index;
+	int		i;
+	int		flag;
+}	t_split;
+
 
 enum	e_mini_error
 {
@@ -77,17 +102,16 @@ enum	e_mini_error
 	NOT_DIR = 11,
 	OPERROR = 12,
 	NOTCMD = 13,
-	NONAME = 14
+	NONAME = 14,
+	SYNTAX = 15
 };
 
 int multipipe(t_lst * lst, t_expand *ex);
 //-----------------------------FIRST_CHECK.C------------------------------//
 //int	search_char(char *s);
 //int	search_quote(char *s);
-void	search_quote_in_split(t_lst *lst);
-char	*supp_quote(char *s, int len, int index);
 int		check_double_pipe(t_lst *lst);
-int		check_is_name_for_redir(t_lst *lst);
+int		check_last_is_pipe(t_lst *lst);
 
 // char *get_line_since_quote(char *line);
 // char *ft_new_line1(char *line, int start, int end);
@@ -97,36 +121,73 @@ int		check_is_name_for_redir(t_lst *lst);
 
 //--------------------------------MAIN.C----------------------------------//
 // void	get_tab_env(t_expand *ex, char **envp);
-
-//--------------------------LST.C-----------------------------------------//
+void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp);
+//--------------------------1_LST.C-----------------------------------------//
 t_lst	*create_node();
-int	split_command(t_lst *lst, t_expand *ex);
-int	tree_branch(t_lst *lst, t_expand  *ex);
+void	strndup_operator(t_lst *lst); // nouveau
+int		split_command(t_lst *lst, t_expand *ex);
+int		tree_branch(t_lst *lst, t_expand  *ex);
 void	len_split_command(t_lst *lst);
-void	assign_token(t_lst *lst);
 
-//------------------------OPERATOR.C---------------------------------------//
-int	len_redirection(t_lst *tree, char *s);
-int	res_is_operator(t_lst *tree, char *s);
-int	is_operator_split(t_lst *lst);
-int	len_operator(t_lst *lst);
-int	error_operator_return(int i, char *s);
+
+//------------------------2_OPERATOR.C---------------------------------------//
+int		is_operator_split(t_lst *lst);
+int		len_operator(t_lst *lst);
+int		error_operator_return(int i, char *s);
 void	error_operator_message(char *s);
-int	is_operator(char c);
 
-//--------------------------------EXPAND.C--------------------------------//
+//------------------------3_OPERATOR_UTILS.C---------------------------------//
+void	assign_token(t_lst *lst);
+int		is_operator(char c);
+int		res_is_operator(t_lst *tree, char *s);
+int		len_redirection(t_lst *tree, char *s);
+
+//-------------------------4_EXPAND.C--------------------------------//
 void	expand_lst(t_lst *lst, t_expand *ex);
-char	*search_expand_in_line(t_expand *ex, char *line);
-char 	*get_split_expand(char *str1, char *str2, t_expand *ex, char *line, int i);
+char	*search_expand_in_line(t_expand *ex, char *line, int i);
+char 	*get_split_expand(t_expand *ex, char *line, int i);
 char	*get_str2(t_expand *ex, char *line, int i);
+
+//------------------------5_SWITCH.C-------------------------------//
+char	*get_title(t_expand *en, char *tab_str);
+void	get_replace(t_expand *ex);
+void	assign_replace(t_expand *ex);
+
+//----------------------6_EXPAND_UTILS.C---------------------------//
+char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
+void	get_len_strjoin_connect(t_expand *ex, char *start, char *end);
+char	*ft_strndup(char *s, int start, int end);
 int		len_expand(char *line, int i);
 int		ft_strcmp(char *s1, char *s2);
 
-//---------------------------------SWITCH.C-------------------------------//
-char	*get_title(t_expand *en, char *tab_str);
-void	get_replace(t_expand *ex);
-char	*ft_strjoin_connect(t_expand *ex, char *start, char *end);
-char	*ft_strndup(char *s, int start, int end);
+//------------------------7_LST_LEN_SPLIT.C-------------------------------------//
+void	tab_command(t_lst *lst, t_split *sp);
+int		len_tab_command(char *s); // nouveau ajout i
+int		search_next_word(char *s, int i); // nouveau
+int 	search_next_word_simple_quote(char *s, int i);
+int 	search_next_word_double_quote(char *s, int i);
+
+//------------------------8_LST_SPLIT.C---------------------------------------//
+char	**malloc_command_in_lst(char *s, char **split);
+char	*word_dup_in_split(char *str, int start, int finish);
+char	**assign_tab_command(char *s, t_lst *lst, t_split *sp);
+void	get_word_limit(char *s,  t_split *sp);
+void	get_limit_word_quote(char *s, t_split *sp);
+//------------------------9_SPLIT_REDIR.C-------------------------------------//
+int		check_charset(char c, char *charset);
+int		count_words(char *str, char *charset);
+int		count_wlen(char *str, char *charset);
+char	**ft_split_redir(char *str, char *charset);
+
+//------------------------10_SUPP_QUOTTE.C--------------------------//
+void	search_quote_in_split_command(t_lst *lst);
+void	search_quote_in_split_redir(t_lst *lst);
+char	*supp_quote(char *s, int len, int index, int flag);
+
+//------------------------11_SUPP_QUOTTE_UTILS.C--------------------------//
+int		is_quote(char *s);
+char	*malloc_char_supp_quotte(int len, char *rep, char *s);
+int		check_is_name_for_redir(t_lst *lst);
 
 //-----------------------------------UTIL.C-------------------------------//
 int		ft_countchar(char *s, char c);
@@ -146,16 +207,11 @@ void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
 void	*mini_heardoc_error(int err_type, char *param, int err);
 
-//------------------------LST_SPLIT.C-------------------------------------//
+//------------------------HEREDOC.C-------------------------------------//
 int	is_heredoc(t_lst *lst);
 void	mini_heredoc(t_lst *lst);
+int	is_heredoc_limiter_valid(t_lst *lst);
 
-//------------------------LST_SPLIT.C-------------------------------------//
-void	tab_command(t_lst *lst);
-int		len_tab_command(char *s);
-char	**malloc_command_in_lst(char *s, char **split);
-char	*word_dup_in_split(char *str, int start, int finish);
-char	**assign_tab_command(char *s, t_lst *lst);
 
 //-------------------------GET_COMMAND.C----------------------------------//
 void	solo_exe(t_lst *lst, t_expand *ex);

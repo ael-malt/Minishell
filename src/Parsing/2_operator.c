@@ -1,4 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2_operator.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/08 18:28:27 by lazanett          #+#    #+#             */
+/*   Updated: 2023/11/08 18:28:27 by lazanett         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 int	is_operator_split(t_lst *lst)
 {
@@ -35,24 +47,12 @@ int	len_redirection(t_lst *lst, char *s)
 	}
 	while (s[i] != '\0' && (s[i] == ' ' || s[i] == '\t'))
 		i++;
-	while (s[i] != '\0' && (s[i] != ' ' && s[i] != '\t' && is_operator(s[i]) == 0))
+	while (s[i] != '\0' && (s[i] != ' ' && s[i] != '\t' && \
+		is_operator(s[i]) == 0))
 		i++;
 	return (i);
 }
 
-int	len_operator(t_lst *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst->content[i] && is_operator(lst->content[i]) == 1)
-		i++;
-	if (!error_operator_return(i, lst->content))
-		return (i);
-	else
-		return (-1);
-}
-	
 int	error_operator_return(int i, char *s)
 {
 	if (s[0] == '|' && i > 1)
@@ -73,29 +73,4 @@ void	error_operator_message(char *s)
 		mini_perror2(OPERROR, s[1], 2);
 	else if (i > 2 && s[0] == s[1])
 		mini_perror2(OPERROR, s[2], 2);
-}
-
-int	is_operator(char c)
-{
-	if (c == '|' || c == '>' || c == '<')
-		return (1);
-	return (0);
-}
-
-int	res_is_operator(t_lst *lst, char *s)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (is_operator(s[i]))
-			count++;
-		i++;
-	}
-	if (lst->len_command_total == count)
-		return (1);
-	return (0);
 }

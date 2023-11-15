@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/27 11:50:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:04:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	*mini_heardoc_error(int err_type, char *param, int err)
 	}
 	if (err_type == NONAME)
 		ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+	if (err_type == SYNTAX)
+		ft_putendl_fd("minishell: expected a command", 2);
 	return (NULL);
 }
 

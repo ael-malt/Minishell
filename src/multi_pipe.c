@@ -121,12 +121,10 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		perror("FORK");
 	if (pid == 0)
 	{
-		//child
 		exc_cmd(fd, *fd_temp, lst, ex);
 	}
 	else
 	{
-		//parent
 		if (*fd_temp)
 			close(*fd_temp);
 		*fd_temp = dup(fd[0]);
@@ -210,8 +208,7 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	}
 	else
 	{
-		//parent
-		if (*fd_temp) //NOUVEAU
+		if (*fd_temp)
 			close(*fd_temp);
 		close(fd[0]);
 		waitpid(pid, NULL, 0);

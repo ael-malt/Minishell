@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/27 14:35:29 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:47:37 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,29 @@ int	is_heredoc_limiter_valid(t_lst *lst)
 	int	i;
 
 	i = 0;
-	// if (!lst->split_redir[1])
-	// {
-	// 	mini_heardoc_error(OPERROR, "newline", 2);
-	// 	return (0);
-	// }
-	//else
-	//{
-	while (lst->split_redir[1][i])
+	if (!lst)
+		return (-1);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst)
 	{
-		if(lst->split_redir[1][i] == '|' || lst->split_redir[1][i] == '<' || lst->split_redir[1][i] == '>' || lst->split_redir[1][i] == '&' || lst->split_redir[1][i] == '#')
+		if (lst->token == 2 && lst->split_redir[1] != NULL)
 		{
-			mini_heardoc_error(OPERROR, &lst->split_redir[1][i], 2);
-			return (0);
+			while (lst->split_redir[1][i])
+			{
+				if(lst->split_redir[1][i] == '|' || lst->split_redir[1][i] == '<' || lst->split_redir[1][i] == '>' || lst->split_redir[1][i] == '&' || lst->split_redir[1][i] == '#')
+				{
+					mini_heardoc_error(OPERROR, &lst->split_redir[1][i], 2);
+					return (1);
+				}
+				i++;
+			}
 		}
-		i++;
+		lst = lst->next;
 	}
-	//}
-	return (1);
+	return (0);
 }
+
 void	mini_heredoc(t_lst *lst)
 {
 	char	*line;

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_redir.c                                      :+:      :+:    :+:   */
+/*   9_split_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 12:26:55 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/26 12:37:28 by lazanett         ###   ########.fr       */
+/*   Created: 2023/11/08 18:30:38 by lazanett          #+#    #+#             */
+/*   Updated: 2023/11/14 17:06:03 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	check_charset(char c, char *charset)
 {

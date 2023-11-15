@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/08 17:40:34 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/14 16:14:49 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,6 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
-void	start_execution(t_lst *lst,t_expand *ex)
-{
-	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst))
-		solo_exe(lst, ex); // av 0 changer a 1 pour 1 redir
-	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
-		&& ((is_redir(lst) == 2 || is_redir(lst) == 4
-		|| (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))))
-		{
-		if (is_redir(lst))
-			solo_redir_out(lst, ex, is_redir(lst));
-		else if (is_redir(lst->next))
-			solo_redir_out(lst, ex, is_redir(lst->next));
-		}
-	else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst))
-		solo_redir_in(lst, ex);
-	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
-		mini_heredoc(lst);
-	else
-		multi_pipe(lst, ex);
-}
-
 void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 {
 	if (line[0])
@@ -75,6 +54,9 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex)
 			search_quote_in_split(lst);
 			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
 				start_execution(lst, ex);
+			tab_command(lst, sp);
+			search_quote_in_split_command(lst);
+			search_quote_in_split_redir(lst);
 		}
 		else
 			clean_return(lst, ex);
@@ -108,6 +90,7 @@ int	main(int ac, char **av, char **envp)
 	(void)		av;
 	t_expand	ex;
 	t_lst		lst;
+	t_split		sp;
 	char		*line_start;
 	char		*line;
 
@@ -125,7 +108,7 @@ int	main(int ac, char **av, char **envp)
 			if (!line)
 				break ;
 			else
-				check_rl_args(line, &lst, &ex);
+				check_rl_args(line, &lst, &ex, &sp);
 			// free line
 			free(line_start);
 		}

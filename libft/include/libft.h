@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 10:51:25 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/13 17:00:59 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:23:20 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 # include <errno.h>
-#include <stddef.h>
+# include <stddef.h>
 
 typedef struct s_list
 {
@@ -113,8 +113,8 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 char		**ft_dup_matrix(char **m);
 void		ft_free_matrix(char ***m);
 char		**ft_extend_matrix(char **in, char *newstr);
-int	ft_matrixlen(char **m);
-t_list	*ft_matrixtolst(char **matrix);
-char	**ft_lsttomatrix(t_list *lst);
-int	ft_putmatrix_fd(char **m, int nl, int fd);
+int			ft_matrixlen(char **m);
+t_list		*ft_matrixtolst(char **matrix);
+char		**ft_lsttomatrix(t_list *lst);
+int			ft_putmatrix_fd(char **m, int nl, int fd);
 #endif

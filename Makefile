@@ -6,7 +6,7 @@
 #    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/10/26 12:44:35 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/14 17:08:52 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,17 @@ PATH_LIB	= libft
 
 SRC			= src/main.c \
 				src/first_check.c \
-				src/lst.c\
-				src/lst_split.c \
-				src/operator.c \
-				src/expand.c \
-				src/switch.c \
+				src/Parsing/1_lst.c\
+				src/Parsing/2_operator.c \
+				src/Parsing/3_operator_utils.c \
+				src/Parsing/4_expand.c \
+				src/Parsing/5_switch.c \
+				src/Parsing/6_expand_utils.c \
+				src/Parsing/7_lst_len_split.c \
+				src/Parsing/8_lst_split.c \
+				src/Parsing/9_split_redir.c \
+				src/Parsing/10_supp_quote.c \
+				src/Parsing/10_supp_quote_utils.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
@@ -39,7 +45,7 @@ SRC			= src/main.c \
 				src/builtins/mini_pwd.c \
 				src/builtins/mini_unset.c \
 				src/redir.c \
-				src/split_redir.c \
+				
 
 LIB			= $(PATH_LIB)/libft.a
 
