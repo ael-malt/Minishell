@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/14 17:20:31 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:59:54 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,45 +207,14 @@ void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
 void	*mini_heardoc_error(int err_type, char *param, int err);
 
-//------------------------HEREDOC.C-------------------------------------//
-int	is_heredoc(t_lst *lst);
-void	mini_heredoc(t_lst *lst);
-int	is_heredoc_limiter_valid(t_lst *lst);
-
-
-//-------------------------GET_COMMAND.C----------------------------------//
-void	solo_exe(t_lst *lst, t_expand *ex);
-void	solo_redir_heredoc(t_lst *lst, t_expand *ex);
-void	excecuting(t_lst *lst, char **tab);
-char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
-void	exc_absolut_way(t_lst *lst, t_expand *ex);
-int		is_builtin(t_lst *lst);
-
-//----------------------MULTI_PIPE.C-----------------------------------//
-int		lst_count_pipe(t_lst *lst);
-int		len_lst(t_lst *lst);
-void	multi_pipe(t_lst * lst, t_expand *ex);
-void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
-void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
-void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
-void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
-
-//------------------------REDIR---------------------------------------//
-int		is_redir(t_lst *lst);
-int		is_solo_redir(t_lst *lst);
-void	solo_redir_in(t_lst *lst, t_expand *ex);
-void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int infile);
-void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
-void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int outfile);
-void	redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
-
 //---------------------------SPLIT_REDIR.C---------------------------//
 int		check_charset(char c, char *charset);
 int		count_words(char *str, char *charset);
 int		count_wlen(char *str, char *charset);
 char	**ft_split_redir(char *str, char *charset);
 
-//---------------------------------BUILTINS.C-----------------------------//
+
+//-------------------------------BUILTINS------------------------------//
 
 int		builtin(t_lst *lst, t_expand	*ex);
 int		is_builtin(t_lst *lst);
@@ -271,4 +240,47 @@ int		unset_var_in_tab(char *av, char **tab);
 int		mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);
 
+
+//---------------------------------EXECUTION------------------------------//
+void	start_execution(t_lst *lst,t_expand *ex);
+void	redirex (int *fd_temp, t_lst *lst, t_expand *ex);
+
+		//------------------------REDIR_IN.C------------------------//
+void	redir_in(int fd_temp, t_lst *lst, t_expand *ex, int infile);
+void	solo_redir_in(t_lst *lst, t_expand *ex, int infile);
+
+		//------------------------REDIR_OUT.C-----------------------//
+void	solo_redir_out(t_lst *lst, t_expand *ex, int outfile);
+void	redir_out(int fd_temp, t_lst *lst, t_expand *ex, int outfile);
+
+		//------------------------REDIR_UTIL.C----------------------//
+int		is_redir(t_lst *lst);
+int		is_solo_redir(t_lst *lst);
+int		lst_count_redir(t_lst *lst);
+int		open_redir_file(t_lst *lst);
+
+		//------------------------HEREDOC.C-------------------------//
+int		is_heredoc(t_lst *lst);
+void	mini_heredoc(t_lst *lst);
+int		is_heredoc_limiter_valid(t_lst *lst);
+
+		//---------------------EXECUTION_UTIL.C---------------------//
+int		lst_count_pipe(t_lst *lst);
+int		get_last_operator(t_lst *lst);
+int		len_lst(t_lst *lst);
+
+//-------------------------GET_COMMAND.C----------------------------------//
+void	solo_exe(t_lst *lst, t_expand *ex);
+// void	solo_redir_heredoc(t_lst *lst, t_expand *ex);
+void	excecuting(t_lst *lst, char **tab);
+char	*ft_strjoin_connect2(char const *s1, char const *s2, char connector);
+void	exc_absolut_way(t_lst *lst, t_expand *ex);
+int		is_builtin(t_lst *lst);
+
+//----------------------MULTI_PIPE.C-----------------------------------//
+void	multi_pipe(t_lst * lst, t_expand *ex);
+void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
+void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 #endif

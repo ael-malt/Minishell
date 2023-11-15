@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/14 17:08:52 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/15 16:53:19 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,23 @@ CFLAGS		= -Wall -Werror -Wextra -g3
 PATH_LIB	= libft
 
 SRC			= src/main.c \
-				src/first_check.c \
+				src/Builtins/builtins.c \
+				src/Builtins/mini_cd.c \
+				src/Builtins/mini_echo.c \
+				src/Builtins/mini_exit.c \
+				src/Builtins/mini_export.c \
+				src/Builtins/mini_pwd.c \
+				src/Builtins/mini_unset.c \
+				src/Execution/execution_util.c \
+				src/Execution/execution.c \
+				src/Execution/get_command.c\
+				src/Execution/heredoc.c \
+				src/Execution/last_pipe.c \
+				src/Execution/multi_pipe.c \
+				src/Execution/redir_in.c \
+				src/Execution/redir_out.c \
+				src/Execution/redir_util.c \
+				src/Execution/redir.c \
 				src/Parsing/1_lst.c\
 				src/Parsing/2_operator.c \
 				src/Parsing/3_operator_utils.c \
@@ -31,20 +47,10 @@ SRC			= src/main.c \
 				src/Parsing/9_split_redir.c \
 				src/Parsing/10_supp_quote.c \
 				src/Parsing/11_supp_quote_utils.c \
+				src/first_check.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \
-				src/get_command.c\
-				src/multi_pipe.c \
-				src/heredoc.c \
-				src/builtins/builtins.c \
-				src/builtins/mini_cd.c \
-				src/builtins/mini_echo.c \
-				src/builtins/mini_exit.c \
-				src/builtins/mini_export.c \
-				src/builtins/mini_pwd.c \
-				src/builtins/mini_unset.c \
-				src/redir.c \
 				
 
 LIB			= $(PATH_LIB)/libft.a
