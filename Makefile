@@ -6,7 +6,7 @@
 #    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/14 17:08:52 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/15 16:16:54 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,9 @@ SRC			= src/main.c \
 				src/Parsing/7_lst_len_split.c \
 				src/Parsing/8_lst_split.c \
 				src/Parsing/9_split_redir.c \
-				src/Parsing/10_supp_quote.c \
-				src/Parsing/11_supp_quote_utils.c \
+				src/Parsing/10_split_redir_utils.c \
+				src/Parsing/11_supp_quote.c \
+				src/Parsing/12_supp_quote_utils.c \
 				src/util.c \
 				src/signal.c \
 				src/error.c \

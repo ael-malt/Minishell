@@ -79,7 +79,6 @@ void	get_word_limit(char *s, t_split *sp)
 	sp->end = sp->index;
 	sp->index -= 1;
 	sp->split[sp->i] = word_dup_in_split(s, sp->start, sp->end);
-	printf("%s\n", sp->split[sp->i]);
 	sp->i += 1;
 }
 

@@ -57,7 +57,9 @@ int	error_operator_return(int i, char *s)
 {
 	if (s[0] == '|' && i > 1)
 		return (1);
-	else if (i > 2 && s[0] == s[1])
+	else if (s[0] == '>' && s[1] == '<')
+		return (1);
+	else if (i > 2)
 		return (1);
 	return (0);
 }
@@ -70,6 +72,8 @@ void	error_operator_message(char *s)
 	while (s[i] && is_operator(s[i]) == 1)
 		i++;
 	if (s[0] == '|' && i > 1)
+		mini_perror2(OPERROR, s[1], 2);
+	else if (s[0] == '>' && s[1] == '<')
 		mini_perror2(OPERROR, s[1], 2);
 	else if (i > 2 && s[0] == s[1])
 		mini_perror2(OPERROR, s[2], 2);

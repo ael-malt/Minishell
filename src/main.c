@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/14 16:14:49 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:14:28 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,16 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 		line++;
 	if (line[0])
 	{
-		//new_line = search_expand_in_line(&ex, line);
-		//printf("%s\n", new_line);
+		if (search_quote(line) == 1)
+		{
+			mini_perror(QUOTE, "", 2);
+			return ;
+		}
+		if (search_char(line) == 1)
+		{
+			mini_perror2(OPERROR, ' ', 2);// a voir ce quon met en code err
+			return ;
+		}
 		lst = create_node();
 		lst->content = ft_strdup(line);
 		if (split_command(lst, ex) != -1)
@@ -74,7 +82,7 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 			tab_command(lst, sp);
 			search_quote_in_split_command(lst);
 			search_quote_in_split_redir(lst);
-			if (check_double_pipe(lst) == 0 && check_is_name_for_redir(lst) == 0)
+			if (check_double_pipe(lst) == 0 && check_last_is_pipe(lst) == 0)
 				start_execution(lst, ex);
 		}
 		else
@@ -139,36 +147,3 @@ int	main(int ac, char **av, char **envp)
 	else
 		printf("Error : nb argc invalid\n");
 }
-
-// void	get_tab_env(t_expand *ex, char **envp) // recup l'environnement
-// {
-// 	int	size;
-// 	int	i;
-	
-// 	size = 0;
-// 	while (envp[size])
-// 		size++;
-// 	ex->tab = malloc (sizeof(char *) * (size + 1));
-// 	if (!ex->tab)
-// 		return ;
-// 	i = 0;
-// 	while (i < size + 1)
-// 	{
-// 		ex->tab[i] = NULL;
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		ex->tab[i] = ft_strdup(envp[i]);
-// 		if (ex->tab[i] == 0)
-// 		{
-// 			free(ex->tab[i]);
-// 			exit(1);
-// 		}
-// 		// printf("%s\n", ex->tab[i]);
-// 		i++;
-// 	}
-// 	return;
-// }
-

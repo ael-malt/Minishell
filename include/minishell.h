@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/14 17:20:31 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:14:46 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@
 # include <dirent.h>
 /*
 TO-DO
-* mettre a la norme et organiser le parsing ==> lara
-* gerer qund ca se termine par un pipe ==> lara (V)
-* refaire le split et enlever les quote inutiles ==> lara (V)
+
 * verif $? message erreur ==> lara aider par Amine
 * echo $? ne reset pas le return code ==> lara
+* verif error si trop operator ==> lara
 
 * etendre redir au multi-pipe
 * etendre here doc au redir en general ==> Amine
@@ -84,6 +83,9 @@ typedef	struct s_split
 	int		index;
 	int		i;
 	int		flag;
+	char	**strs;
+	int		j;
+	int		k;
 }	t_split;
 
 
@@ -103,13 +105,14 @@ enum	e_mini_error
 	OPERROR = 12,
 	NOTCMD = 13,
 	NONAME = 14,
-	SYNTAX = 15
+	SYNTAX = 15,
+	NOQUOTE = 16
 };
 
 int multipipe(t_lst * lst, t_expand *ex);
 //-----------------------------FIRST_CHECK.C------------------------------//
-//int	search_char(char *s);
-//int	search_quote(char *s);
+int		search_char(char *s);
+int		search_quote(char *s);
 int		check_double_pipe(t_lst *lst);
 int		check_last_is_pipe(t_lst *lst);
 
@@ -173,18 +176,23 @@ char	*word_dup_in_split(char *str, int start, int finish);
 char	**assign_tab_command(char *s, t_lst *lst, t_split *sp);
 void	get_word_limit(char *s,  t_split *sp);
 void	get_limit_word_quote(char *s, t_split *sp);
+
 //------------------------9_SPLIT_REDIR.C-------------------------------------//
+char	**ft_split_redir(char *str, char *charset, t_split *s);
+void	operator_split_redir(char *str, char *charset, t_split *s);
+void	word_split_redir(char *str, char *charset, t_split *s);
+
+//----------------------10_SPLIT_REDIR_UTILS.C-------------------------------//
 int		check_charset(char c, char *charset);
 int		count_words(char *str, char *charset);
 int		count_wlen(char *str, char *charset);
-char	**ft_split_redir(char *str, char *charset);
 
-//------------------------10_SUPP_QUOTTE.C--------------------------//
+//------------------------11_SUPP_QUOTTE.C--------------------------//
 void	search_quote_in_split_command(t_lst *lst);
 void	search_quote_in_split_redir(t_lst *lst);
 char	*supp_quote(char *s, int len, int index, int flag);
 
-//------------------------11_SUPP_QUOTTE_UTILS.C--------------------------//
+//------------------------12_SUPP_QUOTTE_UTILS.C--------------------------//
 int		is_quote(char *s);
 char	*malloc_char_supp_quotte(int len, char *rep, char *s);
 int		check_is_name_for_redir(t_lst *lst);
@@ -238,12 +246,6 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
 void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i);
 void	redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
-
-//---------------------------SPLIT_REDIR.C---------------------------//
-int		check_charset(char c, char *charset);
-int		count_words(char *str, char *charset);
-int		count_wlen(char *str, char *charset);
-char	**ft_split_redir(char *str, char *charset);
 
 //---------------------------------BUILTINS.C-----------------------------//
 
