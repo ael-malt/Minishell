@@ -149,7 +149,7 @@ void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	{
 		if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 		{
-			ft_printf("\n\nlst->content: %s\n\n", lst->command);
+			// ft_printf("\n\nlst->content: %s\n\n", lst->command);
 			redir_out(fd, *fd_temp, lst, ex, is_redir(lst));
 		}
 		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
