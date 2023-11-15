@@ -65,7 +65,25 @@ int	len_lst(t_lst *lst)
 	}
 	return (len);
 }
+int	get_last_operator(t_lst *lst)
+{
+	int	operator;
 
+	operator = 0;
+	if (!lst)
+		return (-1);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst->next)
+	{
+		if (lst->token == 1)
+			operator = 1;
+		else if (lst->token == 2)
+			operator = 2;
+		lst = lst->next;
+	}
+	return (operator);
+}
 void	multi_pipe(t_lst * lst, t_expand *ex)
 {
 	int	i;
@@ -103,12 +121,105 @@ void	multi_pipe(t_lst * lst, t_expand *ex)
 		}
 		else
 		{
-			last_pipe(fd, &fd_temp, lst, ex);
+			if (get_last_operator(lst) == 1)
+				last_pipe(fd, &fd_temp, lst, ex);
+			// else if (get_last_operator(lst) == 2)
+			// 	last_redir(fd, &fd_temp, lst, ex);
 		}
 		i++;
 	}
 	wait(NULL);
 }
+
+int	open_redir_file(t_lst *lst)
+{
+	int	file;
+	
+	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+	{
+		if (is_redir(lst) == 2)
+			file = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (is_redir(lst) == 4)
+			file = open(lst->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+	}
+	else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+	{
+		if (is_redir(lst->next) == 2)
+			file = open(lst->next->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (is_redir(lst->next) == 4)
+			file = open(lst->next->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+
+	}
+	else if (is_redir(lst) == 3)
+		file = open(lst->split_redir[1], O_RDONLY, 0644);
+	else if (is_redir(lst->next) == 3)
+		file = open(lst->next->split_redir[1], O_RDONLY, 0644);
+
+	if (file < 0)
+		perror("File");
+	return (file);
+}
+
+void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
+{
+	int	pid;
+	int file;
+	// ft_printf("here\n");
+
+	// (void) fd;
+	pid = fork();
+	if (pid == -1)
+		perror("FORK");
+	if (pid == 0)
+	{
+		file = open_redir_file(lst);
+		if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+			redir_out(fd, *fd_temp, lst, ex, file);
+		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
+			redir_out(fd, *fd_temp, lst, ex, file);
+		else if (is_redir(lst) == 3)
+			redir_in(fd, *fd_temp, lst, ex, file);
+		else if (is_redir(lst->next) == 3)
+			redir_in(fd, *fd_temp, lst->next, ex, file);
+		if (file)
+			close(file);
+		// else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
+		// 	solo_redir_in(lst, ex);
+	}
+	else
+	{
+		//parent
+		// if (*fd_temp)
+		// 	close(*fd_temp);
+		// *fd_temp = dup(fd[0]);
+		close(fd[0]);
+		close(fd[1]); //nouveau
+		waitpid(pid, NULL, 0); // ?
+	}
+}
+
+// void	last_redir(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
+// {
+// 	int	pid;
+
+// 	// if (pipe(fd) == -1)
+// 	// 	perror("Pipe")x;
+// 	pid = fork();
+// 	if (pid < 0)
+// 		perror("FORK");
+// 	if (pid == 0)
+// 	{
+// 		//child
+// 		exc_last_cmd(fd, *fd_temp, lst, ex);
+// 	}
+// 	else
+// 	{
+// 		if (*fd_temp)
+// 			close(*fd_temp);
+// 		close(fd[0]);
+// 		waitpid(pid, NULL, 0);
+// 	}
+// }
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
@@ -134,63 +245,6 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 	}
 }
 
-void redirex(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
-{
-	int	pid;
-	// ft_printf("here\n");
-
-	// (void) fd;
-	pid = fork();
-	if (pid == -1)
-		perror("FORK");
-	if (pid == 0)
-	{
-		if ((is_redir(lst) == 2 || is_redir(lst) == 4))
-		{
-			// ft_printf("\n\nlst->content: %s\n\n", lst->command);
-			redir_out(fd, *fd_temp, lst, ex, is_redir(lst));
-		}
-		else if  (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)
-			redir_out(fd, *fd_temp, lst, ex, is_redir(lst->next));
-		else if (is_redir(lst) == 3)
-			redir_in(fd, *fd_temp, lst, ex);
-		else if (is_redir(lst->next) == 3)
-			redir_in(fd, *fd_temp, lst->next, ex);
-		// else if(is_solo_redir(lst) == 1 && is_redir(lst) == 3)
-		// 	solo_redir_in(lst, ex);
-	}
-	else
-	{
-		//parent
-		// if (*fd_temp)
-		// 	close(*fd_temp);
-		// *fd_temp = dup(fd[0]);
-		close(fd[0]);
-		close(fd[1]); //nouveau
-		waitpid(pid, NULL, 0); // ?
-	}
-}
-
-void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
-{
-	signal(SIGQUIT, SIG_DFL);
-	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
-		ft_perror("Dup");
-	close(fd[0]);
-	if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
-		perror("Dup");
-	close(fd_temp);
-	close(fd[1]);
-	if (is_builtin(lst))
-	{
-		builtin(lst, ex);
-		exit(0);
-	}
-	else if (ft_strchr(lst->split_command[0], '/') != NULL)
-		exc_absolut_way(lst, ex);
-	else
-		excecuting(lst, ex->tab);
-}
 
 void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 {
@@ -213,6 +267,27 @@ void	last_pipe(int *fd, int *fd_temp, t_lst *lst, t_expand *ex)
 		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
+}
+
+void	exc_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
+{
+	signal(SIGQUIT, SIG_DFL);
+	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
+		ft_perror("Dup");
+	close(fd[0]);
+	if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
+		perror("Dup");
+	close(fd_temp);
+	close(fd[1]);
+	if (is_builtin(lst))
+	{
+		builtin(lst, ex);
+		exit(0);
+	}
+	else if (ft_strchr(lst->split_command[0], '/') != NULL)
+		exc_absolut_way(lst, ex);
+	else
+		excecuting(lst, ex->tab);
 }
 
 void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex)

@@ -47,12 +47,9 @@ int	is_redir(t_lst *lst)
 	return (0);
 }
 
-void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
+void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int outfile)
 {
-	// ft_printf("HERE: %s\n", lst->command);
-	// (void) fd;
 	t_lst	*tmp_lst;
-	int	outfile;
 
 	signal(SIGQUIT, SIG_DFL);
 	if (lst->next && !lst->token)
@@ -64,21 +61,10 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
 	close(fd[0]);
-	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
-	// 	perror("Dup");
 	close(fd_temp);
 	close(fd[1]);
-	if (i == 2)
-		outfile = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (i == 4)
-		outfile = open(lst->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (outfile < 0)
-		printf("erreur dup\n");
-	//if (dup2(fd[0], STDIN_FILENO) == -1)
-	//	perror("Dup");
 	if (dup2(outfile, STDOUT_FILENO) == -1)
 		perror("Dup");
-	close(outfile);
 	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
 		builtin(tmp_lst, ex);
@@ -148,15 +134,9 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 	//printf("var globale = %d\n", g_exit_status);
 }
 
-void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
+void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int infile)
 {
-	// ft_printf("HERE: %s\n", lst->command);
-	// (void) fd;
-	// (void) fd_temp;
-	// (void) lst;
-	// (void) ex;
 	t_lst *tmp_lst;
-	int	infile;
 
 	signal(SIGQUIT, SIG_DFL);
 	if (lst->next && !lst->token)
@@ -167,19 +147,11 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 		tmp_lst = lst->prev;
 	if (dup2(fd_temp, STDOUT_FILENO) == -1) //FD_TEMP car on recup du pipe pres
 		ft_perror("Dup");
-	close(fd_temp);
 	close(fd[0]);
-	// ft_printf("content: %s\n", lst->content);
-	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
-	// 	perror("Dup");
+	close(fd_temp);
 	close(fd[1]);
-	infile = open(lst->split_redir[1], O_RDONLY, 0644);
-	// ft_printf("infile: %s\n", lst->split_redir[1]);
-	if (infile < 0)
-		perror("Infile");
 	if (dup2(infile, STDIN_FILENO) == -1)
 		perror("Dup");
-	close(infile);
 	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
 		builtin(tmp_lst, ex);

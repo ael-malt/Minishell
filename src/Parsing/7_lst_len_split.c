@@ -14,24 +14,24 @@
 
 void	tab_command(t_lst *lst, t_split *sp)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (!lst)
 		return ;
 	while (lst)
 	{
 		if (lst->token == 0)
 		{
-			i = 0;
-			printf("count %d\n", len_tab_command(lst->command));
+			// i = 0;
+			// printf("count %d\n", len_tab_command(lst->command));
 			lst->split_command = assign_tab_command(lst->command, lst, sp);
-			while (lst->split_command[i])
-			{
-				printf ("%s /", lst->split_command[i]);
-				i++;
-			}
-			printf("\n");
+			// while (lst->split_command[i])
+			// {
+			// 	printf ("%s /", lst->split_command[i]);
+			// 	i++;
+			// }
+			// printf("\n");
 		}
 		else if (lst->token == 2)
 			lst->split_redir = ft_split_redir(lst->command, " \t\n");

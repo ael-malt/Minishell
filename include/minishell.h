@@ -234,9 +234,9 @@ void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 int		is_redir(t_lst *lst);
 int		is_solo_redir(t_lst *lst);
 void	solo_redir_in(t_lst *lst, t_expand *ex);
-void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
+void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int infile);
 void	solo_redir_out(t_lst *lst, t_expand *ex, int i);
-void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i);
+void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int outfile);
 void	redirex (int *fd, int *fd_temp, t_lst *lst, t_expand *ex);
 
 //---------------------------SPLIT_REDIR.C---------------------------//
