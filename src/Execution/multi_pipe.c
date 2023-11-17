@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/15 17:55:29 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/17 17:50:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	redirex(int *fd_temp, t_lst *lst, t_expand *ex)
 	}
 	else
 	{
-		close(fd[0]);
-		close(fd[1]);
+		// close(fd[0]);
+		// close(fd[1]);
 		waitpid(pid, NULL, 0);
 	}
 }

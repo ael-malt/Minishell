@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:48:16 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/15 17:43:06 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/17 18:01:43 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_exit_status;
 
-void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int infile)
+void	redir_in(int fd_temp, t_lst *lst, t_expand *ex, int infile)
 {
 	t_lst *tmp_lst;
 
@@ -27,9 +27,9 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int infile)
 		tmp_lst = lst->prev;
 	if (dup2(fd_temp, STDOUT_FILENO) == -1)
 		ft_perror("Dup");
-	close(fd[0]);
 	close(fd_temp);
-	close(fd[1]);
+	// if (dup2(STDOUT_FILENO, fd_temp) == -1)
+	// 	perror("Dup");
 	if (dup2(infile, STDIN_FILENO) == -1)
 		perror("Dup");
 	if (tmp_lst && is_builtin(tmp_lst) == 1)
