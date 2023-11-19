@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 15:39:04 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/19 16:16:47 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static int	mini_export_verif(char *str)
 	equal_present = 0;
 	while (str && str[i])
 	{
-		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '=' || str[i] == '/' || str[i] == '-' || str[i] == ' '  || str[i] == '.'))
+		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='
+				|| str[i] == '/' || str[i] == '-' || str[i] == ' '
+				|| str[i] == '.'))
 			return (0);
 		if (str[i] == '=')
 			equal_present = 1;
@@ -59,8 +61,7 @@ static int	export_no_arg(t_expand *ex)
 	int	i;
 
 	i = 0;
-
-	while(ex->tab[i])
+	while (ex->tab[i])
 	{
 		ft_printf("declare -x ");
 		ft_printf("%s\n", ex->tab[i]);
@@ -69,34 +70,39 @@ static int	export_no_arg(t_expand *ex)
 	return (0);
 }
 
-int mini_export(t_expand *ex, char **split_command)
+static int	do_the_export(t_expand *ex, char **split_command)
 {
 	int		i;
 	int		pos;
 
 	i = 0;
+	while (split_command[++i])
+	{
+		if (mini_export_verif(split_command[i]) == 1)
+		{
+			pos = export_var_in_tab(split_command[i], ex->tab);
+			if (pos >= 0)
+			{
+				free(ex->tab[pos]);
+				ex->tab[pos] = ft_strdup(split_command[i]);
+			}
+			else
+				ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
+		}
+		else if (mini_export_verif(split_command[i]) == 0)
+			return (mini_export_error(split_command[i]));
+	}
+	return (0);
+}
+
+int	mini_export(t_expand *ex, char **split_command)
+{
+	int	return_value;
+
+	return_value = 0;
 	if (ft_matrixlen(split_command) == 1)
 		return (export_no_arg(ex));
 	else if (ft_matrixlen(split_command) > 1)
-	{
-		while (split_command[++i])
-		{
-			if (mini_export_verif(split_command[i]) == 1)
-			{
-				pos = export_var_in_tab(split_command[i], ex->tab);
-				if (pos >= 0)
-				{
-					free(ex->tab[pos]);
-					ex->tab[pos] = ft_strdup(split_command[i]);
-				}
-				else
-					ex->tab = ft_extend_matrix(ex->tab, split_command[i]);
-			}
-			else if (mini_export_verif(split_command[i]) == 0)
-			{
-				return (mini_export_error(split_command[i]));
-			}
-		}
-	}
-	return (0);
+		return_value = do_the_export(ex, split_command);
+	return (return_value);
 }

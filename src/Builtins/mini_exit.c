@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:40:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/27 14:12:00 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/19 16:02:06 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,33 @@
 
 extern int	g_exit_status;
 
-int mini_exit(char **split_command)
+static int	check_is_nb(char *str)
 {
-	int n;
-	int i;
-	int is_num;
+	int	i;
+
+	i = 0;
+	if (str[0] == '-' && ft_isdigit(str[1]))
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	mini_exit(char **split_command)
+{
+	int	n;
+	int	is_num;
 
 	n = 0;
-	i = 1;
-	is_num = 1;
-	ft_printf("exit\n");
 	if (split_command[1] && split_command[2])
 		return (ft_putendl_fd("Minishell: exit: too many arguments", 2));
 	if (split_command[1])
 	{
-		while (split_command[1][i])
-		{
-			if (!ft_isdigit(split_command[1][i]) || split_command[1][0] != '-')
-				is_num = 0;
-			i++;
-		}
+		is_num = check_is_nb(split_command[1]);
 		if (is_num)
 		{
 			n = ft_atoi(split_command[1]);
@@ -49,6 +56,5 @@ int mini_exit(char **split_command)
 			g_exit_status = 2;
 		}
 	}
-	exit(g_exit_status);
-	return (1);
+	return (exit(g_exit_status), 1);
 }
