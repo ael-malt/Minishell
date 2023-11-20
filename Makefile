@@ -6,7 +6,7 @@
 #    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/15 16:16:54 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/16 14:52:05 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS		= -Wall -Werror -Wextra -g3
 PATH_LIB	= libft
 
 SRC			= src/main.c \
-				src/first_check.c \
+				src/Parsing/0_first_check.c \
 				src/Parsing/1_lst.c\
 				src/Parsing/2_operator.c \
 				src/Parsing/3_operator_utils.c \

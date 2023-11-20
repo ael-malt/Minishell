@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 18:07:53 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/14 17:42:35 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:45:51 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 	else if(lst->prev && lst->prev->token == 0)
 		tmp_lst = lst->prev;
 	if (dup2(fd_temp, STDIN_FILENO) == -1) //FD_TEMP car on recup du pipe pres
-		ft_perror("Dup");
+		ft_perror("Dup in");
 	close(fd[0]);
 	// if (dup2(fd[1], STDOUT_FILENO) == -1) // ecrit dans le pipe
 	// 	perror("Dup");
@@ -76,9 +76,13 @@ void	redir_out(int *fd, int fd_temp, t_lst *lst, t_expand *ex, int i)
 		printf("erreur dup\n");
 	//if (dup2(fd[0], STDIN_FILENO) == -1)
 	//	perror("Dup");
-	if (dup2(outfile, STDOUT_FILENO) == -1)
-		perror("Dup");
-	close(outfile);
+	if (lst->next == NULL || (lst->next != NULL && (is_redir(lst->next) != 2 && is_redir(lst->next) != 4)))//NOUVEAU//
+		if (dup2(outfile, STDOUT_FILENO) == -1)
+			perror("Dup out");
+	close(outfile); //nouveau
+	if (lst->next != NULL)
+		redirex(fd, &fd_temp, lst->next, ex);
+	//close(outfile);
 	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
 		builtin(tmp_lst, ex);
@@ -111,6 +115,7 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 		perror("FORK");
 	if (pid == 0)
 	{
+		printf("coucou");
 		signal(SIGQUIT, SIG_DFL);
 		if (i == 2)
 			outfile = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -121,7 +126,7 @@ void	solo_redir_out(t_lst *lst, t_expand *ex, int i)
 		//if (dup2(fd[0], STDIN_FILENO) == -1)
 		//	perror("Dup");
 		if (dup2(outfile, STDOUT_FILENO) == -1)
-			perror("Dup");
+			perror("Dup out solo");
 		close(outfile);
 		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && !is_builtin(lst))
 			exc_absolut_way(tmp_lst, ex);
@@ -178,7 +183,7 @@ void	redir_in(int *fd, int fd_temp, t_lst *lst, t_expand *ex)
 	if (infile < 0)
 		perror("Infile");
 	if (dup2(infile, STDIN_FILENO) == -1)
-		perror("Dup");
+		perror("Dup in infile not solo");
 	close(infile);
 	if (tmp_lst && is_builtin(tmp_lst) == 1)
 	{
@@ -218,7 +223,7 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 			perror("Infile");
 		}
 		if (dup2(infile, STDIN_FILENO) == -1)
-			ft_perror("Dup");
+			ft_perror("Dup in solo");
 		close(infile);
 		if (ft_strchr(tmp_lst->split_command[0], '/') != NULL && !is_builtin(tmp_lst))
 			exc_absolut_way(tmp_lst, ex);
@@ -270,19 +275,16 @@ void	solo_redir_in(t_lst *lst, t_expand *ex)
 // 		excecuting(lst, ex->tab);
 // }
 
-// void	open_file(t_lst *lst)
-// {
-// 	if (is_redir(lst) <= 0)
-// 		return ;
-// 	else
-// 	{
-// 		if (is_redir(lst) == 4)
-// 			open(,O_WRONLY | O_CREAT | O_APPEND, 0644); // mettre fd necessaire
-// 		if (is_redir(lst) == 3)
-// 			open(, O_RDONLY, 0644);
-// 		if (is_redir(lst) == 2)
-// 			open (,O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 		if (is_redir(lst) == 1)
-// 			open(O_WRONLY | O_CREAT | O_APPEND, 0644);
-// 	}
-// }
+void	open_file(t_lst *lst)
+{
+	if (is_redir(lst) <= 0)
+		return ;
+	if (is_redir(lst) == 4)
+		open(lst->split_redir[1], O_WRONLY | O_CREAT | O_APPEND, 0644); // mettre fd necessaire
+	if (is_redir(lst) == 3)
+		open(lst->split_redir[1], O_RDONLY, 0644);
+	if (is_redir(lst) == 2)
+		open (lst->split_redir[1],O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (is_redir(lst) == 1)
+		mini_heredoc(lst);
+}

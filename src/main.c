@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/15 18:14:28 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:17:21 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,37 @@ static void	mini_getpid(t_expand *p)
 	p->pid = pid - 1;
 }
 
-void	start_execution(t_lst *lst,t_expand *ex)
+void	start_execution(t_lst *lst, t_expand *ex)
 {
-	if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst))
-		solo_exe(lst, ex); // av 0 changer a 1 pour 1 redir
-	else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst)
-		&& ((is_redir(lst) == 2 || is_redir(lst) == 4
-		|| (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))))
-		{
-		if (is_redir(lst))
-			solo_redir_out(lst, ex, is_redir(lst));
-		else if (is_redir(lst->next))
-			solo_redir_out(lst, ex, is_redir(lst->next));
-		}
-	else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst))
-		solo_redir_in(lst, ex);
-	else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst))
-		mini_heredoc(lst);
-	else
-		multi_pipe(lst, ex);
+	// if (is_solo_redir(lst) == 0 && !lst_count_pipe(lst))
+	// 	solo_exe(lst, ex); // av 0 changer a 1 pour 1 redir
+	// else if(is_solo_redir(lst) == 1 && !lst_count_pipe(lst) // si il y a redir et no pipe
+	// 	&& ((is_redir(lst) == 2 || is_redir(lst) == 4 //si sortie ou ajout
+	// 	|| (is_redir(lst->next) == 2 || is_redir(lst->next) == 4)))) //si sortie ou ajout
+	// 	{
+	// 		// printf("coucou");
+	// 	if (is_redir(lst)) // si redir est 1er
+	// 		solo_redir_out(lst, ex, is_redir(lst));
+	// 	else if (is_redir(lst->next)) // si redir est 2eme
+	// 		solo_redir_out(lst, ex, is_redir(lst->next));
+	// 	}
+	// else if(is_solo_redir(lst) == 1 && (is_redir(lst) == 3 || (lst->next && is_redir(lst->next) == 3)) && !lst_count_pipe(lst)) //
+	// 	solo_redir_in(lst, ex); //solo infile
+	// else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && !lst_count_pipe(lst)) //heredoc
+	// {
+	// 	// printf("coucouc\n");
+	// 	mini_heredoc(lst);
+	// }
+	// else if (is_solo_redir(lst) == 1 && is_redir(lst) == 1 && lst_count_pipe(lst)) //heredoc
+	// {
+	// 	// printf("coucouc\n");
+	// 	mini_heredoc(lst);
+	// }
+	// else
+	// {
+	// 	// printf("coucou2");
+	multi_pipe(lst, ex);
+	// }
 }
 
 void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)

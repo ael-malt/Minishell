@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/15 18:14:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/19 19:46:32 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,21 +110,17 @@ enum	e_mini_error
 };
 
 int multipipe(t_lst * lst, t_expand *ex);
-//-----------------------------FIRST_CHECK.C------------------------------//
+void	open_file(t_lst *lst);
+//--------------------------------MAIN.C----------------------------------//
+// void	get_tab_env(t_expand *ex, char **envp);
+void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp);
+void	start_execution(t_lst *lst,t_expand *ex);
+//----------------------------0_FIRST_CHECK.C------------------------------//
 int		search_char(char *s);
 int		search_quote(char *s);
 int		check_double_pipe(t_lst *lst);
 int		check_last_is_pipe(t_lst *lst);
 
-// char *get_line_since_quote(char *line);
-// char *ft_new_line1(char *line, int start, int end);
-// char *ft_new_line2(char *line, int start, int end);
-
-//-------------------------------------------------------------------------//
-
-//--------------------------------MAIN.C----------------------------------//
-// void	get_tab_env(t_expand *ex, char **envp);
-void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp);
 //--------------------------1_LST.C-----------------------------------------//
 t_lst	*create_node();
 void	strndup_operator(t_lst *lst); // nouveau
