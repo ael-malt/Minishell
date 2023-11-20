@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/20 16:25:49 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:40:43 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int ac, char **av, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			line_start = get_line_info(&ex);
 			line = readline(line_start);
-			printf("line: %s\n", line);
+			// printf("line: %s\n", line);
 			if (!line)
 				break ;
 			else

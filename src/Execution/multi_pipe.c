@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/20 16:31:10 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:47:32 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 				signal(SIGQUIT, SIG_DFL);
 				if (lst->token == 0)
 				{
-					pipex(fd, fd_temp, lst);
+					pipex(fd, &fd_temp, lst);
 					if (is_builtin(lst) && lst_count_pipe(lst))
 					{
 						builtin(lst, ex);
@@ -118,12 +118,12 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 						lst = lst->next;
 						file = open_redir_file(lst);
 					}
-					redirex(file, fd_temp, lst);
+					redirex(file, &fd_temp, lst);
 				}
 			}
 			else
 			{
-				if (lst->token == 0 && is_builtin(lst) && !lst_count_pipe(lst)) 
+				if (	is_builtin(lst) && !lst_count_pipe(lst)) 
 				{
 					builtin(lst, ex);
 					exit(0);
@@ -141,16 +141,16 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	}
 }
 
-void	redirex(int file, int fd_temp, t_lst *lst)
+void	redirex(int file, int *fd_temp, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
-		if (dup2(file, STDOUT_FILENO) == -1)
+		if (dup2(*fd_temp, STDIN_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
 			return ;
 		}
-		if (dup2(fd_temp, STDIN_FILENO == -1))
+		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
 			return ;
@@ -158,12 +158,12 @@ void	redirex(int file, int fd_temp, t_lst *lst)
 	}
 	else if (is_redir(lst) == 1 || is_redir(lst) == 3)
 	{
-		if (dup2(file, STDIN_FILENO) == -1)
+		if (dup2(*fd_temp, STDOUT_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
 			return ;
 		}
-		if (dup2(fd_temp, STDOUT_FILENO) == -1)
+		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
 			return ;
@@ -173,15 +173,15 @@ void	redirex(int file, int fd_temp, t_lst *lst)
 		close(file);
 }
 
-void	pipex(int *fd, int fd_temp, t_lst *lst)
+void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
 	
-	if (dup2(fd_temp, STDIN_FILENO) == -1)
+	if (dup2(*fd_temp, STDIN_FILENO) == -1)
 	{
 		mini_perror(PIPERR, NULL, 1);
 		return ;
 	}
-	close(fd[0]);
+	// close(fd[0]);
 	if (lst->next)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -190,8 +190,8 @@ void	pipex(int *fd, int fd_temp, t_lst *lst)
 			return ;
 		}
 	}
-	close(fd_temp);
-	close(fd[1]);
+	close(*fd_temp);
+	// close(fd[1]);
 }
 
 

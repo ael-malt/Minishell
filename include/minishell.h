@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/20 16:16:33 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:26:35 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ char	**new_tab(t_expand *ex, int index);
 
 //---------------------------------EXECUTION------------------------------//
 void	start_execution(t_lst *lst,t_expand *ex);
-void	redirex(int file, int fd_temp, t_lst *lst);
+void	redirex(int file, int *fd_temp, t_lst *lst);
 
 		//------------------------REDIR_IN.C------------------------//
 void	redir_in(int fd_temp, t_lst *lst, t_expand *ex, int infile);
@@ -279,7 +279,7 @@ int		is_builtin(t_lst *lst);
 
 //----------------------MULTI_PIPE.C-----------------------------------//
 void	multi_pipe(t_lst * lst, t_expand *ex);
-void	pipex(int *fd, int fd_temp, t_lst *lst);
+void	pipex(int *fd, int *fd_temp, t_lst *lst);
 void	last_pipe(int *fd, int *fd_temp, t_lst *lst,t_expand *ex);
 void	exc_last_cmd(int *fd, int fd_temp, t_lst *lst, t_expand *ex);
 #endif
