@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/17 17:52:02 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:54:03 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	redir_out(int fd_temp, t_lst *lst, t_expand *ex, int outfile)
 		tmp_lst = lst->next;
 	else if(lst->prev && lst->prev->token == 0)
 		tmp_lst = lst->prev;
-	if (dup2(fd_temp, STDIN_FILENO) == -1)
-		ft_perror("Dup");
+	// ft_printf("content: %s\n", tmp_lst->content);
+	// if (dup2(fd_temp, STDIN_FILENO) == -1)
+	// 	ft_perror("Dup");
 	// close(fd[0]);
 	close(fd_temp);
 	// close(fd[1]);
