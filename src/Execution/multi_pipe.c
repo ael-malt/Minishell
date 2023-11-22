@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/20 17:47:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/22 13:17:58 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,40 @@ extern int	g_exit_status;
 // 	wait(NULL);
 // }
 
+void	execute(t_lst *lst, t_expand *ex)
+{
+	if (is_builtin(lst) && lst_count_pipe(lst))
+	{
+		builtin(lst, ex);
+		exit(0);
+	}
+	else if (ft_strchr(lst->split_command[0], '/') != NULL)
+		exc_absolut_way(lst, ex);
+	else
+		excecuting(lst, ex->tab);
+}
+
+void redirect(t_lst *lst, int fd_temp) {	
+	int	file;
+
+	lst = lst->next;
+
+	file = open_redir_file(lst);
+	while (lst->next && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
+	{
+		close(file);
+		lst = lst->next;
+		file = open_redir_file(lst);
+	}
+	printf("rex: %s %d %d\n", lst->command, lst->token, file);
+	redirex(file, &fd_temp, lst);
+}
+
 void	multi_pipe(t_lst *lst, t_expand *ex)
 {
 	int	fd[2];
 	int	pid;
 	int	fd_temp;
-	int	file;
 	int	status;
 	
 	fd_temp = 0;
@@ -85,9 +113,9 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 		return ;
 	while (lst)
 	{
-		if (lst->token == 0 || lst->token == 2) // regardr le prochain, si pipe alors pipe
+		if (lst->token == 0)
 		{
-			if (lst->next)
+			if (lst->token == 0 && lst->next && lst->next->token == 1)
 				if (pipe(fd) == -1)
 					perror("Pipe");
 			pid = fork();
@@ -96,43 +124,37 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
-				if (lst->token == 0)
+				fprintf(stderr, "cmd: %s token: %d next: %d next_token: %d\n", lst->command ? lst->command : "no", lst->token, lst->next ? 1 : 0, lst->next ? lst->next->token : -1);
+
+				if ((lst->prev && lst->prev->token == 1) || (lst->next && lst->next->token == 1))
 				{
+					fprintf(stderr, "pipex\n");
 					pipex(fd, &fd_temp, lst);
-					if (is_builtin(lst) && lst_count_pipe(lst))
-					{
-						builtin(lst, ex);
-						exit(0);
-					}
-					else if (ft_strchr(lst->split_command[0], '/') != NULL)
-						exc_absolut_way(lst, ex);
-					else
-						excecuting(lst, ex->tab);
 				}
-				if (lst->token == 2)
+				if (lst->next && lst->next->token == 2)
 				{
-					file = open_redir_file(lst);
-					while (lst->next && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
-					{
-						close(file);
-						lst = lst->next;
-						file = open_redir_file(lst);
-					}
-					redirex(file, &fd_temp, lst);
+					fprintf(stderr, "redirect\n");
+					redirect(lst, fd_temp);
 				}
+
+				fprintf(stderr, "execute %s %d\n", lst->command, fd_temp);
+				execute(lst, ex);
 			}
 			else
 			{
-				if (	is_builtin(lst) && !lst_count_pipe(lst)) 
+				if (is_builtin(lst) && !lst_count_pipe(lst)) 
 				{
 					builtin(lst, ex);
 					exit(0);
 				}
-				if (fd_temp)
-					close(fd_temp);
-				fd_temp = dup(fd[0]);
-				close(fd[0]);
-				close(fd[1]);
+				if (lst->next && lst->next->token == 1) {
+					if (fd_temp) {
+						close(fd_temp);
+					}
+					fd_temp = dup(fd[0]);
+					close(fd[0]);
+					close(fd[1]);
+				}
 				waitpid(pid, &status, 0);
 				g_exit_status = status / 256;
 			}
@@ -145,16 +167,16 @@ void	redirex(int file, int *fd_temp, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
-		if (dup2(*fd_temp, STDIN_FILENO) == -1)
-		{
-			mini_perror(PIPERR, NULL, 1);
-			return ;
-		}
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
 			return ;
 		}
+		/*if (dup2(file, STDOUT_FILENO) == -1)
+		{
+			mini_perror(PIPERR, NULL, 1);
+			return ;
+		}*/
 	}
 	else if (is_redir(lst) == 1 || is_redir(lst) == 3)
 	{
@@ -175,14 +197,13 @@ void	redirex(int file, int *fd_temp, t_lst *lst)
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
-	
 	if (dup2(*fd_temp, STDIN_FILENO) == -1)
 	{
 		mini_perror(PIPERR, NULL, 1);
 		return ;
 	}
-	// close(fd[0]);
-	if (lst->next)
+	close(fd[0]);
+	if (lst->next && lst->next->token == 1)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 		{
@@ -191,7 +212,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst)
 		}
 	}
 	close(*fd_temp);
-	// close(fd[1]);
+	close(fd[1]);
 }
 
 
