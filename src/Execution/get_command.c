@@ -10,48 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 extern int	g_exit_status;
 
-void	solo_exe(t_lst *lst, t_expand *ex)
-{
-	int	pid;
-	int	status;
-	int fd[2];
-	(void) fd;
+// void	solo_exe(t_lst *lst, t_expand *ex)
+// {
+// 	int	pid;
+// 	int	status;
+// 	int fd[2];
+// 	(void) fd;
 
-	pid = fork();
-	if (pid == -1)
-		perror("FORK");
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		if (ft_strchr(lst->split_command[0], '/') != NULL && !is_builtin(lst))
-			exc_absolut_way(lst, ex);
-		else if (!is_builtin(lst))
-			excecuting(lst, ex->tab);
-		else if (is_builtin(lst))
-			exit(0);
-	}
-	else
-	{
-		if (is_builtin(lst))
-			builtin(lst, ex);
-		//waitpid(pid, NULL, 0);
-		//if (WEXITSTATUS(pid) > 0
-		// close(fd[0]);
-		// close(fd[1]);
-		waitpid(pid, &status, 0);
-		// Utilisez la macro WEXITSTATUS pour obtenir la valeur de retour
-		//if (WIFEXITED(status))
-		//printf("%d\n", status);
-		g_exit_status = status / 256;
-		//printf("%d\n", g_exit_status);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		perror("FORK");
+// 	if (pid == 0)
+// 	{
+// 		signal(SIGQUIT, SIG_DFL);
+// 		if (ft_strchr(lst->split_command[0], '/') != NULL && !is_builtin(lst))
+// 			exc_absolut_way(lst, ex);
+// 		else if (!is_builtin(lst))
+// 			excecuting(lst, ex->tab);
+// 		else if (is_builtin(lst))
+// 			exit(0);
+// 	}
+// 	else
+// 	{
+// 		if (is_builtin(lst))
+// 			builtin(lst, ex);
+// 		//waitpid(pid, NULL, 0);
+// 		//if (WEXITSTATUS(pid) > 0
+// 		// close(fd[0]);
+// 		// close(fd[1]);
+// 		waitpid(pid, &status, 0);
+// 		// Utilisez la macro WEXITSTATUS pour obtenir la valeur de retour
+// 		//if (WIFEXITED(status))
+// 		//printf("%d\n", status);
+// 		g_exit_status = status / 256;
+// 		//printf("%d\n", g_exit_status);
 
-	}
-	//printf("var globale = %d\n", g_exit_status);
-}
+// 	}
+// 	//printf("var globale = %d\n", g_exit_status);
+// }
 
 void	excecuting(t_lst *lst, char **tab)
 {
@@ -81,7 +81,7 @@ void	excecuting(t_lst *lst, char **tab)
 		{
 			if (execve(chemin, lst->split_command, tab) == -1)
 			{
-				mini_perror_exec(NOTCMD, lst->split_command);
+				mini_perror_exec(NOTCMD, lst->split_command); // cette erreur
 				exit(127);
 			}
 		}

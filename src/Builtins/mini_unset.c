@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/10/25 16:52:56 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/19 16:16:22 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	unset_var_in_tab(char *av, char **tab)
 {
-	int i;
+	int	i;
 	int	len;
 
 	i = 0;
@@ -37,7 +37,6 @@ int	mini_unset(t_expand *ex, char **split_command)
 	i = 1;
 	if (!split_command)
 		return (0);
-	// ft_printf("%s\n", split_command[2]);
 	while (split_command[i])
 	{
 		j = 0;
@@ -54,7 +53,6 @@ int	mini_unset(t_expand *ex, char **split_command)
 	return (0);
 }
 
-
 char	**new_tab(t_expand *ex, int index)
 {
 	int	i;
@@ -62,13 +60,12 @@ char	**new_tab(t_expand *ex, int index)
 
 	i = 0;
 	j = 0;
-	// ex->new_tab = NULL;
 	ex->new_tab = malloc(sizeof (char *) * (ft_matrixlen(ex->tab) + 1));
 	if (!ex->new_tab)
 		return (0);
 	while (ex->new_tab[i])
 	{
-		ex->new_tab[i] = NULL; // pas \0 car tt est mis a null
+		ex->new_tab[i] = NULL;
 		i++;
 	}
 	i = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   7_lst_len_split.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:01:52 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/19 16:42:21 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:09:10 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	tab_command(t_lst *lst, t_split *sp)
 {
+	// int	i;
+
+	// i = 0;
 	if (!lst)
 		return ;
 	while (lst)
