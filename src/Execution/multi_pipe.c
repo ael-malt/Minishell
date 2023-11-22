@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/22 15:57:11 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:58:16 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,20 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
-				fprintf(stderr, "cmd: %s token: %d next: %d next_token: %d\n", lst->command ? lst->command : "no", lst->token, lst->next ? 1 : 0, lst->next ? lst->next->token : -1);
+				// fprintf(stderr, "cmd: %s token: %d next: %d next_token: %d\n", lst->command ? lst->command : "no", lst->token, lst->next ? 1 : 0, lst->next ? lst->next->token : -1);
 
 				if ((lst->prev && lst->prev->token == 1) || (lst->next && lst->next->token == 1))
 				{
-					fprintf(stderr, "pipex\n");
+					// fprintf(stderr, "pipex\n");
 					pipex(fd, &fd_temp, lst);
 				}
 				if (lst->next && lst->next->token == 2)
 				{
-					fprintf(stderr, "redirect\n");
+					// fprintf(stderr, "redirect\n");
 					redirect(lst, fd_temp);
 				}
 
-				fprintf(stderr, "execute %s %d\n", lst->command, fd_temp);
+				// fprintf(stderr, "execute %s %d\n", lst->command, fd_temp);
 				execute(lst, ex);
 			}
 			else
