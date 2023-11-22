@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/22 16:08:28 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:39:04 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **envp)
 	t_split		sp;
 	char		*line_start;
 	char		*line;
-
+	
 	if (ac == 1)
 	{
 		export_envp(&ex, envp);
