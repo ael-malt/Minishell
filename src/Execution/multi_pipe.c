@@ -128,34 +128,17 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
-<<<<<<< HEAD
-				// ft_printf("content: %s\n", lst->content);
-				if (lst->token == 0)
-=======
 				fprintf(stderr, "cmd: %s token: %d next: %d next_token: %d\n", lst->command ? lst->command : "no", lst->token, lst->next ? 1 : 0, lst->next ? lst->next->token : -1);
 
 				if ((lst->prev && lst->prev->token == 1) || (lst->next && lst->next->token == 1))
->>>>>>> main
 				{
 					fprintf(stderr, "pipex\n");
 					pipex(fd, &fd_temp, lst);
 				}
 				if (lst->next && lst->next->token == 2)
 				{
-<<<<<<< HEAD
-					file = open_redir_file(lst);
-					while (lst->next && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
-					{
-						close(file);
-						lst = lst->next;
-						file = open_redir_file(lst);
-					}
-					redirex(file, &fd_temp, lst);
-					// exit(0);
-=======
 					fprintf(stderr, "redirect\n");
 					redirect(lst, fd_temp);
->>>>>>> main
 				}
 
 				fprintf(stderr, "execute %s %d\n", lst->command, fd_temp);
