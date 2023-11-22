@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/20 17:47:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:43:44 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
+				// ft_printf("content: %s\n", lst->content);
 				if (lst->token == 0)
 				{
 					pipex(fd, &fd_temp, lst);
@@ -119,11 +120,12 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 						file = open_redir_file(lst);
 					}
 					redirex(file, &fd_temp, lst);
+					// exit(0);
 				}
 			}
 			else
 			{
-				if (	is_builtin(lst) && !lst_count_pipe(lst)) 
+				if (is_builtin(lst) && !lst_count_pipe(lst)) 
 				{
 					builtin(lst, ex);
 					exit(0);
