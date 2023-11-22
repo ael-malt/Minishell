@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/22 16:05:50 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/11/22 16:19:23 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS		= -Wall -Werror -Wextra -g3
 PATH_LIB	= libft
 
 SRC			= src/main.c \
-				src/Parsing/0_Builtins/builtins.c \
+				src/Builtins/builtins.c \
 				src/Builtins/mini_cd.c \
 				src/Builtins/mini_echo.c \
 				src/Builtins/mini_exit.c \
@@ -36,6 +36,7 @@ SRC			= src/main.c \
 				src/Execution/redir_out.c \
 				src/Execution/redir_util.c \
 				src/Execution/redir.c \
+				src/Parsing/0_first_check.c\
 				src/Parsing/1_lst.c\
 				src/Parsing/2_operator.c \
 				src/Parsing/3_operator_utils.c \

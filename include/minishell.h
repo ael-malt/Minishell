@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/22 16:07:50 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:15:19 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,13 +210,6 @@ void	ft_free_expand(t_expand *ex);
 void	clean_return(t_lst *lst, t_expand *ex);
 void	*mini_perror_exec(int err_type, char **split_command);
 void	*mini_heardoc_error(int err_type, char *param, int err);
-
-//---------------------------SPLIT_REDIR.C---------------------------//
-int		check_charset(char c, char *charset);
-int		count_words(char *str, char *charset);
-int		count_wlen(char *str, char *charset);
-char	**ft_split_redir(char *str, char *charset);
-
 
 //-------------------------------BUILTINS------------------------------//
 
