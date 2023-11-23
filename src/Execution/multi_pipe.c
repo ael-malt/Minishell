@@ -6,18 +6,13 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/22 18:39:38 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:11:41 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exit_status;
-
-// TO-DO
-// Ajouter < et << au redirections multipipes
-// Gerer les redirections en dernier maillon
-// Refaire mon heardoc
 
 void	execute(t_lst *lst, t_expand *ex)
 {
@@ -113,6 +108,8 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 				g_exit_status = status / 256;
 			}
 		}
+		if (lst->token == 2 && is_redir(lst) == 1 && lst->prev == NULL && lst->next == NULL) // heredox seul
+			redirect(lst, fd_temp);
 		lst = lst->next;
 	}
 }
@@ -128,7 +125,7 @@ void	redirex(int file, int *fd_temp, t_lst *lst)
 			return ;
 		}
 	}
-	else if (is_redir(lst) == 1 || is_redir(lst) == 3)
+	else if (is_redir(lst) == 3 || (is_redir(lst) == 1 && lst->next))
 	{
 		if (dup2(file, STDIN_FILENO) == -1)
 		{

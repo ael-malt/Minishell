@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/22 17:29:33 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/23 10:21:17 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	open_redir_file(t_lst *lst)
 		fd = open(lst->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (is_redir(lst) == 3)
 		fd = open(lst->split_redir[1], O_RDONLY, 0644);
+	else if (is_redir(lst) == 1)
+		mini_heredoc(lst);
 	if (fd < 0)
 		mini_perror(NDIR, lst->split_redir[1], 1);
 	return (fd);
