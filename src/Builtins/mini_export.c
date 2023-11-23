@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/19 16:16:47 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:05:21 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	export_var_in_tab(char *cmd, char **tab)
 		}
 		i++;
 	}
-	return (-2);
+	return (-18);
 }
 
 static int	mini_export_verif(char *str)
