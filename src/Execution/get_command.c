@@ -79,6 +79,7 @@ void	excecuting(t_lst *lst, char **tab)
 		// }
 		if (access(chemin, F_OK) == 0)
 		{
+
 			if (execve(chemin, lst->split_command, tab) == -1)
 			{
 				mini_perror_exec(NOTCMD, lst->split_command); // cette erreur
@@ -92,6 +93,7 @@ void	excecuting(t_lst *lst, char **tab)
 	mini_perror_exec(NOTCMD, lst->split_command);
 	exit(127);// 127 var global
 	//perror("command not found");
+	
 }
 
 void	exc_absolut_way(t_lst *lst, t_expand *ex)

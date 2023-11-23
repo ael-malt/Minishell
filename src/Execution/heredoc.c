@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/19 16:50:16 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:04:23 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,13 @@ void	mini_heredoc(t_lst *lst)
 		perror("open");
 	while (1)
 	{
+		// printf("coucou\n");
 		line = readline(">");
 		if (g_exit_status == 130)
 			return heredoc_signal(fd, 1);
 		if (line == NULL)
 		{
+			// printf("here\n");
 			heredoc_signal(fd, 2);
 			break ;
 		}

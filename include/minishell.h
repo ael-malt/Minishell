@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/22 16:15:19 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:54:15 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ enum	e_mini_error
 
 int multipipe(t_lst * lst, t_expand *ex);
 void	open_file(t_lst *lst);
+void	is_solo_heredoc(t_lst *lst, int fd_temp);
+void	redirect(t_lst *lst);
 //--------------------------------MAIN.C----------------------------------//
 // void	get_tab_env(t_expand *ex, char **envp);
 void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp);
@@ -240,7 +242,7 @@ char	**new_tab(t_expand *ex, int index);
 
 //---------------------------------EXECUTION------------------------------//
 void	start_execution(t_lst *lst,t_expand *ex);
-void	redirex(int file, int *fd_temp, t_lst *lst);
+void	redirex(int file, t_lst *lst);
 
 		//------------------------REDIR_IN.C------------------------//
 void	redir_in(int fd_temp, t_lst *lst, t_expand *ex, int infile);
