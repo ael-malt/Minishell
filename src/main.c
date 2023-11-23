@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/22 16:39:04 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:30:10 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(int ac, char **av, char **envp)
 			free(line_start);
 		}
 		// if (lst.content)
-		// 	free_lst(&lst);
+		// 	free_lst(&lst); 
 		ft_printf("exit\n");
 		exit(g_exit_status);
 	}

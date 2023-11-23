@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 12:03:41 by lazanett          #+#    #+#              #
-#    Updated: 2023/10/24 16:25:22 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/23 15:25:53 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CC = cc
 RM = bin/rm -f
 
 CFLAGS = -Wall -Wextra -Werror
-
+# valgrind --suppressions=./minishell.supp
 SRCS = src/ft_isalnum.c \
        src/ft_isalpha.c \
        src/ft_isascii.c \
@@ -83,6 +83,7 @@ SRCS = src/ft_isalnum.c \
        src/ft_matrixlen.c \
        src/ft_matrixtolst.c \
        src/ft_putmatrix_fd.c \
+       src/ft_matrix_replace_in.c \
        src/ft_strchr_i.c \
 
 OBJS	= ${SRCS:.c=.o}
