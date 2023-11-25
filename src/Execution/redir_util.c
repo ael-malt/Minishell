@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/23 10:21:17 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/25 13:43:40 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,6 @@ int	open_redir_file(t_lst *lst)
 {
 	int	fd;
 
-	// while (lst->next && (is_redir(lst->next) == 2 || is_redir(lst->next) == 4))
-	// {
-	// 	if (is_redir(lst) == 2 )
-	// 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// 	else if (is_redir(lst) == 4)
-	// 		fd = open(lst->split_redir[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
-	// 	close (fd);
-	// 	lst = lst->next;
-	// }
-	// while (lst->next && is_redir(lst->next) == 3)
-	// {
-	// 	fd = open(lst->split_redir[1], O_RDONLY, 0644);
-	// 	close (fd);
-	// 	lst = lst->next;
-	// }
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(lst) == 4)
