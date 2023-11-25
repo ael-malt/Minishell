@@ -102,4 +102,5 @@ void	get_limit_word_quote(char *s, t_split *sp)
 	sp->index -= 1;
 	sp->split[sp->i] = word_dup_in_split(s, sp-> start, sp->end);
 	sp->i += 1;
+	// cat <lp  | wc -l = segfault le 25/11 car trop d'espace ?
 }

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/25 14:01:28 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:06:37 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	execute(t_lst *lst, t_expand *ex)
 void redirect(t_lst *lst)
 {	
 	int	file;
-
+	
 	if (lst->next)
 		lst = lst->next;
+	fprintf(stderr, "passe dans redirect %s\n", lst->command);
 	file = open_redir_file(lst);
 	if (file < 0)
 		return (exit(0));
@@ -47,19 +48,10 @@ void redirect(t_lst *lst)
 		if (file < 0)
 			return (exit(0));
 	}
-	// printf("rex: %s %d %d\n", lst->command, lst->token, file);
+	printf("rex: %s %d %d\n", lst->command, lst->token, file);
 	redirex(file, lst);
-	//PEUT ETRE METTRE CONDITION REDIR DIFF POUR OUVRIR
-	// if (is_redir(lst->next) < 0)
-	// 	printf("redir\n");
 }
-// PROB = lors redir si redir qui se suivent font diff alors ca ne fait pas la derniere redir
-// EX : ls | wc -l > outt << fg = n'ouvre pas le heredoc ; bash = ouvre heredoc et met res dans outt
-// heredoc seul fonctionne ; PROB avec ls devant aussi sauf wc -l << heredoc ou cat
-// mais avec un pipe ou plusieurs avant, il ne fonctionne pas 
-// EX : ls | wc -l << heredoc ls se fait dans heredoc, il detecte la fin de la liste et ca ferme le heredox car ligne null alors erreur signaux et apres wc renvoi 0
-// PROB = cat < in | wc -l inprime ce qu(il yb a dans in dans stdout standart et | pas crer et wc -l recoit rien)
-// redir inversé
+
 void	multi_pipe(t_lst *lst, t_expand *ex)
 {
 	int	fd[2];
@@ -83,22 +75,11 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
-				// fprintf(stderr, "cmd: %s token: %d next: %d next_token: %d\n", lst->command ? lst->command : "no", lst->token, lst->next ? 1 : 0, lst->next ? lst->next->token : -1);
 				if ((lst->prev && lst->prev->token == 1) || (lst->next && lst->next->token == 1))
-				{
-					// fprintf(stderr, "pipex\n");
 					pipex(fd, &fd_temp, lst);
-					// ft_printf("ici\n");
-				}
 				if (lst->next && lst->next->token == 2)
-				{
-					// fprintf(stderr, "command: %s\n", lst->command);
-					// fprintf(stderr, "redirect\n");
 					redirect(lst);
-				}
-				// fprintf(stderr, "execute %s %d\n", lst->command, fd_temp);
 				execute(lst, ex);
-				// printf("erer\n");
 			}
 			else
 			{
@@ -137,35 +118,30 @@ void	redirex(int file, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
+		fprintf(stderr, "is_redir %s\n", lst->command);
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
 	}
-	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1) || is_redir(lst) == 1) //lst->next pour heredoc seul
+	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1) || is_redir(lst) == 1)//lst->next pour heredoc seul
 	{
-		printf("std in = file\n");
+		fprintf(stderr, "std in = file\n");
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
-		// if (lst->next && lst->next->token == 1) // ajout pour pipe after  redir
-		// {
-			
-		// 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		// 	{
-		// 		mini_perror(PIPERR, NULL, 1);
-		// 		return ;
-		// 	}
-		// }
 	}
+
 	if (file)
 		close(file);
+	// close(fd[0]);
+	// close(fd[1]);
 	if (lst->next && lst->next->token == 2)
 	{
-		printf("redir dif\n");
+		fprintf(stderr, "redir dif\n");;
 		redirect(lst);
 	}
 	

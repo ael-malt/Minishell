@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
+#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/22 16:19:23 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/11/25 13:10:52 by lazanett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ SRC			= src/main.c \
 				src/Execution/redir_in.c \
 				src/Execution/redir_out.c \
 				src/Execution/redir_util.c \
-				src/Execution/redir.c \
 				src/Parsing/0_first_check.c\
 				src/Parsing/1_lst.c\
 				src/Parsing/2_operator.c \
