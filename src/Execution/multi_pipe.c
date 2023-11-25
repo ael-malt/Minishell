@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/23 17:22:50 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:01:28 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void redirect(t_lst *lst)
 		if (file < 0)
 			return (exit(0));
 	}
-	printf("rex: %s %d %d\n", lst->command, lst->token, file);
+	// printf("rex: %s %d %d\n", lst->command, lst->token, file);
 	redirex(file, lst);
 	//PEUT ETRE METTRE CONDITION REDIR DIFF POUR OUVRIR
 	// if (is_redir(lst->next) < 0)
@@ -102,8 +102,8 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			}
 			else
 			{
-				// if (is_builtin(lst) && !lst_count_pipe(lst)) 
-				// 	builtin(lst, ex);
+				if (is_builtin(lst) && !lst_count_pipe(lst)) 
+					builtin(lst, ex);
 				if (lst->next && lst->next->token == 1) {
 					if (fd_temp) {
 						close(fd_temp);
