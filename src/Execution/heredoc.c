@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 13:44:27 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:30:08 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_heredoc(t_lst *lst)
 	return (0);
 }
 
-static void	heredoc_signal(int fd, int i)
+void	heredoc_signal(int fd, int i)
 {
 	if (i == 1)
 		close(fd);
@@ -77,8 +77,8 @@ void	mini_heredoc(t_lst *lst)
 	line = NULL;
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// fprintf(stderr, "HEREDOC fd: %d\n", fd);
-	if (fd == -1)
-		mini_perror(NDIR, lst->split_redir[1], 1);
+	// if (fd == -1)
+	// 	mini_perror(NDIR, lst->split_redir[1], 1); // si decomment ls > out << heredox envoi err open
 	while (1)
 	{
 		// printf("coucou\n");

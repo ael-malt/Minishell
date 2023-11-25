@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/23 16:30:10 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:52:29 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 			search_quote_in_split_command(lst);
 			search_quote_in_split_redir(lst);
 			if (check_double_pipe(lst) == 0 && check_last_is_pipe(lst) == 0)
-				start_execution(lst, ex);
+				multi_pipe(lst, ex);
 		}
 		else
 			clean_return(lst, ex);
