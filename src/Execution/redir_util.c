@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 15:52:59 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:14:30 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	open_redir_file(t_lst *lst)
 	else if (is_redir(lst) == 3)
 		fd = open(lst->split_redir[1], O_RDONLY, 0644);
 	else if (is_redir(lst) == 1)
-		mini_heredoc(lst);
+		fd = mini_heredoc(lst);
 	if (fd < 0)
 		mini_perror(NDIR, lst->split_redir[1], 1);
 	return (fd);
@@ -63,21 +63,19 @@ void redirect(t_lst *lst)
 	}
 	while (lst->next && is_redir(lst->next) && is_redir(lst->next) > 1 && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
-		close(file);
+		if (file > 0)
+				close(file);
 		if (lst->next)
 			lst = lst->next;
 		file = open_redir_file(lst);
 		if (file < 0)
-		{
-			// fprintf(stderr, "file < 0\n");
 			return (exit(0));
-		}
 	}
 	// printf("rex: %s %d %d\n", lst->command, lst->token, file);
 	// input_heredoc(lst, file);
 	// if (is_redir(lst) > 1)
-	redirex(file, lst);
-
+	if (file > 0)
+		redirex(file, lst);
 }
 
 int	check_pipe_after_redir(t_lst *lst)

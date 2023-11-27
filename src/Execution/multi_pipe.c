@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 15:55:24 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:19:26 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,13 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 					|| check_pipe_after_redir(lst)))
 					{
 						pipex(fd, &fd_temp, lst);
-						// fprintf(stderr, "pipex %s\n", lst->command);
 					}
 				if (lst->next && lst->next->token == 2)
+				{
+
 					redirect(lst);
+					// fprintf(stderr, "redirect %s\n", lst->command);
+				}
 				execute(lst, ex);
 			}
 			else
@@ -109,16 +112,17 @@ void	redirex(int file, t_lst *lst)
 			return ;
 		}
 	}
-	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1))//lst->next pour heredoc seul
+	else if (is_redir(lst) == 3 || is_redir(lst) == 1)//lst->next pour heredoc seul
 	{
 		// fprintf(stderr, "redirex STDIN: %s\n", lst->command);
+		// fprintf(stderr, "file: %d\n", file);
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
 	}
-	fprintf(stderr, "file %d\n", file);
+	// fprintf(stderr, "file %d\n", file);
 	if (file)
 		close(file);
 	if (lst->next && lst->next->token == 2 && is_redir(lst->next) > 1)
