@@ -6,7 +6,7 @@
 #    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/27 12:42:28 by ael-malt         ###   ########.fr        #
+#    Updated: 2023/11/27 15:35:32 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,7 @@ SRC			= src/main.c \
 				src/Builtins/mini_unset.c \
 				src/Execution/execution_util.c \
 				src/Execution/execution.c \
-				src/Execution/get_command.c\
 				src/Execution/heredoc.c \
-				src/Execution/last_pipe.c \
 				src/Execution/multi_pipe.c \
 				src/Execution/redir_util.c \
 				src/Parsing/0_first_check.c\

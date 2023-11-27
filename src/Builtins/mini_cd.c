@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 12:40:04 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:35:47 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	mini_export_pwd(char **pwd, char *tmp, t_expand *ex)
 {
 	tmp = getcwd(NULL, 0);
 	pwd[2] = ft_strjoin("PWD=", tmp);
+	// pwd[3] = '\0';
 	mini_export(ex, pwd);
 }
 
