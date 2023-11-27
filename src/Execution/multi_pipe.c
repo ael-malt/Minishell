@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/25 17:30:32 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:52:34 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute(t_lst *lst, t_expand *ex)
 		exit(0);
 	}
 	else if (is_builtin(lst))
-		exit(0);
+		builtin(lst, ex);
 	else if (!is_builtin(lst) &&ft_strchr(lst->split_command[0], '/') != NULL)
 		exc_absolut_way(lst, ex);
 	else if (!is_builtin(lst))
@@ -55,6 +55,8 @@ void redirect(t_lst *lst)
 static int	check_pipe_after_redir(t_lst *lst)
 {
 	t_lst	*tmp_lst;
+
+	tmp_lst = 0;
 	if (!lst->prev && !lst->next)
 		return (0);
 	if ((lst->next && lst->token == 0) || !lst_count_pipe(lst))
@@ -93,17 +95,22 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 				if (lst->token == 0 && ((lst->prev && lst->prev->token == 1)
 					|| (lst->next && lst->next->token == 1)
 					|| check_pipe_after_redir(lst)))
+					{
 						pipex(fd, &fd_temp, lst);
-					// fprintf(stderr, "ici %s\n", lst->command);
+						// fprintf(stderr, "pipex %s\n", lst->command);
+					}
 				if (lst->next && lst->next->token == 2)
+				{
+					// fprintf(stderr, "redirect %s\n", lst->command);
 					redirect(lst);
+				}
 				execute(lst, ex);
 			}
 			else
 			{
 				if (is_builtin(lst) && !lst_count_pipe(lst)) 
 					builtin(lst, ex);
-				if (lst->next && lst->next->token == 1) 
+				if (lst->next && (lst->next->token == 1 || check_pipe_after_redir(lst))) 
 				{
 					if (fd_temp)
 						close(fd_temp);
@@ -111,8 +118,8 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 					close(fd[0]);
 					close(fd[1]);
 				}
-				close(fd[0]);
-				close(fd[1]);
+				// close(fd[0]);
+				// close(fd[1]);
 				waitpid(pid, &status, 0);
 				g_exit_status = status / 256;
 			}
@@ -129,7 +136,7 @@ void	redirex(int file, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
-		// fprintf(stderr, "is_redir %s\n", lst->command);
+		// fprintf(stderr, "redirex STDOUT: %s\n", lst->command);
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
@@ -138,7 +145,7 @@ void	redirex(int file, t_lst *lst)
 	}
 	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1) || is_redir(lst) == 1)//lst->next pour heredoc seul
 	{
-		// fprintf(stderr, "std in = file\n");
+		// fprintf(stderr, "redirex STDIN: %s\n", lst->command);
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
@@ -151,7 +158,7 @@ void	redirex(int file, t_lst *lst)
 	// close(fd[1]);
 	if (lst->next && lst->next->token == 2)
 	{
-		fprintf(stderr, "redir dif\n");;
+		// fprintf(stderr, "redir dif\n");;
 		redirect(lst);
 	}
 	
@@ -159,11 +166,11 @@ void	redirex(int file, t_lst *lst)
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
-
+	
 	// if (lst->next && lst->next->token == 1)
 	if (lst->prev && lst->prev->token == 1)
 	{
-		fprintf(stderr, "command: %s\n", lst->command);
+		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
 		if (dup2(*fd_temp, STDIN_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);
@@ -173,6 +180,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst)
 	close(fd[0]);
 	if (lst->next && (lst->next->token == 1 || check_pipe_after_redir(lst)))
 	{
+		// fprintf(stderr, "pipex STDOUT: %s\n", lst->command);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);

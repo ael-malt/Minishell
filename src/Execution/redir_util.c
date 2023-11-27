@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 15:54:26 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 12:42:55 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	open_redir_file(t_lst *lst)
 {
 	int	fd;
 
+	fd = 0;
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(lst) == 4)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+         #
+#    By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 13:56:05 by ael-malt          #+#    #+#              #
-#    Updated: 2023/11/25 13:10:52 by lazanett         ###   ########.fr        #
+#    Updated: 2023/11/27 12:42:28 by ael-malt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,6 @@ SRC			= src/main.c \
 				src/Execution/heredoc.c \
 				src/Execution/last_pipe.c \
 				src/Execution/multi_pipe.c \
-				src/Execution/redir_in.c \
-				src/Execution/redir_out.c \
 				src/Execution/redir_util.c \
 				src/Parsing/0_first_check.c\
 				src/Parsing/1_lst.c\
