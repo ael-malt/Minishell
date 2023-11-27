@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 14:33:06 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:39:22 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	open_redir_file(t_lst *lst)
 {
 	int	fd;
 
+	fd = 0;
 	fd = 0;
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
