@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 15:28:39 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/25 15:56:04 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_redir_file(t_lst *lst)
 void redirect(t_lst *lst)
 {	
 	int	file;
-	
+
 	if (lst->next)
 		lst = lst->next;
 	fprintf(stderr, "passe dans redirect %s\n", lst->command);

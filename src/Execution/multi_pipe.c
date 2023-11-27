@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/25 15:04:55 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/26 18:51:07 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			{
 				if (is_builtin(lst) && !lst_count_pipe(lst)) 
 					builtin(lst, ex);
-				if (lst->next && lst->next->token == 1) {
-					if (fd_temp) {
+				if (lst->next && lst->next->token == 1)
+				{
+					if (fd_temp)
 						close(fd_temp);
-					}
 					fd_temp = dup(fd[0]);
 					close(fd[0]);
 					close(fd[1]);
@@ -81,7 +81,6 @@ void	redirex(int file, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
-		fprintf(stderr, "is_redir %s\n", lst->command);
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
@@ -97,11 +96,12 @@ void	redirex(int file, t_lst *lst)
 			return ;
 		}
 	}
+	fprintf(stderr, "file %d\n", file);
 	if (file)
 		close(file);
 	if (lst->next && lst->next->token == 2)
 	{
-		fprintf(stderr, "redir dif\n");;
+		fprintf(stderr, "redir dif\n");
 		redirect(lst);
 	}
 }
