@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 15:39:22 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:40:16 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void redirect(t_lst *lst)
 
 	file = 0;
 	
-	if (lst->next && lst->token == 1)
+	if (lst->next)
 		lst = lst->next;
-	fprintf(stderr, "passe dans redirect %s\n", lst->command);
+	// fprintf(stderr, "passe dans redirect %s\n", lst->command);
 	file = open_redir_file(lst);
 	if (file < 0)
 	{
-		fprintf(stderr, "file < 0\n");
+		// fprintf(stderr, "file < 0\n");
 		return (exit(0));
 	}
 	while (lst->next && is_redir(lst->next) && is_redir(lst->next) > 1 && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
@@ -69,13 +69,13 @@ void redirect(t_lst *lst)
 		file = open_redir_file(lst);
 		if (file < 0)
 		{
-			fprintf(stderr, "file < 0\n");
+			// fprintf(stderr, "file < 0\n");
 			return (exit(0));
 		}
 	}
-	printf("rex: %s %d %d\n", lst->command, lst->token, file);
-	input_heredoc(lst, file);
-	if (is_redir(lst) > 1)
-		redirex(file, lst);
+	// printf("rex: %s %d %d\n", lst->command, lst->token, file);
+	// input_heredoc(lst, file);
+	// if (is_redir(lst) > 1)
+	redirex(file, lst);
 
 }

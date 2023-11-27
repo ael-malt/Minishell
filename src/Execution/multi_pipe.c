@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 15:45:23 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:46:42 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 					}
 				if (lst->next && lst->next->token == 2)
 					redirect(lst);
-				}
 				execute(lst, ex);
 			}
 			else
