@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 15:40:16 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:52:59 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,21 @@ void redirect(t_lst *lst)
 	// if (is_redir(lst) > 1)
 	redirex(file, lst);
 
+}
+
+int	check_pipe_after_redir(t_lst *lst)
+{
+	t_lst	*tmp_lst;
+
+	tmp_lst = 0;
+	if (!lst->prev && !lst->next)
+		return (0);
+	if ((lst->next && lst->token == 0) || !lst_count_pipe(lst))
+		tmp_lst = lst->next;
+	while (tmp_lst->next && is_redir(tmp_lst))
+		tmp_lst = tmp_lst->next;
+	// ft_printf("ICI: %s\n", tmp_lst->content);
+	if (tmp_lst->token == 1 && is_redir(tmp_lst->prev))
+		return (1);
+	return (0);
 }

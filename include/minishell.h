@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 13:33:03 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:52:55 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst);
 int		is_redir(t_lst *lst);
 int		open_redir_file(t_lst *lst);
 void	redirect(t_lst *lst);
-int		is_solo_redir(t_lst *lst);
-int		lst_count_redir(t_lst *lst);
+int		check_pipe_after_redir(t_lst *lst);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 15:46:42 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:53:20 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	int	pid;
 	int	fd_temp;
 	int	status;
-	int	here;
+	// int	here;
 	
 	fd_temp = 0;
 	if (!lst)
