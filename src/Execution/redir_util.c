@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 15:56:04 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:33:06 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	open_redir_file(t_lst *lst)
 {
 	int	fd;
 
+	fd = 0;
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(lst) == 4)
@@ -48,59 +49,32 @@ void redirect(t_lst *lst)
 {	
 	int	file;
 
-	if (lst->next)
+	file = 0;
+	
+	if (lst->next && lst->token == 1)
 		lst = lst->next;
 	fprintf(stderr, "passe dans redirect %s\n", lst->command);
 	file = open_redir_file(lst);
 	if (file < 0)
+	{
+		fprintf(stderr, "file < 0\n");
 		return (exit(0));
-	while (lst->next && is_redir(lst->next) && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
+	}
+	while (lst->next && is_redir(lst->next) && is_redir(lst->next) > 1 && (is_redir(lst) == is_redir(lst->next) || is_redir(lst) == (is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
 		close(file);
 		if (lst->next)
 			lst = lst->next;
 		file = open_redir_file(lst);
 		if (file < 0)
+		{
+			fprintf(stderr, "file < 0\n");
 			return (exit(0));
+		}
 	}
 	printf("rex: %s %d %d\n", lst->command, lst->token, file);
-	redirex(file, lst);
+	input_heredoc(lst, file);
+	if (is_redir(lst) > 1)
+		redirex(file, lst);
+
 }
-
-// int	is_solo_redir(t_lst *lst)
-// {
-// 	int	count;
-
-// 	count = 0;
-// 	if (!lst)
-// 		return (-1);
-// 	while (lst->prev)
-// 		lst = lst->prev;
-// 	while (lst)
-// 	{
-// 		if (lst->token == 2)
-// 			count++;
-// 		lst = lst->next;
-// 	}
-// 	return (count);
-// }
-
-// int lst_count_redir(t_lst *lst)
-// {
-// 	int	count;
-
-// 	count = 0;
-// 	if (!lst)
-// 		return (-1);
-// 	while (lst->prev)
-// 		lst = lst->prev;
-// 	while (lst->next)
-// 	{
-// 		if (lst->token == 2)
-// 			count++;
-// 		lst = lst->next;
-// 	}
-// 	return (count);
-// }
-
-

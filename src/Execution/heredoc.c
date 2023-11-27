@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 15:30:08 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/27 11:03:47 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	is_heredoc(t_lst *lst)
 	if (lst->token == 2 && lst->command[0] == '<' && lst->command[1] == '<')
 		return (1);
 	return (0);
+}
+
+int	count_heredoc(t_lst *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		if (lst->token == 2 && lst->command[0] == '<' && lst->command[1] == '<')
+			i++;
+		lst = lst->next;
+	}
+	return (i);
 }
 
 void	heredoc_signal(int fd, int i)

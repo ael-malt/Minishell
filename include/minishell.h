@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/25 15:39:52 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:33:03 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,12 +251,14 @@ int		is_builtin(t_lst *lst);
 
 		//-------------------------HEREDOC.C------------------------//
 int		is_heredoc(t_lst *lst);
+int		count_heredoc(t_lst *lst);
 void	mini_heredoc(t_lst *lst);
 int		is_heredoc_limiter_valid(t_lst *lst);
 void	heredoc_signal(int fd, int i);
 
 		//---------------------MULTI_PIPE.C----------------------------//
 void	multi_pipe(t_lst *lst, t_expand *ex);
+void	input_heredoc(t_lst *lst, int file);
 void	redirex(int file, t_lst *lst);
 void	pipex(int *fd, int *fd_temp, t_lst *lst);
 
