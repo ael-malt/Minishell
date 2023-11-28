@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 14:10:40 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:39:02 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	open_redir_file(t_lst *lst)
 	else if (is_redir(lst) == 3)
 		fd = open(lst->split_redir[1], O_RDONLY, 0644);
 	else if (is_redir(lst) == 1)
-		mini_heredoc(lst);
+		fd = mini_heredoc(lst);
 	if (fd < 0)
 		mini_perror(NDIR, lst->split_redir[1], 1);
 	return (fd);
@@ -62,7 +62,8 @@ void redirect(t_lst *lst)
 		(is_redir(lst) == is_redir(lst->next) || is_redir(lst) == \
 		(is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
-		close(file);
+		if (file > 0)
+				close(file);
 		if (lst->next)
 			lst = lst->next;
 		file = open_redir_file(lst);
@@ -81,12 +82,17 @@ int	check_pipe_after_redir(t_lst *lst)
 		!lst_count_pipe(lst))
 		return (0);
 	if ((lst->next && lst->next->command && lst->token == 0))
+	if ((lst->next && lst->next->command && lst->token == 0))
 		tmp_lst = lst->next;
+	// ft_printf("tmp lst cmd: %s\n",tmp_lst->next->command);
 	while (tmp_lst->next && is_redir(tmp_lst))
 	{
+	{
 		tmp_lst = tmp_lst->next;
+	}
 	}
 	if (tmp_lst->token == 1 && is_redir(tmp_lst->prev))
 		return (1);
 	return (0);
 }
+

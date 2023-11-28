@@ -49,7 +49,7 @@ char	**assign_tab_command(char *s, t_lst *lst, t_split *sp)
 {
 	ft_memset(sp, 0, sizeof(t_split));
 	sp->split = malloc_command_in_lst(lst->command, sp->split);
-	while (s[sp->index])
+	while (s && s[sp->index])
 	{
 		if (s[sp->index] == '\'')
 		{

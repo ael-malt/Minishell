@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 14:22:17 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:38:03 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 					|| check_pipe_after_redir(lst)))
 						pipex(fd, &fd_temp, lst);
 				if (lst->next && lst->next->token == 2)
+				{
+
 					redirect(lst);
+					// fprintf(stderr, "redirect %s\n", lst->command);
+				}
 				execute(lst, ex);
 			}
 			else
@@ -92,7 +96,7 @@ void	input_command(t_lst *lst, int file)
 
 void	redirex(int file, t_lst *lst)
 {
-	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+	if ((is_redir(lst) == 2 || 	is_redir(lst) == 4))
 	{
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
@@ -130,6 +134,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst)
 	if (lst->prev && lst->prev->token == 1 && flag == 0)
 	{
 		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
+		// fprintf(stderr, "cat\n");
 		if (dup2(*fd_temp, STDIN_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);

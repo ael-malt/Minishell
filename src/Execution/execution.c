@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 11:23:50 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:36:46 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int	g_exit_status;
 
 void	execute(t_lst *lst, t_expand *ex)
 {
@@ -45,23 +47,28 @@ void	excecuting(t_lst *lst, char **tab)
 	}
 	while (path[i++])
 	{
-		chemin = ft_strjoin_connect2(path[i], lst->split_command[0], '/');
+		if (lst->split_command)
+			chemin = ft_strjoin_connect2(path[i], lst->split_command[0], '/');
 		// int i = 0;
 		// while (lst->split_command[i])
 		// {
 		// 	printf("%s\n", lst->split_command[i]);
 		// 	i++;
 		// }
-		if (access(chemin, F_OK) == 0)
+		if (chemin)
 		{
-
-			if (execve(chemin, lst->split_command, tab) == -1)
+			if (chemin && access(chemin, F_OK) == 0)
 			{
-				mini_perror_exec(NOTCMD, lst->split_command); // cette erreur
-				exit(127);
+				// ft_printf("chemin: %s\n", chemin);
+				if (execve(chemin, lst->split_command, tab) == -1)
+				{
+					mini_perror_exec(NOTCMD, lst->split_command); // cette erreur
+					exit(127);
+				}
 			}
+			free(chemin);
 		}
-		free(chemin);
+		else (exit(g_exit_status));
 	}
 	//ft_free(split_command);
 	//ft_free(path);

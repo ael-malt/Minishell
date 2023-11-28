@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 11:07:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:34:25 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,9 +252,8 @@ int		is_builtin(t_lst *lst);
 		//-------------------------HEREDOC.C------------------------//
 int		is_heredoc(t_lst *lst);
 int		count_heredoc(t_lst *lst);
-void	mini_heredoc(t_lst *lst);
+int	mini_heredoc(t_lst *lst);
 int		is_heredoc_limiter_valid(t_lst *lst);
-void	heredoc_signal(int fd, int i);
 
 		//---------------------MULTI_PIPE.C----------------------------//
 void	multi_pipe(t_lst *lst, t_expand *ex);

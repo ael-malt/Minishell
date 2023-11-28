@@ -18,13 +18,17 @@ void	assign_token(t_lst *lst)
 		return ;
 	while (lst)
 	{
-		if (lst->command[0] == '|')
+		if (lst->command && lst->command[0] == '|')
 			lst->token = 1;
-		else if (lst->command[0] == '>' || lst->command[0] == '<')
+		else if (lst->command
+			&& (lst->command[0] == '>' || lst->command[0] == '<'))
 			lst->token = 2;
 		else
 			lst->token = 0;
-		lst = lst->next;
+		if (lst->next)
+			lst = lst->next;
+		else
+			break ;
 	}
 }
 

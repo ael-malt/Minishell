@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 11:03:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:50:13 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,22 @@ int	count_heredoc(t_lst *lst)
 	return (i);
 }
 
-void	heredoc_signal(int fd, int i)
+static void	heredoc_signal(char *line,int i)
 {
-	if (i == 1)
-		close(fd);
-	else
+	// 	close(fd);
+	// else
+	ft_putendl_fd("", 1);
+	if(i == 2)
 	{
 		// ft_printf("HERE\n");
 		ft_putendl_fd("minishell: warning:\
  here-document delimited by end-of-file", 2);
-		unlink(".tmp");
-		close(fd);
+		// unlink(".tmp");
+		// close(fd);
 		//exit(0);
 	}
+	if (line != NULL)
+		free(line);
 }
 
 int	is_heredoc_limiter_valid(t_lst *lst)
@@ -80,29 +83,28 @@ int	is_heredoc_limiter_valid(t_lst *lst)
 	return (0);
 }
 
-void	mini_heredoc(t_lst *lst)
+int	mini_heredoc(t_lst *lst)
 {
 	char	*line;
 	int		fd;
 
+	fd = 0;
 	if (is_heredoc_limiter_valid(lst))
-		return ;
+		return (fd);
 	g_exit_status = 0;
 	line = NULL;
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	// fprintf(stderr, "HEREDOC fd: %d\n", fd);
-	// if (fd == -1)
-	// 	mini_perror(NDIR, lst->split_redir[1], 1); // si decomment ls > out << heredox envoi err open
 	while (1)
 	{
 		// printf("coucou\n");
 		line = readline("> ");
 		if (g_exit_status == 130)
-			return heredoc_signal(fd, 1);
+			return (heredoc_signal(line, 1), fd);
 		if (line == NULL)
 		{
 			// printf("here\n");
-			heredoc_signal(fd, 2);
+			return (heredoc_signal(line, 2), fd);
 			break ;
 		}
 		if (lst->split_redir[1] && strcmp(line, lst->split_redir[1]) == 0)
@@ -112,5 +114,5 @@ void	mini_heredoc(t_lst *lst)
 	}
 	if (line != NULL)
 		free(line);
-	close(fd);
+	return (fd);
 }
