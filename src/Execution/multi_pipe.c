@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 15:28:19 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:01:59 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 					|| check_pipe_after_redir(lst)))
 						pipex(fd, &fd_temp, lst);
 				if (lst->next && lst->next->token == 2)
-				{
-					redirect(lst);	
-				}
-				fprintf(stderr, "redirect %s\n", lst->command);
+					redirect(lst);
 				execute(lst, ex);
+				// fprintf(stderr, "execute %s %d\n", lst->command, lst->token);
 			}
 			else
 			{
-				if (is_builtin(lst) && !lst_count_pipe(lst)) 
+				if (is_builtin(lst) && !lst_count_pipe(lst) && !lst_count_redir(lst) && !lst->next && !lst->prev) 
+				{
 					builtin(lst, ex);
+				}
 				if (lst->next && (lst->next->token == 1 || check_pipe_after_redir(lst))) 
 				{
 					if (fd_temp)

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:58:39 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 11:48:58 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:51:53 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,27 @@ int	lst_count_pipe(t_lst *lst)
 		return (-1);
 	while (lst->prev)
 		lst = lst->prev;
-	while (lst->next)
+	while (lst)
 	{
 		if (lst->token == 1)
+			count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
+int	lst_count_redir(t_lst *lst)
+{
+	int	count;
+
+	count = 0;
+	if (!lst)
+		return (-1);
+	while (lst->prev)
+		lst = lst->prev;
+	while (lst)
+	{
+		if (lst->token == 2)
 			count++;
 		lst = lst->next;
 	}

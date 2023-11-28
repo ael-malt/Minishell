@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 14:34:25 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:14:30 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ char	**new_tab(t_expand *ex, int index);
 
 		//-----------------EXECUTION_UTIL.C---------------------------//
 int		lst_count_pipe(t_lst *lst);
+int		lst_count_redir(t_lst *lst);
 int		get_last_operator(t_lst *lst);
 int		len_lst(t_lst *lst);
 
