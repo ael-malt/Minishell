@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 13:22:47 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:22:17 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	{
 		if (lst->token == 0)
 		{
-			if (lst->next && ((lst->next->token == 1) || check_pipe_after_redir(lst))) // retiré (lst->token == 0 && ) du if
+			if (lst->next && ((lst->next->token == 1) || check_pipe_after_redir(lst)))
 				if (pipe(fd) == -1)
 					perror("Pipe");
 			pid = fork();
@@ -71,39 +71,13 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	}
 }
 
-// void	input_solo_command(t_lst *lst)
-// {
-// 	int file;
-
-// 	file = 0;
-// 	while (lst->prev != NULL && lst->prev->token == 2) //== erreur boucle voir demain
-// 		lst = lst->prev;
-// 	file = open_redir_file(lst);
-// 	if (file < 0)
-// 		return (exit(0));
-// 	while (lst->next && lst->next->token == 2)
-// 	{
-// 		close(file);
-// 		if (lst->next)
-// 			lst = lst->next;
-// 		file = open_redir_file(lst);
-// 		if (file < 0)
-// 			return (exit(0));
-
-// 	}
-// 	redirex(file, lst);
-// }
-
 void	input_command(t_lst *lst, int file)
 {
-	while (lst->prev != NULL && lst->prev->token == 2) //== erreur boucle voir demain
+	while (lst->prev != NULL && lst->prev->token == 2)
 		lst = lst->prev;
 	file = open_redir_file(lst);
 	if (file < 0)
-	{
-		// fprintf(stderr, "file < 0\n");
 		return (exit(0));
-	}
 	while (lst->next && lst->next->token == 2)
 	{
 		close(file);
@@ -111,10 +85,7 @@ void	input_command(t_lst *lst, int file)
 			lst = lst->next;
 		file = open_redir_file(lst);
 		if (file < 0)
-		{
-			// fprintf(stderr, "file < 0\n");
 			return (exit(0));
-		}
 	}
 	redirex(file, lst);
 }
@@ -123,30 +94,24 @@ void	redirex(int file, t_lst *lst)
 {
 	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
 	{
-		// fprintf(stderr, "redirex STDOUT: %s\n", lst->command);
 		if (dup2(file, STDOUT_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
 	}
-	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1))//lst->next pour heredoc seul
+	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1))
 	{
-		// fprintf(stderr, "redirex STDIN: %s\n", lst->command);
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
 	}
-	fprintf(stderr, "file %d\n", file);
 	if (file)
 		close(file);
 	if (lst->next && lst->next->token == 2 && is_redir(lst->next) > 1)
-	{
-		// fprintf(stderr, "redir dif\n");
 		redirect(lst);
-	}
 }
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
@@ -156,12 +121,12 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst)
 
 	file = 0;
 	flag = 0;
-	printf("pipex : %s %d %d\n", lst->command, lst->token, file);
-	if (lst->prev && lst->prev->token == 2)
-	{
-		input_command(lst, file);
-		flag = 1;
-	}
+	// printf("pipex : %s %d %d\n", lst->command, lst->token, file);
+	// if (lst->prev && lst->prev->token == 2)
+	// {
+	// 	input_command(lst, file);
+	// 	flag = 1;
+	// }
 	if (lst->prev && lst->prev->token == 1 && flag == 0)
 	{
 		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
