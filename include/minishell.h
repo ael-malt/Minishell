@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 15:14:30 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:12:06 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,8 +258,6 @@ int		is_heredoc_limiter_valid(t_lst *lst);
 
 		//---------------------MULTI_PIPE.C----------------------------//
 void	multi_pipe(t_lst *lst, t_expand *ex);
-void	input_solo_command(t_lst *lst);
-void	input_command(t_lst *lst, int file);
 void	redirex(int file, t_lst *lst);
 void	pipex(int *fd, int *fd_temp, t_lst *lst);
 
@@ -267,6 +265,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst);
 int		is_redir(t_lst *lst);
 int		open_redir_file(t_lst *lst);
 void	redirect(t_lst *lst);
+void	input_command(t_lst *lst, int file);
 int		check_pipe_after_redir(t_lst *lst);
 
 

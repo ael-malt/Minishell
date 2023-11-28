@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 17:01:12 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:11:04 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,13 @@ void	excecuting(t_lst *lst, char **tab)
 	{
 		if (lst->split_command)
 			chemin = ft_strjoin_connect2(path[i], lst->split_command[0], '/');
-		// int i = 0;
-		// while (lst->split_command[i])
-		// {
-		// 	printf("%s\n", lst->split_command[i]);
-		// 	i++;
-		// }
 		if (chemin)
 		{
 			if (chemin && access(chemin, F_OK) == 0)
 			{
-				// ft_printf("chemin: %s\n", chemin);
 				if (execve(chemin, lst->split_command, tab) == -1)
 				{
-					mini_perror_exec(NOTCMD, lst->split_command); // cette erreur
+					mini_perror_exec(NOTCMD, lst->split_command);
 					exit(127);
 				}
 			}

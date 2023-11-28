@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 17:01:59 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:32:54 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 extern int	g_exit_status;
 // heredoc d'affiler avant marche pas meme heredoc silp
+// << hf << q ls > lk = resultat attendu mais imprime dans heredoc a la fin du dernier le doc ou on redirige < lk
+
 void	multi_pipe(t_lst *lst, t_expand *ex)
 {
 	int	fd[2];
@@ -48,7 +50,6 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 				if (lst->next && lst->next->token == 2)
 					redirect(lst);
 				execute(lst, ex);
-				// fprintf(stderr, "execute %s %d\n", lst->command, lst->token);
 			}
 			else
 			{
@@ -72,25 +73,6 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 		}
 		lst = lst->next;
 	}
-}
-
-void	input_command(t_lst *lst, int file)
-{
-	while (lst->prev != NULL && lst->prev->token == 2)
-		lst = lst->prev;
-	file = open_redir_file(lst);
-	if (file < 0)
-		return (exit(0));
-	while (lst->next && lst->next->token == 2)
-	{
-		close(file);
-		if (lst->next)
-			lst = lst->next;
-		file = open_redir_file(lst);
-		if (file < 0)
-			return (exit(0));
-	}
-	redirex(file, lst);
 }
 
 void	redirex(int file, t_lst *lst)
@@ -120,17 +102,17 @@ void	redirex(int file, t_lst *lst)
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
 	int	file;
-	int	flag;
+	// int	flag;
 
 	file = 0;
-	flag = 0;
+	// flag = 0;
 	// printf("pipex : %s %d %d\n", lst->command, lst->token, file);
 	// if (lst->prev && lst->prev->token == 2)
 	// {
 	// 	input_command(lst, file);
 	// 	flag = 1;
 	// }
-	if (lst->prev && lst->prev->token == 1 && flag == 0)
+	if (lst->prev && lst->prev->token == 1 /*&& flag == 0*/)
 	{
 		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
 		// fprintf(stderr, "cat\n");

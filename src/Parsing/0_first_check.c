@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:12:43 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/16 14:53:38 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:02:54 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	search_char(char *s)
 	return (0);
 }
 
-
 int	search_quote(char *s)
 {
 	int	i;
@@ -81,7 +80,7 @@ int	search_quote(char *s)
 			flag = 0;
 		i++;
 	}
-	if (flag != 0)
+	if (flag != 0 && flag != 3)
 		return (1);
 	return (0);
 }

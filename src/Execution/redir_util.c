@@ -6,12 +6,12 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 15:18:12 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:34:26 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
+void	heredoc_in_redir(t_lst *lst);
 int	is_redir(t_lst *lst)
 {
 	if (!lst)
@@ -31,7 +31,6 @@ int	open_redir_file(t_lst *lst)
 {
 	int	fd;
 
-	fd = 0;
 	fd = 0;
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -53,7 +52,7 @@ void redirect(t_lst *lst)
 	file = 0;
 	if (lst->prev && lst->prev->token == 2)
 		input_command(lst, file);
-	if (lst->next)
+	if (lst->next && lst->next->token == 2) // ajout du token
 		lst = lst->next;
 	file = open_redir_file(lst);
 	if (file < 0)
@@ -63,7 +62,57 @@ void redirect(t_lst *lst)
 		(is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
 		if (file > 0)
-				close(file);
+			close(file);
+		if (lst->next)
+			lst = lst->next;
+		file = open_redir_file(lst);
+		if (file < 0)
+			return (exit(0));
+	}
+	// fprintf(stderr, "%s\n", lst->command);
+	if (lst->next && is_redir(lst->next) == 1)
+	{
+		heredoc_in_redir(lst); 
+		// fprintf(stderr, "%s\n", lst->command);
+		// if (file > 0)
+		// 	close(file);
+		// if (lst->next)
+		// 	lst = lst->next;
+		// file = open_redir_file(lst);
+		// if (file < 0)
+		// 	return (exit(0));
+	}
+	redirex(file, lst);
+}
+
+void	heredoc_in_redir(t_lst *lst)
+{
+	int	file;
+
+	file = 0;
+	while (lst->next && is_redir(lst->next) == 1)
+	{
+		// fprintf(stderr, "%s\n", lst->command);
+		if (file > 0)
+			close(file);
+		if (lst->next)
+			lst = lst->next;
+		file = open_redir_file(lst);
+		if (file < 0)
+			return (exit(0));
+	}
+}
+
+void	input_command(t_lst *lst, int file)
+{
+	while (lst->prev != NULL && lst->prev->token == 2)
+		lst = lst->prev;
+	file = open_redir_file(lst);
+	if (file < 0)
+		return (exit(0));
+	while (lst->next && lst->next->token == 2)
+	{
+		close(file);
 		if (lst->next)
 			lst = lst->next;
 		file = open_redir_file(lst);
