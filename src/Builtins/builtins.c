@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 14:24:48 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/19 16:03:25 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:26:17 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	builtin(t_lst *lst, t_expand *ex)
 
 int	is_builtin(t_lst *lst)
 {
-	if (!lst->split_command)
+	if (!lst->command || !lst->split_command)
 		return (0);
 	if (!ft_strcmp(lst->split_command[0], "pwd"))
 		return (1);

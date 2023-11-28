@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 17:19:26 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:29:09 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	input_heredoc(t_lst *lst, int file)
 	if (lst->prev && is_redir(lst->prev) == 1)
 	{
 		file = open_redir_file(lst->prev);
-		fprintf(stderr, "input heredoc\n");
+		// fprintf(stderr, "input heredoc\n");
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
@@ -103,7 +103,7 @@ void	input_heredoc(t_lst *lst, int file)
 
 void	redirex(int file, t_lst *lst)
 {
-	if ((is_redir(lst) == 2 || is_redir(lst) == 4))
+	if ((is_redir(lst) == 2 || 	is_redir(lst) == 4))
 	{
 		// fprintf(stderr, "redirex STDOUT: %s\n", lst->command);
 		if (dup2(file, STDOUT_FILENO) == -1)
@@ -114,7 +114,7 @@ void	redirex(int file, t_lst *lst)
 	}
 	else if (is_redir(lst) == 3 || is_redir(lst) == 1)//lst->next pour heredoc seul
 	{
-		// fprintf(stderr, "redirex STDIN: %s\n", lst->command);
+		fprintf(stderr, "redirex STDIN: %s\n", lst->command);
 		// fprintf(stderr, "file: %d\n", file);
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
@@ -139,6 +139,7 @@ void	pipex(int *fd, int *fd_temp, t_lst *lst)
 	if (lst->prev && lst->prev->token == 1)
 	{
 		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
+		// fprintf(stderr, "cat\n");
 		if (dup2(*fd_temp, STDIN_FILENO) == -1)
 		{
 			mini_perror(PIPERR, NULL, 1);

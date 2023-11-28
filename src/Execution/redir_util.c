@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 17:14:30 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:29:03 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,18 @@ int	check_pipe_after_redir(t_lst *lst)
 	t_lst	*tmp_lst;
 
 	tmp_lst = 0;
-	if (!lst->prev && !lst->next)
+	// ft_printf("lst cmd: %s\n",lst->command);
+	if ((!lst->prev && !lst->next) || (lst->next && !lst->command) || !lst_count_pipe(lst))
 		return (0);
-	if ((lst->next && lst->token == 0) || !lst_count_pipe(lst))
+	if ((lst->next && lst->next->command && lst->token == 0))
 		tmp_lst = lst->next;
+	// ft_printf("tmp lst cmd: %s\n",tmp_lst->next->command);
 	while (tmp_lst->next && is_redir(tmp_lst))
+	{
 		tmp_lst = tmp_lst->next;
-	// ft_printf("ICI: %s\n", tmp_lst->content);
+	}
 	if (tmp_lst->token == 1 && is_redir(tmp_lst->prev))
 		return (1);
 	return (0);
 }
+

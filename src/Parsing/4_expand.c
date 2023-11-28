@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   4_expand.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/09 18:19:15 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:05:55 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	expand_lst(t_lst *lst, t_expand *ex)
 //check ligne 33 le i va trop loin avec le test: é'_euezyrç"ry"ury"éç_'ryfh"
 char	*search_expand_in_line(t_expand *ex, char *line, int i)
 {
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == '\'')
 		{
