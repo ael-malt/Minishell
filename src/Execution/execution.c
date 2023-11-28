@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 14:36:46 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:51:50 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ extern int	g_exit_status;
 
 void	execute(t_lst *lst, t_expand *ex)
 {
-	fprintf(stderr, "execute %s %d\n", lst->command, lst->token);
-	if (is_builtin(lst) && lst_count_pipe(lst))
+	// fprintf(stderr, "execute %s %d\n", lst->command, lst_count_redir(lst));
+	if (is_builtin(lst) && (lst_count_pipe(lst) || lst_count_redir(lst)))
 	{
 		builtin(lst, ex);
 		exit(0);
 	}
-	else if (is_builtin(lst))
+	else if (is_builtin(lst) && !lst->prev && !lst->next)
 		exit(0);
 	else if (!is_builtin(lst) &&ft_strchr(lst->split_command[0], '/') != NULL)
 		exc_absolut_way(lst, ex);
