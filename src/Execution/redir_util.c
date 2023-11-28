@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 15:52:59 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:06:08 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ void redirect(t_lst *lst)
 	int	file;
 
 	file = 0;
-	
+	fprintf(stderr, "passe dans redirect %s\n", lst->command);
+	if (lst->prev && lst->prev->token == 2)
+		input_command(lst, file);
 	if (lst->next)
 		lst = lst->next;
-	// fprintf(stderr, "passe dans redirect %s\n", lst->command);
+	fprintf(stderr, "passe dans redirect %s\n", lst->command);
 	file = open_redir_file(lst);
 	if (file < 0)
 	{
@@ -74,25 +76,26 @@ void redirect(t_lst *lst)
 		}
 	}
 	// printf("rex: %s %d %d\n", lst->command, lst->token, file);
-	// input_heredoc(lst, file);
 	// if (is_redir(lst) > 1)
 	redirex(file, lst);
-
 }
 
 int	check_pipe_after_redir(t_lst *lst)
 {
-	t_lst	*tmp_lst;
+	t_lst		*tmp_lst;
 
-	tmp_lst = 0;
-	if (!lst->prev && !lst->next)
-		return (0);
-	if ((lst->next && lst->token == 0) || !lst_count_pipe(lst))
-		tmp_lst = lst->next;
-	while (tmp_lst->next && is_redir(tmp_lst))
-		tmp_lst = tmp_lst->next;
-	// ft_printf("ICI: %s\n", tmp_lst->content);
-	if (tmp_lst->token == 1 && is_redir(tmp_lst->prev))
-		return (1);
-	return (0);
+    tmp_lst = 0;
+    // ft_printf("lst cmd: %s\n",lst->command);
+    if ((!lst->prev && !lst->next) || (lst->next && !lst->command) || !lst_count_pipe(lst))
+        return (0);
+    if ((lst->next && lst->next->command && lst->token == 0))
+        tmp_lst = lst->next;
+    // ft_printf("tmp lst cmd: %s\n",tmp_lst->next->command);
+    while (tmp_lst->next && is_redir(tmp_lst))
+    {
+        tmp_lst = tmp_lst->next;
+    }
+    if (tmp_lst->token == 1 && is_redir(tmp_lst->prev))
+        return (1);
+    return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/25 14:53:41 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:23:50 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	execute(t_lst *lst, t_expand *ex)
 {
+	fprintf(stderr, "execute %s %d\n", lst->command, lst->token);
 	if (is_builtin(lst) && lst_count_pipe(lst))
 	{
 		builtin(lst, ex);

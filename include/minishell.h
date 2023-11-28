@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 15:52:55 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:07:46 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,8 @@ void	heredoc_signal(int fd, int i);
 
 		//---------------------MULTI_PIPE.C----------------------------//
 void	multi_pipe(t_lst *lst, t_expand *ex);
-void	input_heredoc(t_lst *lst, int file);
+void	input_solo_command(t_lst *lst);
+void	input_command(t_lst *lst, int file);
 void	redirex(int file, t_lst *lst);
 void	pipex(int *fd, int *fd_temp, t_lst *lst);
 

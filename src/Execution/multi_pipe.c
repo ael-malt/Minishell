@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/27 15:53:20 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:22:47 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exit_status;
-
+// heredoc d'affiler avant marche pas meme heredoc silp
 void	multi_pipe(t_lst *lst, t_expand *ex)
 {
 	int	fd[2];
 	int	pid;
 	int	fd_temp;
 	int	status;
-	// int	here;
+	int file;
 	
 	fd_temp = 0;
+	file = 0;
 	if (!lst)
 		return ;
-	// here = count_heredoc(lst); //soit heredoc avant commande = dup2 entree soit ya pas de commande et sans dup2
 	while (lst)
 	{
-		// if (lst->token == 2 && is_heredoc(lst) == 1)
-		// {
-		// 	if (lst->next && lst->next->token == 1)
-		// 		break ;
-		// 	else
-		// 		redirect(lst);
-		// }
 		if (lst->token == 0)
 		{
 			if (lst->next && ((lst->next->token == 1) || check_pipe_after_redir(lst))) // retiré (lst->token == 0 && ) du if
@@ -46,13 +39,12 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
+				if (lst->token == 0 && lst->next == NULL && lst->prev && lst->prev->token == 2)
+					input_command(lst, file);
 				if (lst->token == 0 && ((lst->prev && lst->prev->token == 1)
 					|| (lst->next && lst->next->token == 1)
 					|| check_pipe_after_redir(lst)))
-					{
 						pipex(fd, &fd_temp, lst);
-						// fprintf(stderr, "pipex %s\n", lst->command);
-					}
 				if (lst->next && lst->next->token == 2)
 					redirect(lst);
 				execute(lst, ex);
@@ -79,23 +71,52 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	}
 }
 
-void	input_heredoc(t_lst *lst, int file)
-{
-	// int	file;
+// void	input_solo_command(t_lst *lst)
+// {
+// 	int file;
 
-	// file = 0;
-	if (lst->prev && is_redir(lst->prev) == 1)
+// 	file = 0;
+// 	while (lst->prev != NULL && lst->prev->token == 2) //== erreur boucle voir demain
+// 		lst = lst->prev;
+// 	file = open_redir_file(lst);
+// 	if (file < 0)
+// 		return (exit(0));
+// 	while (lst->next && lst->next->token == 2)
+// 	{
+// 		close(file);
+// 		if (lst->next)
+// 			lst = lst->next;
+// 		file = open_redir_file(lst);
+// 		if (file < 0)
+// 			return (exit(0));
+
+// 	}
+// 	redirex(file, lst);
+// }
+
+void	input_command(t_lst *lst, int file)
+{
+	while (lst->prev != NULL && lst->prev->token == 2) //== erreur boucle voir demain
+		lst = lst->prev;
+	file = open_redir_file(lst);
+	if (file < 0)
 	{
-		file = open_redir_file(lst->prev);
-		fprintf(stderr, "input heredoc\n");
-		if (dup2(file, STDIN_FILENO) == -1)
+		// fprintf(stderr, "file < 0\n");
+		return (exit(0));
+	}
+	while (lst->next && lst->next->token == 2)
+	{
+		close(file);
+		if (lst->next)
+			lst = lst->next;
+		file = open_redir_file(lst);
+		if (file < 0)
 		{
-			mini_perror(DUPERR, NULL, 1);
-			return ;
+			// fprintf(stderr, "file < 0\n");
+			return (exit(0));
 		}
 	}
-	// if (file)
-	// 	close(file);
+	redirex(file, lst);
 }
 
 void	redirex(int file, t_lst *lst)
@@ -130,9 +151,18 @@ void	redirex(int file, t_lst *lst)
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
-	
-	// if (lst->next && lst->next->token == 1)
-	if (lst->prev && lst->prev->token == 1)
+	int	file;
+	int	flag;
+
+	file = 0;
+	flag = 0;
+	printf("pipex : %s %d %d\n", lst->command, lst->token, file);
+	if (lst->prev && lst->prev->token == 2)
+	{
+		input_command(lst, file);
+		flag = 1;
+	}
+	if (lst->prev && lst->prev->token == 1 && flag == 0)
 	{
 		// fprintf(stderr, "pipex STDIN: %s\n", lst->command);
 		if (dup2(*fd_temp, STDIN_FILENO) == -1)
