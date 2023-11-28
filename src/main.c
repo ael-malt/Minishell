@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/25 14:52:29 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:39:38 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	export_envp(t_expand *ex, char **envp)
 	char	*pwd;
 	char	*tmp;
 	
+	pwd = NULL;
+	tmp = NULL;
 	if (envp[0] != NULL)
 		ex->tab = ft_dup_matrix(envp);
 	else
@@ -81,13 +83,21 @@ void	export_envp(t_expand *ex, char **envp)
 		ex->tab = malloc(sizeof(ex->tab) * 4);
 		if (!ex->tab)
 			return ;
-		tmp = getcwd(NULL, 0);
-		pwd = ft_strjoin("PWD=", tmp);
-		free(tmp);
-		ex->tab[0] = ft_strdup(pwd);
-		free(pwd);
-		ex->tab[1] = ft_strdup("SHLVL=1");
-		ex->tab[2] = ft_strdup("_=/usr/bin/env");
+		tmp = getcwd(tmp, 0);
+		if (tmp)
+		{
+			pwd = ft_strjoin("PWD=", tmp);
+			free(tmp);
+			ex->tab[0] = ft_strdup(pwd);
+			free(pwd);
+			ex->tab[1] = ft_strdup("SHLVL=1");
+			ex->tab[2] = ft_strdup("_=/usr/bin/env");
+		}
+		else
+		{
+			ex->tab[0] = ft_strdup("SHLVL=1");
+			ex->tab[1] = ft_strdup("_=/usr/bin/env");
+		}
 	}
 }
 
@@ -111,6 +121,7 @@ int	main(int ac, char **av, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			line_start = get_line_info(&ex);
 			line = readline(line_start);
+			// line = readline("Minishell:");
 			// printf("line: %s\n", line);
 			if (!line)
 				break ;

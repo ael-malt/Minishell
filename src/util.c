@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/10/25 17:25:24 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:29:35 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ SSSSSSSSS HHH      HHH EEEEEEEEEEEE LLLLLLLLLLLL LLLLLLLLLLLL\n\x1b[0m");
 
 char	*get_line_info(t_expand *ex)
 {
-	(void) ex;
 	char	*tmp;
 	char	*tmp2;
 	char	*pwd;
@@ -59,9 +58,10 @@ char	*get_line_info(t_expand *ex)
 	int		j;
 	int		i;
 
+	pwd = NULL;
 	i = export_var_in_tab("PWD=", ex->tab);
 	if (i == -1)
-		pwd = getcwd(NULL, 0);
+		pwd = getcwd(pwd, 0);
 	else
 		pwd = &ex->tab[i][4];
 	index = unset_var_in_tab("USER", ex->tab);

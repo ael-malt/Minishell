@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/27 15:35:47 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:24:49 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	mini_cd_error_1(int i)
 
 static void	mini_export_pwd(char **pwd, char *tmp, t_expand *ex)
 {
-	tmp = getcwd(NULL, 0);
+	tmp = getcwd(tmp, 0);
 	pwd[2] = ft_strjoin("PWD=", tmp);
 	// pwd[3] = '\0';
 	mini_export(ex, pwd);
@@ -62,7 +62,7 @@ int	mini_cd(t_expand *ex, char **split_command)
 	int		exit_status;
 	char	*tmp;
 	int		i;
-
+	tmp = NULL;
 	pwd = malloc(sizeof(char *) * 4);
 	if (!pwd)
 		return (1);
@@ -71,7 +71,7 @@ int	mini_cd(t_expand *ex, char **split_command)
 	if (i == 0)
 		exit_status = mini_cd_error_1(1);
 	pwd[0] = ft_strdup("export");
-	tmp = getcwd(NULL, 0);
+	tmp = getcwd(tmp, 0);
 	pwd[1] = ft_strjoin("OLDPWD=", tmp);
 	if (ft_matrixlen(split_command) == 1 && i != 0)
 		chdir(&ex->tab[i][5]);
