@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 14:36:46 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:29:14 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,18 @@ extern int	g_exit_status;
 void	execute(t_lst *lst, t_expand *ex)
 {
 	fprintf(stderr, "execute %s %d\n", lst->command, lst->token);
-	if (is_builtin(lst) && lst_count_pipe(lst))
+/* 	if (is_builtin(lst) && lst_count_pipe(lst)) 
 	{
 		builtin(lst, ex);
 		exit(0);
 	}
 	else if (is_builtin(lst))
-		exit(0);
+		exit(0); */
+	if (is_builtin(lst))
+	{
+		builtin(lst, ex);
+		exit(0);	
+	}
 	else if (!is_builtin(lst) &&ft_strchr(lst->split_command[0], '/') != NULL)
 		exc_absolut_way(lst, ex);
 	else if (!is_builtin(lst))

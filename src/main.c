@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/25 14:52:29 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:51:28 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	export_envp(t_expand *ex, char **envp)
 		ex->tab = malloc(sizeof(ex->tab) * 4);
 		if (!ex->tab)
 			return ;
-		tmp = getcwd(NULL, 0);
-		pwd = ft_strjoin("PWD=", tmp);
+		tmp = getcwd(NULL, 0);//ici aussi 
+		pwd = ft_strjoin("PWD=", "test");//La protection manquante
 		free(tmp);
 		ex->tab[0] = ft_strdup(pwd);
 		free(pwd);
@@ -125,5 +125,5 @@ int	main(int ac, char **av, char **envp)
 		exit(g_exit_status);
 	}
 	else
-		printf("Error : nb argc invalid\n");
+		ft_printf("Error : nb argc invalid\n");
 }

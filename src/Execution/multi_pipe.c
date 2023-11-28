@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 14:38:03 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:28:19 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 						pipex(fd, &fd_temp, lst);
 				if (lst->next && lst->next->token == 2)
 				{
-
-					redirect(lst);
-					// fprintf(stderr, "redirect %s\n", lst->command);
+					redirect(lst);	
 				}
+				fprintf(stderr, "redirect %s\n", lst->command);
 				execute(lst, ex);
 			}
 			else

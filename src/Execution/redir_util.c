@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 14:39:02 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:18:12 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void redirect(t_lst *lst)
 		lst = lst->next;
 	file = open_redir_file(lst);
 	if (file < 0)
-		return (exit(0));
+		return (exit(0)); //si exit = allocation non free
 	while (lst->next && is_redir(lst->next) && is_redir(lst->next) > 1 && \
 		(is_redir(lst) == is_redir(lst->next) || is_redir(lst) == \
 		(is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
