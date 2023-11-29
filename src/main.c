@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/28 18:39:38 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:50:44 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 		}
 		lst = create_node();
 		lst->content = ft_strdup(line);
+		// ft_printf("line: '%s'\n", line);
 		if (split_command(lst, ex) != -1)
 		{
 			assign_token(lst);
@@ -121,18 +122,20 @@ int	main(int ac, char **av, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			line_start = get_line_info(&ex);
 			line = readline(line_start);
+			free(line_start);
 			// line = readline("Minishell:");
 			// printf("line: %s\n", line);
 			if (!line)
 				break ;
 			else
 				check_rl_args(line, &lst, &ex, &sp);
-			// free line
-			free(line_start);
+			if (line)
+				free(line);
+			// if (lst.content)
+			// 	free_lst(&lst); 
 		}
-		// if (lst.content)
-		// 	free_lst(&lst); 
 		ft_printf("exit\n");
+		ft_free_matrix(&ex.tab);
 		exit(g_exit_status);
 	}
 	else

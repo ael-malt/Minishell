@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 17:29:35 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:44:29 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,25 @@ char	*get_line_info(t_expand *ex)
 	char	*tmp;
 	char	*tmp2;
 	char	*pwd;
-	int		index;
-	int		j;
-	int		i;
+	int		i[3];
 
 	pwd = NULL;
-	i = export_var_in_tab("PWD=", ex->tab);
-	if (i == -1)
+	i[0] = export_var_in_tab("PWD=", ex->tab);
+	if (i[0] == -1)
 		pwd = getcwd(pwd, 0);
 	else
-		pwd = &ex->tab[i][4];
-	index = unset_var_in_tab("USER", ex->tab);
-	j = 0;
-	if (index != -1)
+		pwd = &ex->tab[i[0]][4];
+	i[1] = unset_var_in_tab("USER", ex->tab);
+	i[2] = 0;
+	if (i[1] != -1)
 	{
-		while (ex->tab[index][j++] != '=');
-		tmp = &ex->tab[index][j];
+		while (ex->tab[i[1]][i[2]++] != '=');
+		tmp = &ex->tab[i[1]][i[2]];
 	}
 	else
 		tmp = ft_strdup("guest");
 	tmp2 = ft_strjoin(GREEN, tmp);
-	if (j == 0)
+	if (i[2] == 0)
 		free(tmp);
 	tmp = ft_strjoin(tmp2, "@Minishell");
 	free(tmp2);
@@ -90,7 +88,7 @@ char	*get_line_info(t_expand *ex)
 	free(tmp);
 	tmp = ft_strjoin(tmp2, "$ ");
 	free(tmp2);
-	if (i == -1)
+	if (i[0] == -1)
 		free(pwd);
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 19:31:13 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:47:25 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	mini_export_verif(char *str)
 	{
 		if (str[i] == '@' || str[i] == '!'
 				|| str[i] == '#'|| str[i] == '`')
-			return (0); // ARRANGER LES CONDIIONS, FAIRE TESTS SUR BASH ET POSER DES QUESTIONS
+			return (0);
 		if (str[i] == '=')
 			equal_present = 1;
 		i++;
@@ -78,7 +78,7 @@ static int	do_the_export(t_expand *ex, char **split_command)
 	int		pos;
 
 	i = 0;
-	ft_printf("export: %s", split_command[1]);
+	// ft_printf("export: %s", split_command[1]);
 	while (split_command[++i])
 	{
 		if (mini_export_verif(split_command[i]) == 1)
