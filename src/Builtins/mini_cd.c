@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 17:18:57 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:15:01 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	mini_cd_error(char *join_cd, int *exit_status)
 		closedir(dir);
 }
 
-static void	mini_export_pwd(char *tmp, t_expand *ex)
+static void	mini_export_pwd(char *cwd, t_expand *ex)
 {
 	char	**pwd;
 
@@ -47,12 +47,20 @@ static void	mini_export_pwd(char *tmp, t_expand *ex)
 	if (!pwd)
 		return ;
 	pwd[0] = ft_strdup("export");
-	pwd[1] = ft_strjoin("OLDPWD=", tmp);
-	free(tmp);
-	pwd[2] = ft_strjoin("PWD=", getcwd(NULL, 0));
-	// ft_printf("pwd: %s\n", pwd[2]);
+	if (cwd)
+	{
+		pwd[1] = ft_strjoin("OLDPWD=", cwd);
+		pwd[2] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	}
+	else if (getcwd(NULL, 0))
+	{
+		pwd[1] = ft_strjoin("PWD=", getcwd(NULL, 0));
+		pwd[2] = NULL;
+	}
+	free(cwd);
 	pwd[3] = NULL;
-	mini_export(ex, pwd);
+	if (getcwd(NULL, 0))
+		mini_export(ex, pwd);
 	free(pwd[0]);
 	free(pwd[1]);
 	free(pwd[2]);
@@ -68,17 +76,21 @@ static char	*check_case(char *jcd, t_expand *ex)
 	}
 	if (!strcmp(jcd, "-"))
 	{
-		// ft_printf("nb: %d\n", export_var_in_tab("OLDPWD=", ex->tab));
-		if (export_var_in_tab("OLDPWD=", ex->tab) != -1)
+		// ft_printf("nb: %d\n", export_vintab("OLDPWD=", ex->tab));
+		if (export_vintab("OLDPWD=", ex->tab) != -1)
 		{
 			free(jcd);
-			jcd = ft_strdup(&ex->tab[export_var_in_tab("OLDPWD=", ex->tab)][7]);
+			jcd = ft_strdup(&ex->tab[export_vintab("OLDPWD=", ex->tab)][7]);
 		}
 		else 
 			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 	}
 	return (jcd);
 }
+// ESTALE
+// bash: ../: Stale file handle
+// ESTALE
+// shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 
 static char *join_split_command(char **split_command, t_expand *ex)
 {
@@ -105,26 +117,30 @@ int	mini_cd(t_expand *ex, char **split_command)
 	int		exit_status;
 	char	*cwd;
 	char	*join_cd;
-	int		i;
 
 	cwd = NULL;
 	join_cd = NULL;
 	exit_status = 0;
-	i = export_var_in_tab("HOME=", ex->tab);
-	if (i == -1)
+	if (export_vintab("HOME=", ex->tab) == -1)
 		ft_putendl_fd("minishell: cd: HOME not set", 2);
 	cwd = getcwd(cwd, 0);
-	ft_printf("cwd: %s\n", cwd);
-	if (cwd)
+	if (ft_matrixlen(split_command) == 1 && 
+		export_vintab("HOME=", ex->tab) != 0)
+		chdir(&ex->tab[export_vintab("HOME=", ex->tab)][5]);
+	else
 	{
-		if (ft_matrixlen(split_command) == 1 && i != 0)
-			chdir(&ex->tab[i][5]);
-		else
+		if (cwd)
 		{
 			join_cd = join_split_command(split_command + 1, ex);
 			if (ft_strcmp(join_cd, "-"))
 				mini_cd_error(join_cd, &exit_status);
 		}
+		else
+		{
+			ft_putendl_fd("chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
+			ft_putendl_fd("minishell: cd: ../: Stale file handle", 2);
+		}
 	}
-	return (mini_export_pwd(cwd, ex), free(join_cd), exit_status);
+	mini_export_pwd(cwd, ex);	
+	return (free(join_cd), exit_status);
 }

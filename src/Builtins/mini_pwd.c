@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:39:25 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 12:29:06 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:42:56 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,9 @@ int	mini_pwd(void)
 		ft_printf("%s\n", buf);
 		free(buf);
 	}
+	else
+		ft_putendl_fd("chdir: error retrieving current directory: getcwd: \
+cannot access parent directories: No such file or directory", 2);
+
 	return (0);
 }

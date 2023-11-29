@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 15:14:30 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:23 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,14 +224,14 @@ int		mini_echo(t_lst *lst);
 int		mini_exit(char **split_command);
 
 		//------------------------EXPORT.C--------------------------//
-int		export_var_in_tab(char *cmd, char **tab);
+int		export_vintab(char *cmd, char **tab);
 int		mini_export(t_expand *ex, char **split_command);
 
 		//--------------------------PWD.C---------------------------//
 int		mini_pwd(void);
 
 		//-------------------------UNSET.C--------------------------//
-int		unset_var_in_tab(char *av, char **tab);
+int		unset_vintab(char *av, char **tab);
 int		mini_unset(t_expand *ex, char **av);
 char	**new_tab(t_expand *ex, int index);
 

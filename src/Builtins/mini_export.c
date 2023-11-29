@@ -6,13 +6,13 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 15:47:25 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:11 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	export_var_in_tab(char *cmd, char **tab)
+int	export_vintab(char *cmd, char **tab)
 {
 	int	i;
 	int	pos;
@@ -83,7 +83,7 @@ static int	do_the_export(t_expand *ex, char **split_command)
 	{
 		if (mini_export_verif(split_command[i]) == 1)
 		{
-			pos = export_var_in_tab(split_command[i], ex->tab);
+			pos = export_vintab(split_command[i], ex->tab);
 			if (pos >= 0)
 			{
 				free(ex->tab[pos]);

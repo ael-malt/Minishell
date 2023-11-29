@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 13:44:29 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:23 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ char	*get_line_info(t_expand *ex)
 	int		i[3];
 
 	pwd = NULL;
-	i[0] = export_var_in_tab("PWD=", ex->tab);
+	i[0] = export_vintab("PWD=", ex->tab);
 	if (i[0] == -1)
 		pwd = getcwd(pwd, 0);
 	else
 		pwd = &ex->tab[i[0]][4];
-	i[1] = unset_var_in_tab("USER", ex->tab);
+	i[1] = unset_vintab("USER", ex->tab);
 	i[2] = 0;
 	if (i[1] != -1)
 	{
