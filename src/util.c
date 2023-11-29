@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:05:29 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 17:27:23 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:19:22 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_countchar(char *s, char c)
 void	print_big_minishell()
 {
 	ft_printf("\033[2J\033[1;1H");
-	ft_printf("\x1b[31mMMM      MMM  IIIIIIIIIIII NNNNN    NNN IIIIIIIIIIII SSS\
+	ft_printf("\x1b[31;1mMMM      MMM  IIIIIIIIIIII NNNNN    NNN IIIIIIIIIIII SSS\
 SSSSSSSSS HHH      HHH EEEEEEEEEEEE LLL          LLL         \n");
 	ft_printf("\x1b[33mM|\\MM  MM/|M  IIII\\II/IIII N|¯\\NN   N|N IIII\\II/IIII\
  SS/¯SSSSSSSS H|H      H|H EE/EEEEEEEEE L|L          L|L         \n");

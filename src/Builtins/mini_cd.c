@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:03:47 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 18:15:01 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:24:32 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,10 @@ int	mini_cd(t_expand *ex, char **split_command)
 	cwd = NULL;
 	join_cd = NULL;
 	exit_status = 0;
-	if (export_vintab("HOME=", ex->tab) == -1)
-		ft_putendl_fd("minishell: cd: HOME not set", 2);
 	cwd = getcwd(cwd, 0);
-	if (ft_matrixlen(split_command) == 1 && 
+	if (export_vintab("HOME=", ex->tab) == -1 && !split_command[1])
+		ft_putendl_fd("minishell: cd: HOME not set", 2);
+	else if (ft_matrixlen(split_command) == 1 && 
 		export_vintab("HOME=", ex->tab) != 0)
 		chdir(&ex->tab[export_vintab("HOME=", ex->tab)][5]);
 	else
