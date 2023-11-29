@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:10:09 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 17:12:06 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:09:41 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,9 @@ int		is_redir(t_lst *lst);
 int		open_redir_file(t_lst *lst);
 void	redirect(t_lst *lst);
 void	input_command(t_lst *lst, int file);
+int		only_redir(t_lst *lst);
+int		lstsize(t_lst *lst);
+void	ft_open(t_lst * lst);
 int		check_pipe_after_redir(t_lst *lst);
 
 

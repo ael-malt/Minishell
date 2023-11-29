@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 18:37:37 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:18:05 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,60 @@ void	input_command(t_lst *lst, int file)
 	redirex(file, lst);
 }
 
-int	
+int	only_redir(t_lst *lst)
+{
+	t_lst	*tmp;
+	int		count;
+
+	tmp = lst;
+	count = 0;
+	if (!tmp)
+		return (-1);
+	while (tmp)
+	{
+		if (tmp->token == 2)
+			count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
+
+int	lstsize(t_lst *lst)
+{
+	int	len;
+
+	len = 0;
+	if (!lst)
+		return (-1);
+	while (lst)
+	{
+		len++;
+		lst = lst->next;
+	}
+	return (len);
+}
+
+void	ft_open(t_lst * lst)
+{
+	t_lst	*tmp;
+
+	tmp = lst;
+	if (!tmp)
+		return ;
+	while (tmp)
+	{
+		if (tmp->token == 2)
+			open_redir_file(lst);
+		tmp = tmp->next;
+	}
+	// while (tmp->prev)
+	// 	tmp = tmp->prev;
+	// printf("count %d size %d\n", count, lstsize(tmp));
+	// if (lstsize(tmp) == count)
+	// 	return (1);
+	// return (0);
+}
+
 int	check_pipe_after_redir(t_lst *lst)
 {
 	t_lst	*tmp_lst;

@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/29 18:39:46 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:16:08 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	}
 	while (lst)
 	{
+		if (only_redir(lst) == lstsize(lst))
+			ft_open(lst);
 		if (lst->token == 0)
 		{
 			if (lst->next && ((lst->next->token == 1) || check_pipe_after_redir(lst)))
