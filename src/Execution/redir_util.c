@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 18:34:26 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:45:56 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	open_redir_file(t_lst *lst)
 	int	fd;
 
 	fd = 0;
+	printf("open_redir_file %s + %s \n", lst->split_redir[0], lst->split_redir[1]);
 	if (is_redir(lst) == 2)
 		fd = open(lst->split_redir[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (is_redir(lst) == 4)
@@ -50,8 +51,9 @@ void redirect(t_lst *lst)
 	int	file;
 
 	file = 0;
-	if (lst->prev && lst->prev->token == 2)
+	if (lst->prev && lst->prev->token == 2)// avant commande
 		input_command(lst, file);
+	fprintf(stderr, "%s\n", lst->command);
 	if (lst->next && lst->next->token == 2) // ajout du token
 		lst = lst->next;
 	file = open_redir_file(lst);
@@ -61,7 +63,8 @@ void redirect(t_lst *lst)
 		(is_redir(lst) == is_redir(lst->next) || is_redir(lst) == \
 		(is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
-		if (file > 0)
+		fprintf(stderr, " boucle %s\n", lst->command);
+		if (file < 0)
 			close(file);
 		if (lst->next)
 			lst = lst->next;
@@ -69,19 +72,9 @@ void redirect(t_lst *lst)
 		if (file < 0)
 			return (exit(0));
 	}
-	// fprintf(stderr, "%s\n", lst->command);
-	if (lst->next && is_redir(lst->next) == 1)
-	{
+	fprintf(stderr, "%s\n", lst->command);
+	if (lst->next && is_redir(lst->next) == 1)// heredoc apres commande
 		heredoc_in_redir(lst); 
-		// fprintf(stderr, "%s\n", lst->command);
-		// if (file > 0)
-		// 	close(file);
-		// if (lst->next)
-		// 	lst = lst->next;
-		// file = open_redir_file(lst);
-		// if (file < 0)
-		// 	return (exit(0));
-	}
 	redirex(file, lst);
 }
 
@@ -101,6 +94,7 @@ void	heredoc_in_redir(t_lst *lst)
 		if (file < 0)
 			return (exit(0));
 	}
+	redirex(file, lst);
 }
 
 void	input_command(t_lst *lst, int file)

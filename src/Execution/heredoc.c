@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 11:50:13 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:07:37 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	heredoc_signal(char *line,int i)
 	// 	close(fd);
 	// else
 	ft_putendl_fd("", 1);
-	if(i == 2)
+	if (i == 2)
 	{
 		// ft_printf("HERE\n");
 		ft_putendl_fd("minishell: warning:\
@@ -93,7 +93,11 @@ int	mini_heredoc(t_lst *lst)
 		return (fd);
 	g_exit_status = 0;
 	line = NULL;
+	unlink(".tmp");
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	printf("mini_heredoc fd=%d\n", fd);
+	if (fd < 0)
+		ft_perror("open");
 	// fprintf(stderr, "HEREDOC fd: %d\n", fd);
 	while (1)
 	{
@@ -103,12 +107,15 @@ int	mini_heredoc(t_lst *lst)
 			return (heredoc_signal(line, 1), fd);
 		if (line == NULL)
 		{
-			// printf("here\n");
+			printf("here\n");
 			return (heredoc_signal(line, 2), fd);
 			break ;
 		}
 		if (lst->split_redir[1] && strcmp(line, lst->split_redir[1]) == 0)
+		{
+			close(fd);
 			break ;
+		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}

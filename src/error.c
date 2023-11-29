@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/23 16:10:28 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:25:07 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ void	*mini_perror_exec(int err_type, char **split_command)
 	if (err_type == NOTCMD)
 	{
 		//printf("split_command = %s\n", split_command[0]);
-		ft_printf("%s: command not found\n", split_command[0]);
+		write (2, split_command[0], ft_strlen(split_command[0])); // regarder si strlen peut peter
+		ft_putendl_fd(": command not found", 2);
+		// ft_printf("%s: command not found\n", split_command[0]);
 		
 	}
 	else if (err_type == NOT_DIR)

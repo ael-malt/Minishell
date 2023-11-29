@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/28 17:11:04 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:31:50 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void	excecuting(t_lst *lst, char **tab)
 				}
 			}
 			free(chemin);
+			
 		}
-		else (exit(g_exit_status));
+		// else (exit(g_exit_status));
 	}
 	//ft_free(split_command);
-	//ft_free(path);
+	ft_free(path);
 	mini_perror_exec(NOTCMD, lst->split_command);
 	exit(127);// 127 var global
 	//perror("command not found");

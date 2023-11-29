@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 18:32:54 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:47:06 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,23 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	int	fd_temp;
 	int	status;
 	int file;
+	int	here;
 	
 	fd_temp = 0;
 	file = 0;
+	// here = count_heredoc(lst);
+	// if (here > 0)
+	// {
+	// 	// while (lst)
+	// 	// {
+	// 	// 	if (is_redir(lst) == 1)
+	// 	// 	{
+	// 	// 		open_redir_file(lst);
+	// 	// 		here--;
+	// 	// 	}
+	// 	// 	lst = lst->next;
+	// 	// }
+	// }
 	if (!lst)
 		return ;
 	while (lst)
@@ -41,15 +55,16 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
+				
 				if (lst->token == 0 && lst->next == NULL && lst->prev && lst->prev->token == 2)
-					input_command(lst, file);
-				if (lst->token == 0 && ((lst->prev && lst->prev->token == 1)
-					|| (lst->next && lst->next->token == 1)
-					|| check_pipe_after_redir(lst)))
-						pipex(fd, &fd_temp, lst);
-				if (lst->next && lst->next->token == 2)
-					redirect(lst);
-				execute(lst, ex);
+						input_command(lst, file);
+					if (lst->token == 0 && ((lst->prev && lst->prev->token == 1)
+						|| (lst->next && lst->next->token == 1)
+						|| check_pipe_after_redir(lst)))
+							pipex(fd, &fd_temp, lst);
+					if (lst->next && lst->next->token == 2)
+						redirect(lst);
+					execute(lst, ex);
 			}
 			else
 			{
@@ -85,18 +100,26 @@ void	redirex(int file, t_lst *lst)
 			return ;
 		}
 	}
-	else if (is_redir(lst) == 3 || (lst->next && is_redir(lst) == 1))
+	else if (is_redir(lst) == 3 || (is_redir(lst) == 1))
 	{
+		if (is_redir(lst) == 1)
+		{
+			file = open(".tmp", O_RDWR, 0644);
+			if (file < 0)
+				ft_perror("open");
+		}
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
+		fprintf(stderr, "coucouc\n");
 	}
 	if (file)
 		close(file);
 	if (lst->next && lst->next->token == 2 && is_redir(lst->next) > 1)
 		redirect(lst);
+	fprintf(stderr, "coucouc\n");
 }
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
