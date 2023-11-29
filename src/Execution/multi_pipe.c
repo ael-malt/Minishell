@@ -6,7 +6,7 @@
 /*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/29 15:47:06 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/11/29 18:39:46 by lazanett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,27 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 	int	fd_temp;
 	int	status;
 	int file;
+	t_lst *tmp;
 	int	here;
 	
 	fd_temp = 0;
 	file = 0;
-	// here = count_heredoc(lst);
-	// if (here > 0)
-	// {
-	// 	// while (lst)
-	// 	// {
-	// 	// 	if (is_redir(lst) == 1)
-	// 	// 	{
-	// 	// 		open_redir_file(lst);
-	// 	// 		here--;
-	// 	// 	}
-	// 	// 	lst = lst->next;
-	// 	// }
-	// }
+	here = count_heredoc(lst);
 	if (!lst)
 		return ;
+	if (here > 0)
+	{
+		tmp = lst;
+		while (tmp && here)
+		{
+			if (is_redir(tmp) == 1)
+			{
+				mini_heredoc(tmp);
+				here--;
+			}
+			tmp = tmp->next;
+		}
+	}
 	while (lst)
 	{
 		if (lst->token == 0)
@@ -55,7 +57,6 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 			if (pid == 0)
 			{
 				signal(SIGQUIT, SIG_DFL);
-				
 				if (lst->token == 0 && lst->next == NULL && lst->prev && lst->prev->token == 2)
 						input_command(lst, file);
 					if (lst->token == 0 && ((lst->prev && lst->prev->token == 1)
@@ -92,6 +93,7 @@ void	multi_pipe(t_lst *lst, t_expand *ex)
 
 void	redirex(int file, t_lst *lst)
 {
+	// fprintf(stderr, "av0 .dup %s\n", lst->command);
 	if ((is_redir(lst) == 2 || 	is_redir(lst) == 4))
 	{
 		if (dup2(file, STDOUT_FILENO) == -1)
@@ -102,24 +104,24 @@ void	redirex(int file, t_lst *lst)
 	}
 	else if (is_redir(lst) == 3 || (is_redir(lst) == 1))
 	{
-		if (is_redir(lst) == 1)
-		{
-			file = open(".tmp", O_RDWR, 0644);
-			if (file < 0)
-				ft_perror("open");
-		}
+		// if (is_redir(lst) == 1)
+		// {
+		// 	file = open(".tmp", O_RDWR, 0644);
+		// 	if (file < 0)
+		// 		ft_perror("open");
+		// }
 		if (dup2(file, STDIN_FILENO) == -1)
 		{
 			mini_perror(DUPERR, NULL, 1);
 			return ;
 		}
-		fprintf(stderr, "coucouc\n");
+		// fprintf(stderr, "coucouc\n");
 	}
 	if (file)
 		close(file);
 	if (lst->next && lst->next->token == 2 && is_redir(lst->next) > 1)
 		redirect(lst);
-	fprintf(stderr, "coucouc\n");
+	// fprintf(stderr, "coucouc\n");
 }
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
