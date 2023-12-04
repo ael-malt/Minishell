@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 15:00:00 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 15:07:37 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:17:55 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	mini_heredoc(t_lst *lst)
 	line = NULL;
 	unlink(".tmp");
 	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	printf("mini_heredoc fd=%d\n", fd);
+	// printf("mini_heredoc fd=%d\n", fd);
 	if (fd < 0)
 		ft_perror("open");
 	// fprintf(stderr, "HEREDOC fd: %d\n", fd);
@@ -107,7 +107,7 @@ int	mini_heredoc(t_lst *lst)
 			return (heredoc_signal(line, 1), fd);
 		if (line == NULL)
 		{
-			printf("here\n");
+			// printf("here\n");
 			return (heredoc_signal(line, 2), fd);
 			break ;
 		}

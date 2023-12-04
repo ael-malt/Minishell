@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:46:05 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 19:18:05 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:17:54 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void redirect(t_lst *lst)
 		(is_redir(lst) == is_redir(lst->next) || is_redir(lst) == \
 		(is_redir(lst->next) + 2) || is_redir(lst) == (is_redir(lst->next) - 2)))
 	{
-		fprintf(stderr, " boucle %s\n", lst->command);
+		// fprintf(stderr, " boucle %s\n", lst->command);
 		if (file < 0)
 			close(file);
 		if (lst->next)
