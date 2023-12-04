@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:56:53 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 10:31:50 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:16:07 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	excecuting(t_lst *lst, char **tab)
 	char	*chemin;
 
 	i = 0;
-	index = unset_var_in_tab("PATH", tab);
+	index = unset_vintab("PATH", tab);
 	path = ft_split(tab[index] + 5, ':');
 	if (path == NULL)
 	{

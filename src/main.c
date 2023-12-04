@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/28 16:51:28 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:15:44 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	check_rl_args(char *line, t_lst *lst, t_expand *ex, t_split *sp)
 		}
 		lst = create_node();
 		lst->content = ft_strdup(line);
+		// ft_printf("line: '%s'\n", line);
 		if (split_command(lst, ex) != -1)
 		{
 			assign_token(lst);
@@ -74,6 +75,8 @@ void	export_envp(t_expand *ex, char **envp)
 	char	*pwd;
 	char	*tmp;
 	
+	pwd = NULL;
+	tmp = NULL;
 	if (envp[0] != NULL)
 		ex->tab = ft_dup_matrix(envp);
 	else
@@ -81,13 +84,21 @@ void	export_envp(t_expand *ex, char **envp)
 		ex->tab = malloc(sizeof(ex->tab) * 4);
 		if (!ex->tab)
 			return ;
-		tmp = getcwd(NULL, 0);//ici aussi 
-		pwd = ft_strjoin("PWD=", "test");//La protection manquante
-		free(tmp);
-		ex->tab[0] = ft_strdup(pwd);
-		free(pwd);
-		ex->tab[1] = ft_strdup("SHLVL=1");
-		ex->tab[2] = ft_strdup("_=/usr/bin/env");
+		tmp = getcwd(tmp, 0);
+		if (tmp)
+		{
+			pwd = ft_strjoin("PWD=", tmp);
+			free(tmp);
+			ex->tab[0] = ft_strdup(pwd);
+			free(pwd);
+			ex->tab[1] = ft_strdup("SHLVL=1");
+			ex->tab[2] = ft_strdup("_=/usr/bin/env");
+		}
+		else
+		{
+			ex->tab[0] = ft_strdup("SHLVL=1");
+			ex->tab[1] = ft_strdup("_=/usr/bin/env");
+		}
 	}
 }
 
@@ -111,17 +122,20 @@ int	main(int ac, char **av, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			line_start = get_line_info(&ex);
 			line = readline(line_start);
+			free(line_start);
+			// line = readline("Minishell:");
 			// printf("line: %s\n", line);
 			if (!line)
 				break ;
 			else
 				check_rl_args(line, &lst, &ex, &sp);
-			// free line
-			free(line_start);
+			if (line)
+				free(line);
+			// if (lst.content)
+			// 	free_lst(&lst); 
 		}
-		// if (lst.content)
-		// 	free_lst(&lst); 
 		ft_printf("exit\n");
+		ft_free_matrix(&ex.tab);
 		exit(g_exit_status);
 	}
 	else

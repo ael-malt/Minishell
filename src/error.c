@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:06:51 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 10:25:07 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:15:00 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,9 @@ void	free_lst(t_lst *lst)
 {
 	t_lst	*tmp;
 
+	// while (lst && lst->prev)
+	// 	lst = lst->prev;
+	ft_printf("lst->content: %s\n", lst->content);
 	if (!lst)
 		return ;
 	while (lst)
@@ -137,7 +140,13 @@ void	free_lst(t_lst *lst)
 			tmp = lst->next;
 		else
 			tmp = NULL;
-		free(lst);
+		// if (lst->content)
+		// 	free(lst->content);
+		// free(lst->command);
+		// free(lst->split_command);
+		// if (lst && lst->rest)
+		// 	free(lst->rest);
+		// free(lst);
 		lst = tmp;
 	}
 	lst = NULL;

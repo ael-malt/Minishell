@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:54:21 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/23 16:55:47 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:23 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	mini_unset(t_expand *ex, char **split_command)
 	{
 		while (split_command[++i])
 		{
-			j = unset_var_in_tab(split_command[i], ex->tab);
+			j = unset_vintab(split_command[i], ex->tab);
 			if (j != -1)
 				ft_matrix_replace_in(&ex->tab, NULL, j);
 		}
@@ -30,7 +30,7 @@ int	mini_unset(t_expand *ex, char **split_command)
 	return (0);
 }
 
-int	unset_var_in_tab(char *av, char **tab)
+int	unset_vintab(char *av, char **tab)
 {
 	int	i;
 	int	len;
@@ -61,7 +61,7 @@ int	unset_var_in_tab(char *av, char **tab)
 // 		len = ft_strlen(split_command[i]);
 // 		if (len == 0)
 // 			return (0);
-// 		j = unset_var_in_tab(split_command[i], ex->tab);
+// 		j = unset_vintab(split_command[i], ex->tab);
 // 		if (j >= 0)
 // 		{
 // 			ex->tab = new_tab(ex, j);

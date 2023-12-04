@@ -6,13 +6,13 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/23 16:05:21 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:11 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	export_var_in_tab(char *cmd, char **tab)
+int	export_vintab(char *cmd, char **tab)
 {
 	int	i;
 	int	pos;
@@ -29,7 +29,7 @@ int	export_var_in_tab(char *cmd, char **tab)
 		}
 		i++;
 	}
-	return (-18);
+	return (-1);
 }
 
 static int	mini_export_verif(char *str)
@@ -43,9 +43,8 @@ static int	mini_export_verif(char *str)
 	equal_present = 0;
 	while (str && str[i])
 	{
-		if (!(ft_isalnum(str[i]) || str[i] == '_' || str[i] == '='
-				|| str[i] == '/' || str[i] == '-' || str[i] == ' '
-				|| str[i] == '.'))
+		if (str[i] == '@' || str[i] == '!'
+				|| str[i] == '#'|| str[i] == '`')
 			return (0);
 		if (str[i] == '=')
 			equal_present = 1;
@@ -69,18 +68,22 @@ static int	export_no_arg(t_expand *ex)
 	}
 	return (0);
 }
-
+// https://pubs.opengroup.org/onlinepubs/
+// 000095399/basedefs/xbd_chap06.html#tagtcjh_3
+// https://stackoverflow.com/questions/2821043/
+// allowed-characters-in-linux-environment-variable-names
 static int	do_the_export(t_expand *ex, char **split_command)
 {
 	int		i;
 	int		pos;
 
 	i = 0;
+	// ft_printf("export: %s", split_command[1]);
 	while (split_command[++i])
 	{
 		if (mini_export_verif(split_command[i]) == 1)
 		{
-			pos = export_var_in_tab(split_command[i], ex->tab);
+			pos = export_vintab(split_command[i], ex->tab);
 			if (pos >= 0)
 			{
 				free(ex->tab[pos]);
@@ -94,6 +97,7 @@ static int	do_the_export(t_expand *ex, char **split_command)
 	}
 	return (0);
 }
+// FIX LES LEAKS
 
 int	mini_export(t_expand *ex, char **split_command)
 {
