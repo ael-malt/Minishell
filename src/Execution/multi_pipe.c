@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lazanett <lazanett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 11:24:15 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/29 19:16:08 by lazanett         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:49:38 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,10 @@ void	redirex(int file, t_lst *lst)
 
 void	pipex(int *fd, int *fd_temp, t_lst *lst)
 {
-	int	file;
+	// int	file;
 	// int	flag;
 
-	file = 0;
+	// file = 0;
 	// flag = 0;
 	// printf("pipex : %s %d %d\n", lst->command, lst->token, file);
 	// if (lst->prev && lst->prev->token == 2)
