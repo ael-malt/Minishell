@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 00:28:31 by ael-malt          #+#    #+#             */
-/*   Updated: 2023/11/29 17:27:11 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:47:22 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,12 @@ static int	mini_export_verif(char *str)
 	int	equal_present;
 
 	i = 1;
-	if (str[0] == '=' || ft_isdigit(str[0]))
+	if ((str[0] == '=' || ft_isdigit(str[0])) && !(str[i] == '_' || ft_isalpha(str[0])))
 		return (0);
 	equal_present = 0;
 	while (str && str[i])
 	{
-		if (str[i] == '@' || str[i] == '!'
-				|| str[i] == '#'|| str[i] == '`')
+		if (!(str[i] == '_' || ft_isalnum(str[i]) || str[i] == '='))
 			return (0);
 		if (str[i] == '=')
 			equal_present = 1;
@@ -81,6 +80,7 @@ static int	do_the_export(t_expand *ex, char **split_command)
 	// ft_printf("export: %s", split_command[1]);
 	while (split_command[++i])
 	{
+		// ft_printf("split_command: %s\n", split_command[i]);
 		if (mini_export_verif(split_command[i]) == 1)
 		{
 			pos = export_vintab(split_command[i], ex->tab);

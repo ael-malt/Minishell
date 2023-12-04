@@ -6,7 +6,7 @@
 /*   By: ael-malt <ael-malt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 18:03:59 by lazanett          #+#    #+#             */
-/*   Updated: 2023/11/28 12:05:55 by ael-malt         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:28:57 by ael-malt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*get_str2(t_expand *ex, char *line, int i)
 	i++;
 	len = len_expand(line, i);
 	ex->expand = malloc(sizeof(char) * len + 1);
+	if (!ex->expand)
+		return (NULL);
 	len += i;
 	str = ft_strndup(line, len, ft_strlen(line));
 	while (i < len)
